@@ -3,14 +3,16 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import { packingList } from '../data';
 import { motion, AnimatePresence } from 'motion/react';
 import { LaundryStrategy } from './LaundryStrategy';
-import { Droplets, Lightbulb, X, Briefcase, Shield, Smartphone, Anchor, Info, CheckCircle2, Shirt } from 'lucide-react';
+import { ShoppingListTab } from './ShoppingListTab';
+import { Droplets, Lightbulb, X, Briefcase, Shield, Smartphone, Anchor, Info, CheckCircle2, Shirt, ShoppingBag } from 'lucide-react';
 
-const CATEGORIES = ['Documents & Finance', 'Packing Essentials', 'Electronics & Gear'];
+const CATEGORIES = ['Documents & Finance', 'Packing Essentials', 'Electronics & Gear', 'Shopping List'];
 
 const CATEGORY_META: Record<string, { icon: React.ComponentType<any>; color: string }> = {
   'Documents & Finance': { icon: Briefcase, color: 'text-[#10b981]' },
   'Packing Essentials': { icon: Shirt, color: 'text-amber-400' },
-  'Electronics & Gear': { icon: Smartphone, color: 'text-sky-450' }
+  'Electronics & Gear': { icon: Smartphone, color: 'text-sky-450' },
+  'Shopping List': { icon: ShoppingBag, color: 'text-pink-400' }
 };
 
 export function PackingChecklist() {
@@ -18,6 +20,7 @@ export function PackingChecklist() {
   const [checkedItems, setCheckedItems] = useLocalStorage<Record<string, boolean>>('packingProgress', {});
   const [showLaundryModal, setShowLaundryModal] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
+  const [showShoppingModal, setShowShoppingModal] = useState(false);
 
   const toggleItem = (id: string) => {
     setCheckedItems((prev) => ({
@@ -58,11 +61,11 @@ export function PackingChecklist() {
   return (
     <div className="flex flex-col gap-4">
       {/* Quick Action Helpers Header */}
-      <div className="flex items-center gap-3 w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full">
         {/* Laundry Strategy Button */}
         <button
           onClick={() => setShowLaundryModal(true)}
-          className="flex-1 py-3 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 font-extrabold text-xs uppercase tracking-wider rounded-xl border border-indigo-500/20 hover:border-indigo-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+          className="py-3 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 font-extrabold text-xs uppercase tracking-wider rounded-xl border border-indigo-500/20 hover:border-indigo-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
           id="btn-laundry-toggle"
           title="Laundry Strategy"
         >
@@ -73,7 +76,7 @@ export function PackingChecklist() {
         {/* Creative Packing Tips Button */}
         <button
           onClick={() => setShowTipsModal(true)}
-          className="flex-1 py-3 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 font-extrabold text-xs uppercase tracking-wider rounded-xl border border-amber-500/20 hover:border-amber-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+          className="py-3 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 font-extrabold text-xs uppercase tracking-wider rounded-xl border border-amber-500/20 hover:border-amber-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
           id="btn-packing-tips-toggle"
           title="Pro Packing Tips"
         >
@@ -81,10 +84,21 @@ export function PackingChecklist() {
           <span>Packing Tips</span>
         </button>
 
+        {/* Recommended Gear Shopping List Button */}
+        <button
+          onClick={() => setShowShoppingModal(true)}
+          className="py-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 hover:text-pink-300 font-extrabold text-xs uppercase tracking-wider rounded-xl border border-pink-500/20 hover:border-pink-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+          id="btn-shopping-list-toggle"
+          title="Recommended Travel Gear"
+        >
+          <ShoppingBag className="w-4.5 h-4.5 text-pink-400 animate-pulse" />
+          <span>Shopping List</span>
+        </button>
+
         {/* I'm All Packed Toggle Button */}
         <button
           onClick={toggleAllPacked}
-          className={`flex-1 py-3 font-extrabold text-xs uppercase tracking-wider rounded-xl border transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md ${
+          className={`py-3 font-extrabold text-xs uppercase tracking-wider rounded-xl border transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md ${
             progress.completed === progress.total
               ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-450 hover:text-rose-300 border-rose-500/20 hover:border-rose-500/40'
               : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 border-emerald-500/20 hover:border-emerald-500/40'
@@ -114,37 +128,46 @@ export function PackingChecklist() {
       </div>
 
       {/* Main Checklist Panel */}
-      <div className="glass-panel flex-1 flex flex-col overflow-hidden">
+      <div className="glass-panel flex-1 flex flex-col overflow-hidden" id="packing-checklist-tabs-container">
         {/* Tabs */}
-        <div className="flex overflow-x-auto hide-scrollbar border-b border-slate-800">
+        <div className="flex flex-wrap border-b border-slate-800 bg-slate-950/20">
           {CATEGORIES.map((cat) => {
             const meta = CATEGORY_META[cat];
             const IconComponent = meta ? meta.icon : Briefcase;
             const iconColorClass = meta ? meta.color : 'text-slate-400';
             const isSelected = activeTab === cat;
             
+            const tabLabel = cat === 'Documents & Finance' ? 'DOCUMENTS' 
+                           : cat === 'Packing Essentials' ? 'ESSENTIALS'
+                           : cat === 'Electronics & Gear' ? 'ELECTRONICS'
+                           : 'SHOPPING';
+            
             return (
               <button
                 key={cat}
+                id={`btn-tab-${cat.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase()}`}
                 onClick={() => setActiveTab(cat)}
-                className={`px-4 sm:px-6 py-3.5 text-xs font-black whitespace-nowrap transition-all relative flex items-center gap-2 cursor-pointer ${
+                className={`flex-1 min-w-[110px] sm:min-w-[120px] px-2 py-3.5 text-xs font-black transition-all relative flex items-center justify-center gap-1.5 cursor-pointer ${
                   isSelected 
                     ? 'text-amber-400 bg-amber-500/5 border-b-2 border-amber-500' 
-                    : 'text-slate-450 hover:text-slate-200 hover:bg-slate-900/40'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 border-b-2 border-transparent'
                 }`}
               >
                 <IconComponent className={`w-4 h-4 transition-transform group-hover:scale-110 ${isSelected ? iconColorClass : 'text-slate-500 opacity-70'}`} />
-                <span>{cat.toUpperCase()}</span>
+                <span className="truncate">{tabLabel}</span>
               </button>
             );
           })}
         </div>
 
         {/* Checklist Items */}
-        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 min-h-[300px]">
-          <AnimatePresence mode="popLayout">
-            {currentCategoryItems.map((item) => {
-              const isChecked = !!checkedItems[item.id];
+        {activeTab === 'Shopping List' ? (
+          <ShoppingListTab />
+        ) : (
+          <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 min-h-[300px]">
+            <AnimatePresence mode="popLayout">
+              {currentCategoryItems.map((item) => {
+                const isChecked = !!checkedItems[item.id];
               
               return (
                 <motion.div
@@ -185,8 +208,9 @@ export function PackingChecklist() {
                 </motion.div>
               );
             })}
-          </AnimatePresence>
-        </div>
+            </AnimatePresence>
+          </div>
+        )}
       </div>
 
       {/* Laundry Strategy Pop-Up Modal */}
@@ -228,9 +252,7 @@ export function PackingChecklist() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
-
-      {/* Packing Tips Pop-Up Modal */}
+      </AnimatePresence>      {/* Packing Tips Pop-Up Modal */}
       <AnimatePresence>
         {showTipsModal && (
           <motion.div
@@ -275,7 +297,7 @@ export function PackingChecklist() {
                   {/* Category 1 */}
                   <div className="flex flex-col gap-2 bg-slate-950 p-4 rounded-xl border border-slate-850">
                     <span className="text-[10px] font-black tracking-widest text-[#10b981] uppercase flex items-center gap-2">
-                      <Briefcase className="w-4 h-4 text-[#10b981]" />
+                       <Briefcase className="w-4 h-4 text-[#10b981]" />
                       1. Checked-Luggage Strategy
                     </span>
                     <div className="flex flex-col gap-2.5 text-slate-300 text-xs mt-1">
@@ -348,7 +370,7 @@ export function PackingChecklist() {
                         </p>
                       </div>
                       <div className="flex gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-2.5 h-2.5 text-red-400 shrink-0 mt-0.5" />
                         <p className="leading-relaxed">
                           <strong className="text-white">Track Your Suite:</strong> Embed a smart tracking tag (Apple AirTag or Tile device) within checked bags to confidently follow updates at intermediate hub terminals.
                         </p>
@@ -396,6 +418,49 @@ export function PackingChecklist() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Recommended Gear Shopping List Pop-Up Modal */}
+      <AnimatePresence>
+        {showShoppingModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto"
+            onClick={() => setShowShoppingModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              className="bg-slate-900 border border-slate-805/80 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative my-8"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="sticky top-0 bg-slate-900 p-5 border-b border-slate-800 flex items-center justify-between z-10">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-pink-500/15 flex items-center justify-center border border-pink-500/25">
+                    <ShoppingBag className="w-4.5 h-4.5 text-pink-400" />
+                  </div>
+                  <h3 className="text-white font-black text-sm uppercase tracking-wider">Recommended Travel Gear</h3>
+                </div>
+                <button
+                  onClick={() => setShowShoppingModal(false)}
+                  className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                  id="close-shopping-modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="p-2 max-h-[70vh] overflow-y-auto custom-scrollbar">
+                <ShoppingListTab />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+
     </div>
   );
 }
