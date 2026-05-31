@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Italy Tour Dashboard",
+  "description": "Interactive packing and travel itinerary dashboard for the Summer 2026 Italy Tour.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
