@@ -44,12 +44,67 @@ export function HomeTab({ onNavigate }: HomeTabProps) {
             {/* Dark Midnight Sky Background */}
             <rect width="800" height="200" fill="#020617" />
 
-            {/* BUONGIORNO text top center */}
-            <text x="400" y="54" textAnchor="middle" fill="#34d399" fontSize="30" fontWeight="955" fontStyle="italic" letterSpacing="0.32em" fontFamily="'Inter', system-ui, sans-serif" style={{ textShadow: '0 4px 14px rgba(0,0,0,0.95), 0 2px 4px rgba(52,211,153,0.3)' }}>BUONGIORNO!</text>
+            {/* BUONGIORNO text top center with a subtle looping breathing pulse */}
+            <motion.text 
+              x="400" 
+              y="54" 
+              textAnchor="middle" 
+              fill="#34d399" 
+              fontSize="30" 
+              fontWeight="955" 
+              fontStyle="italic" 
+              letterSpacing="0.32em" 
+              fontFamily="'Inter', system-ui, sans-serif" 
+              animate={{
+                opacity: [0.88, 1.0, 0.88],
+                scale: [0.98, 1.02, 0.98],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              style={{ 
+                textShadow: '0 4px 14px rgba(0,0,0,0.95), 0 2px 4px rgba(52,211,153,0.3)',
+                transformOrigin: '400px 48px'
+              }}
+            >
+              BUONGIORNO!
+            </motion.text>
 
-            {/* Warm Golden Sunset Sun with Ambient Glow */}
-            <circle cx="410" cy="115" r="50" fill="url(#sunGlow)" />
-            <circle cx="410" cy="115" r="36" fill="#eab308" opacity="0.85" />
+            {/* Warm Golden Sunset Sun with Ambient Glow, breathing like a real dawn sunrise */}
+            <motion.circle 
+              cx="410" 
+              cy="115" 
+              r="50" 
+              fill="url(#sunGlow)" 
+              animate={{
+                opacity: [0.25, 0.60, 0.25],
+                scale: [0.95, 1.15, 0.95]
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              style={{ transformOrigin: '410px 115px' }}
+            />
+            <motion.circle 
+              cx="410" 
+              cy="115" 
+              r="36" 
+              fill="#eab308" 
+              animate={{
+                opacity: [0.75, 0.95, 0.75],
+                scale: [0.98, 1.05, 0.98]
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              style={{ transformOrigin: '410px 115px' }}
+            />
 
             {/* Background Rolling Hills - Smooth translucent arcs */}
             <path d="M-50 185 Q 160 110 380 155 T 850 170 L 850 200 L -50 200 Z" fill="#052e16" fillOpacity="0.6" />

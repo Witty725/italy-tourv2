@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ChevronDown, 
@@ -145,7 +145,6 @@ const travelTips = [
     icon: <CircleDollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />,
     items: [
       { title: 'The 15–20% Rule is Forbidden', content: 'Seriously, do not do it. It disrupts the local economy and makes things harder for locals.' },
-      { title: '"Coperto" vs. "Servizio"', content: 'Look closely at your menu. Coperto: A standard per-person cover charge (usually €1–€3) that covers the tablecloth, bread, and setting the table. It is legally required to be printed on the menu. Servizio: A service charge (usually 10–15%) typically applied only to large groups or in highly touristy areas.' },
       { title: 'How to Actually Tip', content: 'If service was exceptional and there is no servizio on the bill, leave €1 to €2 per person in cash on the table. If paying by card, there is rarely a line to add a tip, so always keep small euro coins on hand for this.' }
     ]
   },
@@ -227,6 +226,36 @@ export function TravelTipsTab() {
   const [selectedCarrier, setSelectedCarrier] = useState<'att' | 'verizon' | 'tmobile'>('att');
   const [speakingText, setSpeakingText] = useState<string | null>(null);
 
+  const [usdVal, setUsdVal] = useState<string>('20.00');
+  const [eurVal, setEurVal] = useState<string>('18.40');
+  const [exchangeRate, setExchangeRate] = useState<number>(0.92); // $1 USD = €0.92 EUR
+  const [isEditingRate, setIsEditingRate] = useState<boolean>(false);
+
+  const handleUsdChange = (val: string) => {
+    setUsdVal(val);
+    const parsed = parseFloat(val);
+    if (!isNaN(parsed)) {
+      setEurVal((parsed * exchangeRate).toFixed(2));
+    } else {
+      setEurVal('');
+    }
+  };
+
+  const handleEurChange = (val: string) => {
+    setEurVal(val);
+    const parsed = parseFloat(val);
+    if (!isNaN(parsed)) {
+      setUsdVal((parsed / exchangeRate).toFixed(2));
+    } else {
+      setUsdVal('');
+    }
+  };
+
+  const handlePresetTap = (eurAmount: number) => {
+    setEurVal(eurAmount.toFixed(2));
+    setUsdVal((eurAmount / exchangeRate).toFixed(2));
+  };
+
   const toggleCategory = (id: string) => {
     setActiveCategory(activeCategory === id ? null : id);
   };
@@ -249,17 +278,170 @@ export function TravelTipsTab() {
 
   return (
     <div className="glass-panel p-4 flex flex-col gap-4">
-      <h3 className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2 flex items-center gap-2">
+      <h3 className="text-teal-400 text-xs font-black uppercase tracking-widest mb-1 flex items-center gap-2">
         <Lightbulb className="w-4 h-4" />
         Essential Italy Travel Tips
       </h3>
-      
+
       <div className="flex flex-col gap-3">
         {travelTips.map((category) => (
-          <div 
-            key={category.id} 
-            className="border border-slate-700/60 bg-slate-900/40 rounded-xl overflow-hidden transition-all duration-300"
-          >
+          <Fragment key={category.id}>
+            {category.id === 'tipping' && (
+              <div className="border border-slate-700/60 bg-slate-900/40 rounded-xl overflow-hidden transition-all duration-300">
+                <button
+                  onClick={() => toggleCategory('converter')}
+                  className="w-full flex items-center justify-between p-4 hover:bg-slate-800/60 transition-colors text-left group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-lg transition-colors ${
+                      activeCategory === 'converter' 
+                        ? 'bg-amber-500/20 text-amber-400' 
+                        : 'bg-slate-800 text-slate-400 group-hover:text-slate-300'
+                    }`}>
+                      <CircleDollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
+                    </div>
+                    <span className={`font-black text-sm sm:text-base tracking-wide transition-colors ${
+                      activeCategory === 'converter' ? 'text-amber-400' : 'text-slate-200'
+                    }`}>
+                      USD ↔ EUR Currency Converter (Converter Tool)
+                    </span>
+                  </div>
+                  <ChevronDown 
+                    className={`w-5 h-5 text-slate-500 transition-transform duration-300 ${
+                      activeCategory === 'converter' ? 'rotate-180 text-amber-400' : 'group-hover:text-slate-400'
+                    }`}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {activeCategory === 'converter' && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-4 pt-0 space-y-4 border-t border-slate-700/50 mt-1">
+                        {/* Offline Currency Converter Widget */}
+                        <div className="bg-slate-950/40 rounded-2xl p-4 sm:p-5 flex flex-col gap-4 mt-3">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="p-1 px-1.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono font-bold text-[10px] uppercase rounded">
+                                Offline Tool
+                              </span>
+                              <h4 className="text-white font-black text-xs sm:text-sm uppercase tracking-wider">
+                                USD ↔ EUR Converter
+                              </h4>
+                            </div>
+                            
+                            <div className="text-[11px] text-slate-400 flex items-center gap-1.5 font-mono">
+                              <span>Rate: $1 USD = €</span>
+                              {isEditingRate ? (
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  min="0.1"
+                                  value={exchangeRate}
+                                  onChange={(e) => {
+                                    const val = parseFloat(e.target.value);
+                                    setExchangeRate(val || 0.92);
+                                  }}
+                                  onBlur={() => {
+                                    setIsEditingRate(false);
+                                    // Refresh current prices based on new rate
+                                    const parsed = parseFloat(usdVal);
+                                    if (!isNaN(parsed)) {
+                                      setEurVal((parsed * exchangeRate).toFixed(2));
+                                    }
+                                  }}
+                                  className="w-14 px-1 py-0.5 rounded bg-slate-950 border border-slate-700 text-slate-200 outline-none text-center font-mono font-bold text-[11px]"
+                                  autoFocus
+                                />
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => setIsEditingRate(true)}
+                                  className="font-mono font-black text-amber-400 hover:underline cursor-pointer"
+                                  title="Tap to change exchange rate"
+                                >
+                                  {exchangeRate.toFixed(2)} ✏️
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            {/* USD Field */}
+                            <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-slate-950 border border-slate-900 focus-within:border-amber-500/40 transition-colors">
+                              <span className="text-[10px] font-black uppercase text-indigo-400 tracking-wider">
+                                U.S. Dollars (USD $)
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-slate-400 font-extrabold text-sm">$</span>
+                                <input
+                                  type="number"
+                                  value={usdVal}
+                                  onChange={(e) => handleUsdChange(e.target.value)}
+                                  placeholder="0.00"
+                                  className="w-full bg-transparent text-white font-black text-base outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                />
+                              </div>
+                            </div>
+
+                            {/* EUR Field */}
+                            <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-slate-950 border border-slate-900 focus-within:border-emerald-500/40 transition-colors">
+                              <span className="text-[10px] font-black uppercase text-emerald-400 tracking-wider">
+                                Euros (EUR €)
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-slate-400 font-extrabold text-sm">€</span>
+                                <input
+                                  type="number"
+                                  value={eurVal}
+                                  onChange={(e) => handleEurChange(e.target.value)}
+                                  placeholder="0.00"
+                                  className="w-full bg-transparent text-white font-black text-base outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Presets Grid */}
+                          <div className="flex flex-wrap gap-1.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block w-full mb-0.5">
+                              Tap a quick reference item to convert:
+                            </span>
+                            {[
+                              { label: '☕ Espresso', val: 1.5 },
+                              { label: '🍕 Pizza / Gelato', val: 5.0 },
+                              { label: '🍝 Lunch Trattoria', val: 15.0 },
+                              { label: '🥩 Fine Dinner', val: 40.0 },
+                              { label: '🎟️ Museum / Colosseum', val: 20.0 },
+                              { label: '🚆 Regional Train', val: 10.0 }
+                            ].map((preset, i) => (
+                              <button
+                                key={i}
+                                type="button"
+                                onClick={() => handlePresetTap(preset.val)}
+                                className="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-900 text-[11px] text-slate-350 hover:text-white font-bold rounded-lg border border-slate-900 cursor-pointer transition-all hover:scale-102 flex items-center justify-between gap-1.5 text-center shrink-0 animate-duration-300"
+                                title={`Calculate USD value of ${preset.val} Euros`}
+                              >
+                                <span>{preset.label}</span>
+                                <span className="font-mono text-emerald-400 font-extrabold ml-1 font-mono">€{preset.val.toFixed(2)}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+            <div 
+              className="border border-slate-700/60 bg-slate-900/40 rounded-xl overflow-hidden transition-all duration-300"
+            >
             <button
               onClick={() => toggleCategory(category.id)}
               className="w-full flex items-center justify-between p-4 hover:bg-slate-800/60 transition-colors text-left group"
@@ -368,6 +550,42 @@ export function TravelTipsTab() {
                           >
                             Android
                           </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {category.id === 'tipping' && (
+                      <div className="bg-amber-950/25 border-2 border-amber-500/40 p-4 sm:p-5 rounded-xl flex flex-col gap-3.5 mt-2 shadow-[0_0_15px_rgba(245,158,11,0.05)] text-left">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">🇮🇹</span>
+                          <span className="text-xs font-black uppercase text-amber-300 tracking-wider font-mono">
+                            The "Coperto" & Tipping Quick-Guide
+                          </span>
+                        </div>
+                        <div className="text-slate-300 text-xs sm:text-[13px] leading-relaxed space-y-2">
+                          <p>
+                            Italian eating and drinking culture has unique customs regarding billing and service. Understanding this avoids tourist friction:
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                            <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+                              <span className="font-extrabold text-amber-405 block text-xs tracking-wider text-amber-300">🍽️ IL COPERTO</span>
+                              <span className="text-slate-400 text-[11px] sm:text-xs mt-1 block font-medium leading-normal">
+                                A standard charge (usually €1.50 - €3.00 per person) printed on the menu that covers bread, tap water filtering, and table settings. This is standard and goes to the house, NOT the waiter.
+                              </span>
+                            </div>
+                            <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+                              <span className="font-extrabold text-amber-405 block text-xs tracking-wider text-amber-300">🛎️ IL SERVIZIO</span>
+                              <span className="text-slate-400 text-[11px] sm:text-xs mt-1 block font-medium leading-normal">
+                                This is the service charge (usually 10-15%) sometimes applied for large parties. If "Servizio Incluso" is on the bill, leaving any tip is completely optional.
+                              </span>
+                            </div>
+                          </div>
+                          <div className="bg-slate-950/60 p-3 rounded-lg border border-indigo-500/10 mt-2">
+                            <span className="font-bold text-slate-200 block text-xs">💡 ROUNDING BILLS (IL CONTO):</span>
+                            <span className="text-slate-400 text-[11.5px] leading-relaxed mt-1 block font-normal">
+                              Do NOT tip 15% or 20% in Italy. Doing so is frowned upon. Simply round up the bill in cash (e.g., leave €35 for a €32.50 tab), or leave €1 to €2 on the table per person if the service was exceptional.
+                            </span>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -602,6 +820,7 @@ export function TravelTipsTab() {
               )}
             </AnimatePresence>
           </div>
+          </Fragment>
         ))}
       </div>
     </div>

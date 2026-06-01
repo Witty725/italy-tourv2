@@ -8,6 +8,10 @@ import {
   MapPin, 
   AlertTriangle, 
   ThermometerSun, 
+  Sun,
+  Wind,
+  CloudSun,
+  CloudRain,
   Bus, 
   Home, 
   Utensils, 
@@ -275,6 +279,82 @@ function getActivityCategory(iconType?: string): 'Sights' | 'Food' | 'Transit' |
   return 'Sights';
 }
 
+function isChurchActivity(title: string, desc?: string, loc?: string, date?: string) {
+  if (date && (date.includes('June 18') || date.includes('June 19'))) {
+    return false;
+  }
+  const text = `${title} ${desc || ''} ${loc || ''}`.toLowerCase();
+  return text.includes('church') || 
+         text.includes('chiesa') || 
+         text.includes('cathedral') || 
+         text.includes('cattedrale') || 
+         text.includes('basilica') || 
+         text.includes('mass') || 
+         text.includes('monastero') || 
+         text.includes('abbey') || 
+         text.includes('catacomb') || 
+         text.includes('duomo');
+}
+
+function getWeatherMeta(detail: string) {
+  const text = detail.toLowerCase();
+  
+  if (text.includes('hot') || text.includes('sicily is hot') || text.includes('86°f') || text.includes('84°f') || text.includes('scirocco')) {
+    return {
+      glowClass: 'bg-orange-500/10 border-orange-500/30 text-orange-200',
+      iconColor: 'text-orange-400',
+      ambientGlow: 'shadow-[0_0_15px_rgba(249,115,22,0.12)]',
+      icon: <ThermometerSun className="w-5 h-5 text-orange-400 shrink-0 select-none animate-pulse" />,
+      labelColor: 'text-orange-350'
+    };
+  }
+  if (text.includes('sunny') || text.includes('mostly sunny') || text.includes('strong sun') || text.includes('clear skies') || text.includes('82°f') || text.includes('83°f')) {
+    return {
+      glowClass: 'bg-amber-500/10 border-amber-505/35 text-amber-200',
+      iconColor: 'text-amber-400',
+      ambientGlow: 'shadow-[0_0_15px_rgba(245,158,11,0.12)]',
+      icon: <Sun className="w-5 h-5 text-amber-400 shrink-0 select-none animate-pulse" />,
+      labelColor: 'text-amber-300'
+    };
+  }
+  if (text.includes('breeze') || text.includes('wind') || text.includes('refreshing')) {
+    return {
+      glowClass: 'bg-emerald-950/20 border-emerald-500/25 text-emerald-250',
+      iconColor: 'text-emerald-400',
+      ambientGlow: 'shadow-[0_0_15px_rgba(16,185,129,0.10)]',
+      icon: <Wind className="w-5 h-5 text-emerald-400 shrink-0 select-none" />,
+      labelColor: 'text-emerald-350'
+    };
+  }
+  if (text.includes('cloud') || text.includes('pleasant day with some')) {
+    return {
+      glowClass: 'bg-sky-950/15 border-sky-505/25 text-sky-200',
+      iconColor: 'text-sky-400',
+      ambientGlow: 'shadow-[0_0_12px_rgba(56,189,248,0.08)]',
+      icon: <CloudSun className="w-5 h-5 text-sky-450 shrink-0 select-none" />,
+      labelColor: 'text-sky-350'
+    };
+  }
+  if (text.includes('shower') || text.includes('rain') || text.includes('precipitation')) {
+    return {
+      glowClass: 'bg-cyan-950/20 border-cyan-500/25 text-cyan-200',
+      iconColor: 'text-cyan-450',
+      ambientGlow: 'shadow-[0_0_14px_rgba(56,189,248,0.14)]',
+      icon: <CloudRain className="w-5 h-5 text-cyan-400 shrink-0 select-none animate-bounce" />,
+      labelColor: 'text-cyan-300'
+    };
+  }
+  
+  // Default fallback
+  return {
+    glowClass: 'bg-slate-900/30 border-slate-800 text-slate-350',
+    iconColor: 'text-teal-400',
+    ambientGlow: '',
+    icon: <ThermometerSun className="w-5 h-5 text-teal-400 shrink-0" />,
+    labelColor: 'text-slate-400'
+  };
+}
+
 function parseTimeToMinutes(timeStr?: string): number {
   if (!timeStr) return 9999;
   const cleaned = timeStr.trim().toLowerCase();
@@ -394,6 +474,8 @@ export function ItineraryTimeline() {
         <span>Tap any date below to inspect detailed schedules, lodging details, and live image highlights.</span>
       </div>
 
+
+
       {/* Pocket Calendar Grid Tab */}
       <div className="glass-panel p-3.5 flex flex-col gap-3">
         {/* June Section */}
@@ -493,12 +575,20 @@ export function ItineraryTimeline() {
             </motion.div>
           )}
 
-          {/* High-Fidelity Extended Weather description */}
-          {selectedDay.weatherDetails && (
-            <div className="bg-slate-900/30 p-3.5 rounded-xl border border-slate-800/80 text-xs">
-              <span className="text-slate-400 font-extrabold uppercase tracking-widest text-[9px] block mb-1">Weather Forecast Breakdown:</span>
-              <p className="text-slate-350 leading-relaxed font-medium">{selectedDay.weatherDetails}</p>
-            </div>
+          {/* Modesty Warning Daily Reminder Banner */}
+          {selectedDay.activities?.some(act => isChurchActivity(act.title, act.description, act.location, selectedDay.date)) && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0, scale: 0.96 }}
+              animate={{ opacity: 1, height: 'auto', scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              className="bg-amber-950/20 border border-amber-500/30 p-3 rounded-xl flex items-start gap-2 text-xs text-amber-200 overflow-hidden text-left"
+            >
+              <span className="text-base shrink-0 select-none">⛪</span>
+              <div className="flex flex-col">
+                <span className="font-extrabold uppercase tracking-wide text-amber-300">Modesty Check Rule Reminder:</span>
+                <span className="mt-0.5 font-medium leading-relaxed">Today's schedule covers historic churches or religious sites. Please ensure shoulders and knees are covered (no sleeveless shirts, short shorts, or short skirts) before departing the hotel.</span>
+              </div>
+            </motion.div>
           )}
 
           {/* Lodging & Accommodation Highlight */}
@@ -601,6 +691,12 @@ export function ItineraryTimeline() {
                           <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0" />
                           <span>FAMILY EVENT</span>
                         </div>
+
+                        {isChurchActivity(activity.title, activity.description, activity.location, selectedDay.date) && (
+                          <div className="flex items-center gap-1.5 bg-amber-500/15 border border-amber-500/40 text-[10px] sm:text-xs font-black uppercase tracking-wider text-amber-300 px-2.5 py-1 rounded-md w-fit mb-1 animate-pulse leading-none shadow-sm">
+                            <span>⛪ Modesty Check: Cover shoulders & knees!</span>
+                          </div>
+                        )}
 
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                           <h4 className="font-bold text-amber-200 text-base pr-9 sm:pr-0">
@@ -719,6 +815,11 @@ export function ItineraryTimeline() {
 
                         {/* Timeline card activity */}
                         <div className="flex-1 p-4 rounded-xl bg-slate-950/40 border border-slate-900 group-hover:border-slate-800 transition-all flex flex-col gap-1.5">
+                          {isChurchActivity(activity.title, activity.description, activity.location, selectedDay.date) && (
+                            <div className="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/25 text-[10px] sm:text-xs font-black uppercase tracking-wider text-amber-400 px-2.5 py-1 rounded-md w-fit mb-1 animate-pulse leading-none shadow-sm">
+                              <span>⛪ Modesty Check: Cover shoulders & knees!</span>
+                            </div>
+                          )}
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 font-sans">
                             <h4 className="font-extrabold text-sm pr-9 sm:pr-0 text-slate-100">
                               <InteractiveText text={activity.title} disableLinks={isAtSeaDay} />
@@ -877,6 +978,11 @@ export function ItineraryTimeline() {
 
                             {/* Timeline card activity */}
                             <div className="flex-1 p-4 rounded-xl bg-slate-950/40 border border-slate-900 group-hover:border-slate-800 transition-all flex flex-col gap-1.5">
+                              {isChurchActivity(activity.title, activity.description, activity.location, selectedDay.date) && (
+                                <div className="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/25 text-[10px] sm:text-xs font-black uppercase tracking-wider text-amber-400 px-2.5 py-1 rounded-md w-fit mb-1 animate-pulse leading-none shadow-sm">
+                                  <span>⛪ Modesty Check: Cover shoulders & knees!</span>
+                                </div>
+                              )}
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 font-sans">
                                 <h4 className="font-extrabold text-sm pr-9 sm:pr-0 text-slate-100">
                                   <InteractiveText text={activity.title} disableLinks={isAtSeaDay} />

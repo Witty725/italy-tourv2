@@ -4,7 +4,7 @@ import { packingList } from '../data';
 import { motion, AnimatePresence } from 'motion/react';
 import { LaundryStrategy } from './LaundryStrategy';
 import { ShoppingListTab } from './ShoppingListTab';
-import { Droplets, Lightbulb, X, Briefcase, Shield, Smartphone, Anchor, Info, CheckCircle2, Shirt, ShoppingBag, Printer } from 'lucide-react';
+import { Droplets, Lightbulb, X, Briefcase, Shield, Smartphone, Anchor, Info, CheckCircle2, Shirt, ShoppingBag, Printer, Plus, Trash2 } from 'lucide-react';
 
 const CATEGORIES = ['Documents & Finance', 'Packing Essentials', 'Electronics & Gear'];
 
@@ -17,9 +17,17 @@ const CATEGORY_META: Record<string, { icon: React.ComponentType<any>; color: str
 export function PackingChecklist() {
   const [activeTab, setActiveTab] = useState(CATEGORIES[0]);
   const [checkedItems, setCheckedItems] = useLocalStorage<Record<string, boolean>>('packingProgress', {});
+  const [customItems, setCustomItems] = useLocalStorage<typeof packingList>('customPackingItems', []);
+  const [newItemText, setNewItemText] = useState('');
+  const [newItemSubtext, setNewItemSubtext] = useState('');
+  
   const [showLaundryModal, setShowLaundryModal] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
   const [showShoppingModal, setShowShoppingModal] = useState(false);
+
+  const combinedPackingList = useMemo(() => {
+    return [...packingList, ...customItems];
+  }, [customItems]);
 
   const toggleItem = (id: string) => {
     setCheckedItems((prev) => ({
@@ -29,14 +37,14 @@ export function PackingChecklist() {
   };
 
   const toggleAllPacked = () => {
-    const totalCount = packingList.length;
+    const totalCount = combinedPackingList.length;
     const completedCount = Object.values(checkedItems).filter(Boolean).length;
     
     if (completedCount === totalCount) {
       setCheckedItems({});
     } else {
       const allPacked: Record<string, boolean> = {};
-      packingList.forEach(item => {
+      combinedPackingList.forEach(item => {
         allPacked[item.id] = true;
       });
       setCheckedItems(allPacked);
@@ -44,26 +52,52 @@ export function PackingChecklist() {
   };
 
   const progress = useMemo(() => {
-    const total = packingList.length;
-    const completed = Object.values(checkedItems).filter(Boolean).length;
+    const total = combinedPackingList.length;
+    const completed = Object.keys(checkedItems).filter(key => checkedItems[key]).length;
     return {
       total,
       completed,
       percentage: total === 0 ? 0 : Math.round((completed / total) * 100)
     };
-  }, [checkedItems]);
+  }, [combinedPackingList, checkedItems]);
 
   const currentCategoryItems = useMemo(() => {
-    return packingList.filter(item => item.category === activeTab);
-  }, [activeTab]);
+    return combinedPackingList.filter(item => item.category === activeTab);
+  }, [combinedPackingList, activeTab]);
+
+  const handleAddItem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newItemText.trim()) return;
+    
+    const newItem = {
+      id: `custom-${Date.now()}`,
+      category: activeTab,
+      text: newItemText.trim(),
+      subText: newItemSubtext.trim() || undefined
+    };
+    
+    setCustomItems(prev => [...prev, newItem]);
+    setNewItemText('');
+    setNewItemSubtext('');
+  };
+
+  const handleDeleteItem = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCustomItems(prev => prev.filter(item => item.id !== id));
+    setCheckedItems(prev => {
+      const copy = { ...prev };
+      delete copy[id];
+      return copy;
+    });
+  };
 
   const handlePrintPDF = () => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
-    const docs = packingList.filter(item => item.category === 'Documents & Finance');
-    const essentials = packingList.filter(item => item.category === 'Packing Essentials');
-    const electronics = packingList.filter(item => item.category === 'Electronics & Gear');
+    const docs = combinedPackingList.filter(item => item.category === 'Documents & Finance');
+    const essentials = combinedPackingList.filter(item => item.category === 'Packing Essentials');
+    const electronics = combinedPackingList.filter(item => item.category === 'Electronics & Gear');
 
     const renderPrintSection = (title: string, items: typeof packingList) => {
       let html = '';
@@ -287,11 +321,39 @@ export function PackingChecklist() {
           })}
         </div>
 
+        {/* Custom Item Add Form */}
+        <form onSubmit={handleAddItem} className="p-4 bg-slate-950/40 border-b border-slate-800/70 flex flex-col sm:flex-row gap-2.5 items-stretch">
+          <div className="flex-1 flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              placeholder="Add custom item (e.g. Extra Sunglasses)..."
+              value={newItemText}
+              onChange={(e) => setNewItemText(e.target.value)}
+              className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800/85 focus:border-amber-500 text-xs text-slate-200 outline-none placeholder:text-slate-650 transition-colors"
+            />
+            <input
+              type="text"
+              placeholder="Subtext / notes (optional)..."
+              value={newItemSubtext}
+              onChange={(e) => setNewItemSubtext(e.target.value)}
+              className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800/85 focus:border-amber-500 text-xs text-slate-200 outline-none placeholder:text-slate-650 transition-colors"
+            />
+          </div>
+          <button
+            type="submit"
+            className="px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 hover:scale-[1.02]"
+          >
+            <Plus className="w-4 h-4 shrink-0" />
+            <span>Add Item</span>
+          </button>
+        </form>
+
         {/* Checklist Items */}
         <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 min-h-[300px]">
           <AnimatePresence mode="popLayout">
             {currentCategoryItems.map((item) => {
               const isChecked = !!checkedItems[item.id];
+              const isCustom = item.id.startsWith('custom-');
             
               return (
                 <motion.div
@@ -302,7 +364,7 @@ export function PackingChecklist() {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
                   onClick={() => toggleItem(item.id)}
-                  className="flex items-start gap-3 p-2.5 rounded-xl cursor-pointer hover:bg-slate-900/60 border border-transparent hover:border-slate-850 transition-all group animate-fade-in"
+                  className="flex items-start gap-3 p-2.5 rounded-xl cursor-pointer hover:bg-slate-900/60 border border-transparent hover:border-slate-850 transition-all group animate-fade-in relative"
                 >
                   <div className={`w-5 h-5 flex-shrink-0 border-2 rounded mt-0.5 transition-colors ${
                     isChecked 
@@ -311,7 +373,7 @@ export function PackingChecklist() {
                   }`}>
                     {isChecked && '✓'}
                   </div>
-                  <div className="flex flex-col gap-0.5" id={`packing-item-${item.id}`}>
+                  <div className="flex flex-col gap-0.5 flex-1 pr-6" id={`packing-item-${item.id}`}>
                     <span 
                       className={`text-sm tracking-tight font-extrabold transition-all duration-300 ${
                         isChecked 
@@ -329,6 +391,15 @@ export function PackingChecklist() {
                       </span>
                     )}
                   </div>
+                  {isCustom && (
+                    <button
+                      onClick={(e) => handleDeleteItem(item.id, e)}
+                      className="p-1 px-1.5 rounded-lg bg-slate-950 hover:bg-rose-500/20 text-slate-500 hover:text-rose-400 border border-slate-850 hover:border-rose-500/30 transition-all cursor-pointer self-center"
+                      title="Delete custom item"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </motion.div>
               );
             })}
