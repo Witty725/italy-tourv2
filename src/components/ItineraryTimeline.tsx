@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Camera, 
@@ -16,7 +16,8 @@ import {
   Ship, 
   Heart,
   ChevronRight,
-  Info
+  Info,
+  ArrowUp
 } from 'lucide-react';
 import { itinerary, ItineraryDay, ItineraryActivity } from '../data';
 
@@ -278,6 +279,25 @@ export function ItineraryTimeline() {
     return itinerary[0].date;
   });
   const [copiedPhone, setCopiedPhone] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const selectedDay = itinerary.find(day => day.date === selectedDate) || itinerary[0];
 
@@ -636,6 +656,23 @@ export function ItineraryTimeline() {
             )}
           </div>
         </motion.div>
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 10 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3.5 rounded-full bg-indigo-650 hover:bg-indigo-550 text-white shadow-xl shadow-indigo-950/60 border border-indigo-400/40 transition-all flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95"
+            title="Back to Top"
+            aria-label="Back to top"
+            id="back-to-top-button"
+          >
+            <ArrowUp className="w-5 h-5 shrink-0" />
+          </motion.button>
+        )}
       </AnimatePresence>
     </div>
   );
