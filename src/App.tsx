@@ -40,41 +40,46 @@ export default function App() {
     <div className="min-h-screen font-sans bg-slate-950 text-slate-200 flex flex-col justify-between pb-24">
       
       {/* 1. TOP BAR RESTRUCTURE */}
-      <header className="bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-40 px-4 py-3 flex items-center justify-between">
-        {/* Top Left: Dedicated Weather Section Button */}
-        <button 
-          onClick={() => setActiveTab('Weather')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider transition-all ${
-            activeTab === 'Weather' 
-              ? 'bg-blue-500/20 border-blue-500 text-blue-400' 
-              : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:text-white'
-          }`}
-        >
-          <CloudSun className="w-4 h-4" />
-          <span>Live Weather</span>
-        </button>
+      <header className="bg-slate-900/85 backdrop-blur border-b border-slate-800 sticky top-0 z-40 px-3 py-2.5">
+        <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto w-full">
+          {/* Top Left: Dedicated Weather Section Button */}
+          <button 
+            onClick={() => setActiveTab('Weather')}
+            className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl border text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all cursor-pointer truncate ${
+              activeTab === 'Weather' 
+                ? 'bg-blue-500/25 border-blue-500 text-blue-400' 
+                : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:text-white'
+            }`}
+            title="Live Weather"
+          >
+            <CloudSun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400 shrink-0" />
+            <span className="truncate">Weather</span>
+          </button>
 
-        {/* Top Center: Photos Button Symmetrical Alignment */}
-        <button 
-          onClick={() => setShowPhotoModal(true)}
-          className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider transition-all shadow-md absolute left-1/2 -translate-x-1/2"
-        >
-          <Camera className="w-4 h-4 text-orange-400" />
-          <span>Photos</span>
-        </button>
+          {/* Top Center: Photos Button Symmetrical Alignment */}
+          <button 
+            onClick={() => setShowPhotoModal(true)}
+            className="flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shadow-md cursor-pointer truncate"
+            title="Photos Gallery"
+          >
+            <Camera className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-400 shrink-0" />
+            <span className="truncate">Photos</span>
+          </button>
 
-        {/* Top Right: Standardized Emergency Alert Button */}
-        <button 
-          onClick={() => setActiveTab('Emergency')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider transition-all ${
-            activeTab === 'Emergency'
-              ? 'bg-red-500/20 border-red-500 text-red-400'
-              : 'bg-slate-950/40 border-slate-800 text-red-400/80 hover:text-red-400'
-          }`}
-        >
-          <ShieldAlert className="w-4 h-4 text-red-500 animate-pulse" />
-          <span className="hidden sm:inline">Emergency</span>
-        </button>
+          {/* Top Right: Standardized Emergency Alert Button */}
+          <button 
+            onClick={() => setActiveTab('Emergency')}
+            className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl border text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all cursor-pointer truncate ${
+              activeTab === 'Emergency'
+                ? 'bg-red-500/25 border-red-500 text-red-400'
+                : 'bg-slate-950/40 border-slate-800 text-red-400/80 hover:text-red-450'
+            }`}
+            title="Emergency Info & SOS Contacts"
+          >
+            <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 animate-pulse shrink-0" />
+            <span className="truncate">SOS</span>
+          </button>
+        </div>
       </header>
 
       {/* MAIN CONTENT AREA CONTAINER */}

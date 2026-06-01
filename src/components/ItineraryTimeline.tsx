@@ -548,9 +548,21 @@ export function ItineraryTimeline() {
                       </div>
 
                       {/* Timeline card activity */}
-                      <div className="flex-1 bg-slate-950/40 p-4 rounded-xl border border-slate-900 group-hover:border-slate-800 transition-all flex flex-col gap-1.5">
+                      <div className={`flex-1 p-4 rounded-xl transition-all flex flex-col gap-1.5 ${
+                        activity.isFamilyEvent 
+                          ? 'bg-amber-950/15 border-2 border-amber-400 shadow-[0_0_15px_rgba(234,179,8,0.15)] ring-1 ring-amber-400/20' 
+                          : 'bg-slate-950/40 border border-slate-900 group-hover:border-slate-800'
+                      }`}>
+                        {/* Family Event Heading Block */}
+                        {activity.isFamilyEvent && (
+                          <div className="flex items-center gap-1.5 bg-amber-400/10 text-amber-300 text-[10px] sm:text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-amber-400/25 w-fit mb-1 shadow-sm leading-none">
+                            <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0" />
+                            <span>FAMILY EVENT</span>
+                          </div>
+                        )}
+
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                          <h4 className="text-slate-100 font-black text-sm pr-9 sm:pr-0">
+                          <h4 className={`font-black text-sm pr-9 sm:pr-0 ${activity.isFamilyEvent ? 'text-amber-200 text-base' : 'text-slate-100'}`}>
                             <InteractiveText text={activity.title} disableLinks={isAtSeaDay} />
                           </h4>
                           
@@ -561,7 +573,7 @@ export function ItineraryTimeline() {
                           )}
                         </div>
 
-                        <p className="text-xs text-slate-400 leading-relaxed font-normal">
+                        <p className={`text-xs leading-relaxed font-normal ${activity.isFamilyEvent ? 'text-amber-100/90' : 'text-slate-400'}`}>
                           <InteractiveText text={activity.description} disableLinks={isAtSeaDay} />
                         </p>
 
@@ -581,7 +593,11 @@ export function ItineraryTimeline() {
                         )}
 
                         {activity.location && !isAtSeaDay && (
-                          <div className="mt-1 flex items-center gap-1.5 text-[11px] font-extrabold text-rose-450 bg-rose-500/10 px-2.5 py-1 rounded-md border border-rose-500/20 w-fit font-sans">
+                          <div className={`mt-1 flex items-center gap-1.5 text-[11px] font-extrabold px-2.5 py-1 rounded-md w-fit font-sans ${
+                            activity.isFamilyEvent
+                              ? 'text-amber-300 bg-amber-400/10 border border-amber-400/20'
+                              : 'text-rose-450 bg-rose-500/10 border border-rose-500/20'
+                          }`}>
                             <MapPin className="w-3.5 h-3.5" />
                             <span>LOCATION: <InteractiveText text={activity.location} disableLinks={isAtSeaDay} /></span>
                           </div>
@@ -602,7 +618,11 @@ export function ItineraryTimeline() {
                               target="_blank"
                               rel="noopener noreferrer"
                               referrerPolicy="no-referrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 text-xs font-black rounded-lg border border-orange-500/20 hover:border-orange-500/30 transition-all cursor-pointer"
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border transition-all cursor-pointer ${
+                                activity.isFamilyEvent
+                                  ? 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border-amber-400/35 hover:border-amber-400/65 shadow-sm'
+                                  : 'bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 border-orange-500/20 hover:border-orange-500/30'
+                              }`}
                               id={`img-search-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                             >
                               <Camera className="w-3.5 h-3.5" />
@@ -614,7 +634,11 @@ export function ItineraryTimeline() {
                               target="_blank"
                               rel="noopener noreferrer"
                               referrerPolicy="no-referrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 text-xs font-black rounded-lg border border-indigo-500/20 hover:border-indigo-500/30 transition-all cursor-pointer"
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border transition-all cursor-pointer ${
+                                activity.isFamilyEvent
+                                  ? 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border-amber-400/35 hover:border-amber-400/65 shadow-sm'
+                                  : 'bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 border-indigo-500/20 hover:border-indigo-500/30'
+                              }`}
                               id={`map-link-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                             >
                               <MapPin className="w-3.5 h-3.5" />

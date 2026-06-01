@@ -60,6 +60,7 @@ export interface ItineraryActivity {
   menu?: string;
   location?: string;
   icon?: 'hotel' | 'tour' | 'food' | 'concert' | 'ship' | 'church' | 'explore' | 'alert' | 'transfer';
+  isFamilyEvent?: boolean;
 }
 
 export interface ItineraryDay {
@@ -356,6 +357,13 @@ export const itinerary: ItineraryDay[] = [
     weatherDetails: 'High: 84°F, Low: 68°F. Classic Mediterranean summer heat. Marine sea temperature is 73°F. Heavy sea breeze makes walking along the bastions delightful but hold onto your sunhats!',
     activities: [
       {
+        title: 'Beach Club',
+        description: 'Vibrant sunshine, private luxury beach loungers, and sparkling clear waters. A wonderful day to swim, relax, and share refreshing sea breezes together with the family.',
+        location: 'Cagliari Beach, Sardinia, Italy',
+        icon: 'explore',
+        isFamilyEvent: true
+      },
+      {
         title: 'Port Arrival: Cagliari',
         description: 'Deep-water docking at Cagliari Port. The historic bastions loom high over the harbor as the ship settles.',
         icon: 'ship'
@@ -405,6 +413,13 @@ export const itinerary: ItineraryDay[] = [
     weather: 'Warm & Sunny',
     weatherDetails: 'High: 86°F, Low: 70°F. Sicily is hot! Light southern scirocco wind might bring warm air from North Africa. Drink water, carry shades, and walk on the shady side of the streets.',
     activities: [
+      {
+        title: 'Moreal Cathedral',
+        description: 'A spectacular, must-see family excursion to admire the majestic golden Byzantine mosaics, stunning medieval architecture, and historic quiet cloisters of the Cathedral of Monreale.',
+        location: 'Moreal Cathedral, Palermo, Sicily',
+        icon: 'church',
+        isFamilyEvent: true
+      },
       {
         title: 'Port Arrival: Palermo',
         description: 'Ship docks. Settle in and prepare for a vibrant, chaotic collision of history, culture, and street food.',
@@ -546,6 +561,13 @@ export const itinerary: ItineraryDay[] = [
     weather: 'Warm & Dynamic',
     weatherDetails: 'High: 85°F, Low: 67°F. High sun, dynamic city hum. Barcelona coast is sunny & glorious.',
     activities: [
+      {
+        title: 'Sagrada Familia',
+        description: 'An unforgettable family pilgrimage to Antoni Gaudí\'s towering, world-famous basilica masterpiece. Witness the incredible tree-like columns and spectacular, colorful stained-glass window reflections.',
+        location: 'Sagrada Familia, Barcelona, Spain',
+        icon: 'church',
+        isFamilyEvent: true
+      },
       {
         title: 'Port Arrival: Barcelona',
         description: 'Welcome to Spain! The ship docks at the central terminal. Prepare your walking shoes.',

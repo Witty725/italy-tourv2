@@ -4,15 +4,14 @@ import { packingList } from '../data';
 import { motion, AnimatePresence } from 'motion/react';
 import { LaundryStrategy } from './LaundryStrategy';
 import { ShoppingListTab } from './ShoppingListTab';
-import { Droplets, Lightbulb, X, Briefcase, Shield, Smartphone, Anchor, Info, CheckCircle2, Shirt, ShoppingBag } from 'lucide-react';
+import { Droplets, Lightbulb, X, Briefcase, Shield, Smartphone, Anchor, Info, CheckCircle2, Shirt, ShoppingBag, Printer } from 'lucide-react';
 
-const CATEGORIES = ['Documents & Finance', 'Packing Essentials', 'Electronics & Gear', 'Shopping List'];
+const CATEGORIES = ['Documents & Finance', 'Packing Essentials', 'Electronics & Gear'];
 
 const CATEGORY_META: Record<string, { icon: React.ComponentType<any>; color: string }> = {
   'Documents & Finance': { icon: Briefcase, color: 'text-[#10b981]' },
   'Packing Essentials': { icon: Shirt, color: 'text-amber-400' },
-  'Electronics & Gear': { icon: Smartphone, color: 'text-sky-450' },
-  'Shopping List': { icon: ShoppingBag, color: 'text-pink-400' }
+  'Electronics & Gear': { icon: Smartphone, color: 'text-sky-450' }
 };
 
 export function PackingChecklist() {
@@ -57,6 +56,135 @@ export function PackingChecklist() {
   const currentCategoryItems = useMemo(() => {
     return packingList.filter(item => item.category === activeTab);
   }, [activeTab]);
+
+  const handlePrintPDF = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const docs = packingList.filter(item => item.category === 'Documents & Finance');
+    const essentials = packingList.filter(item => item.category === 'Packing Essentials');
+    const electronics = packingList.filter(item => item.category === 'Electronics & Gear');
+
+    const renderPrintSection = (title: string, items: typeof packingList) => {
+      let html = '';
+      html += '<div class="category-section" style="margin-bottom: 24px; page-break-inside: avoid;">';
+      html += '  <h2 class="category-header" style="font-size: 14px; margin: 0 0 10px 0; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 4px; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800;">' + title + '</h2>';
+      html += '  <table class="items-table" style="width: 100%; border-collapse: collapse;">';
+      html += '    <tbody>';
+      
+      items.forEach(item => {
+        const isChecked = !!checkedItems[item.id];
+        html += '      <tr class="item-row" style="border-bottom: 1px solid #f1f5f9;">';
+        html += '        <td class="checkbox-cell" style="width: 28px; padding: 6px 0; vertical-align: top;">';
+        html += '          <div class="checkbox-box" style="width: 15px; height: 15px; border: 1.5px solid ' + (isChecked ? '#10b981' : '#64748b') + '; background-color: ' + (isChecked ? '#10b981' : 'transparent') + '; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: ' + (isChecked ? '#ffffff' : 'transparent') + ';">';
+        html += '            ✓';
+        html += '          </div>';
+        html += '        </td>';
+        html += '        <td class="text-cell" style="padding: 6px 8px; vertical-align: top;">';
+        html += '          <span class="item-text" style="font-size: 12.5px; font-weight: 600; color: ' + (isChecked ? '#94a3b8' : '#0f172a') + '; ' + (isChecked ? 'text-decoration: line-through;' : '') + '">' + item.text + '</span>';
+        if (item.subText) {
+          html += '          <div class="item-subtext" style="font-size: 10.5px; color: #64748b; margin-top: 2px;">' + item.subText + '</div>';
+        }
+        html += '        </td>';
+        html += '      </tr>';
+      });
+
+      html += '    </tbody>';
+      html += '  </table>';
+      html += '</div>';
+      return html;
+    };
+
+    const docItemsHtml = renderPrintSection('Documents & Finance', docs);
+    const essentialItemsHtml = renderPrintSection('Packing Essentials', essentials);
+    const electronicItemsHtml = renderPrintSection('Electronics & Gear', electronics);
+
+    const todayDate = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+    let fullHtml = '';
+    fullHtml += '<!DOCTYPE html>';
+    fullHtml += '<html>';
+    fullHtml += '  <head>';
+    fullHtml += '    <title>Italy Tour 2026 - Packing Checklist</title>';
+    fullHtml += '    <style>';
+    fullHtml += '      body {';
+    fullHtml += '        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;';
+    fullHtml += '        color: #0f172a;';
+    fullHtml += '        background-color: #ffffff;';
+    fullHtml += '        line-height: 1.4;';
+    fullHtml += '        margin: 0;';
+    fullHtml += '        padding: 40px;';
+    fullHtml += '      }';
+    fullHtml += '      .header {';
+    fullHtml += '        border-bottom: 2.5px solid #0f172a;';
+    fullHtml += '        padding-bottom: 16px;';
+    fullHtml += '        margin-bottom: 30px;';
+    fullHtml += '      }';
+    fullHtml += '      .headline {';
+    fullHtml += '        font-size: 22px;';
+    fullHtml += '        font-weight: 900;';
+    fullHtml += '        letter-spacing: -0.02em;';
+    fullHtml += '        text-transform: uppercase;';
+    fullHtml += '        margin: 0 0 6px 0;';
+    fullHtml += '      }';
+    fullHtml += '      .subtitle {';
+    fullHtml += '        font-size: 13px;';
+    fullHtml += '        color: #475569;';
+    fullHtml += '        margin: 0;';
+    fullHtml += '        font-weight: 600;';
+    fullHtml += '      }';
+    fullHtml += '      .stats {';
+    fullHtml += '        display: flex;';
+    fullHtml += '        justify-content: space-between;';
+    fullHtml += '        font-size: 11px;';
+    fullHtml += '        color: #64748b;';
+    fullHtml += '        margin-top: 14px;';
+    fullHtml += '        font-weight: bold;';
+    fullHtml += '        text-transform: uppercase;';
+    fullHtml += '        letter-spacing: 0.05em;';
+    fullHtml += '      }';
+    fullHtml += '      .footer-note {';
+    fullHtml += '        margin-top: 40px;';
+    fullHtml += '        text-align: center;';
+    fullHtml += '        font-size: 10px;';
+    fullHtml += '        color: #94a3b8;';
+    fullHtml += '        border-top: 1px solid #e2e8f0;';
+    fullHtml += '        padding-top: 12px;';
+    fullHtml += '        font-weight: 500;';
+    fullHtml += '      }';
+    fullHtml += '      @media print {';
+    fullHtml += '        body {';
+    fullHtml += '          padding: 10px;';
+    fullHtml += '        }';
+    fullHtml += '      }';
+    fullHtml += '    </style>';
+    fullHtml += '  </head>';
+    fullHtml += '  <body>';
+    fullHtml += '    <div class="header">';
+    fullHtml += '      <h1 class="headline">🇮🇹 Italy Tour 2026 — Packing List</h1>';
+    fullHtml += '      <p class="subtitle">Comprehensive Checklist & Companion Tracking Guide</p>';
+    fullHtml += '      <div class="stats">';
+    fullHtml += '        <span>Progress: ' + progress.completed + ' of ' + progress.total + ' packed (' + progress.percentage + '%)</span>';
+    fullHtml += '        <span>Date: ' + todayDate + '</span>';
+    fullHtml += '      </div>';
+    fullHtml += '    </div>';
+    fullHtml += docItemsHtml;
+    fullHtml += essentialItemsHtml;
+    fullHtml += electronicItemsHtml;
+    fullHtml += '    <div class="footer-note">';
+    fullHtml += '      Generated via Italy Tour 2026 Travel Companion App';
+    fullHtml += '    </div>';
+    fullHtml += '    <script>';
+    fullHtml += '      window.onload = function() {';
+    fullHtml += '        window.print();';
+    fullHtml += '      };';
+    fullHtml += '    </script>';
+    fullHtml += '  </body>';
+    fullHtml += '</html>';
+
+    printWindow.document.write(fullHtml);
+    printWindow.document.close();
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -139,8 +267,7 @@ export function PackingChecklist() {
             
             const tabLabel = cat === 'Documents & Finance' ? 'DOCUMENTS' 
                            : cat === 'Packing Essentials' ? 'ESSENTIALS'
-                           : cat === 'Electronics & Gear' ? 'ELECTRONICS'
-                           : 'SHOPPING';
+                           : 'ELECTRONICS';
             
             return (
               <button
@@ -161,14 +288,11 @@ export function PackingChecklist() {
         </div>
 
         {/* Checklist Items */}
-        {activeTab === 'Shopping List' ? (
-          <ShoppingListTab />
-        ) : (
-          <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 min-h-[300px]">
-            <AnimatePresence mode="popLayout">
-              {currentCategoryItems.map((item) => {
-                const isChecked = !!checkedItems[item.id];
-              
+        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 min-h-[300px]">
+          <AnimatePresence mode="popLayout">
+            {currentCategoryItems.map((item) => {
+              const isChecked = !!checkedItems[item.id];
+            
               return (
                 <motion.div
                   key={item.id}
@@ -208,9 +332,27 @@ export function PackingChecklist() {
                 </motion.div>
               );
             })}
-            </AnimatePresence>
+          </AnimatePresence>
+        </div>
+
+        {/* Print / Export PDF Action Row */}
+        <div className="p-4 border-t border-slate-800 bg-slate-950/30 flex flex-col sm:flex-row gap-3 items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
+            <span className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
+              Status: {progress.completed} of {progress.total} Packed ({progress.percentage}%)
+            </span>
           </div>
-        )}
+          <button
+            onClick={handlePrintPDF}
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-black text-xs uppercase tracking-wider rounded-xl border border-emerald-500/20 hover:border-emerald-500/40 transition-all cursor-pointer shadow-md"
+            id="btn-print-packing-list"
+            title="Export Packing List to PDF"
+          >
+            <Printer className="w-4 h-4 text-emerald-400" />
+            <span>Export Printable PDF</span>
+          </button>
+        </div>
       </div>
 
       {/* Laundry Strategy Pop-Up Modal */}
