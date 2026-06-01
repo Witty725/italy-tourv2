@@ -182,7 +182,7 @@ const travelTips = [
   },
   {
     id: 'cruise',
-    title: 'MSC Splendida Reality Check',
+    title: 'MSC Splendida Vibe',
     icon: <Ship className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />,
     items: [
       { title: 'A Very European Experience', content: 'Unlike American lines (Carnival, Royal Caribbean) where crew members are trained to be hyper-bubbly and conversational, MSC features a more formal, direct, and reserved European style of service. It isn\'t rude; it\'s just a different cultural standard of professionalism.' },

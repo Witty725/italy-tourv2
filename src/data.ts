@@ -60,7 +60,7 @@ export interface ItineraryActivity {
   menu?: string;
   location?: string;
   coordinates?: string;
-  icon?: 'hotel' | 'tour' | 'food' | 'concert' | 'ship' | 'church' | 'explore' | 'alert' | 'transfer';
+  icon?: 'hotel' | 'tour' | 'food' | 'concert' | 'ship' | 'church' | 'explore' | 'alert' | 'transfer' | 'unclassified';
   isFamilyEvent?: boolean;
 }
 
@@ -350,11 +350,11 @@ export const itinerary: ItineraryDay[] = [
     weatherDetails: 'High: 82°F, Low: 65°F. Sunny and warm port conditions with an refreshing coastal breeze. Ideal cruise start!',
     activities: [
       {
-        title: 'Transfer to Cruise Port',
-        description: 'Travel from Hotel Napoleon in Pontremoli to the coastal cruise port of Livorno, Italy.',
-        transport: 'Scheduled group shuttle service',
-        coordinates: '43.5558,10.3012',
-        icon: 'transfer'
+        title: 'Fortezza Vecchia (Old Fortress)',
+        description: 'Explore the majestic 16th-century red-brick citadel guarding the port entrance. Walk along its high brick parapets for stunning, panoramic views of the cruise ships. Located literally steps from the cruise terminal gates.',
+        location: 'Piazza del Pamiglione',
+        coordinates: '43.5524,10.3039',
+        icon: 'explore'
       },
       {
         title: 'Venezia Nuova (New Venice) Canal District',
@@ -362,6 +362,13 @@ export const itinerary: ItineraryDay[] = [
         location: 'Livorno Venezia Nuova quarter',
         coordinates: '43.5539,10.3079',
         icon: 'explore'
+      },
+      {
+        title: 'Schiacciata Break at Panificio Fabbri',
+        description: 'Grab a fresh, hot slice of crispy schiacciata (Tuscan olive oil flatbread) stuffed with fresh pecorino and local salumi. A beloved neighborhood bakery very close to the port gates.',
+        location: 'Via San Giovanni 42',
+        coordinates: '43.5532,10.3059',
+        icon: 'food'
       },
       {
         title: 'Ponce Livornese at Pasticceria Castalie',
@@ -376,13 +383,6 @@ export const itinerary: ItineraryDay[] = [
         location: 'Terrazza Mascagni coastal walkway',
         coordinates: '43.5358,10.3014',
         icon: 'explore'
-      },
-      {
-        title: 'MSC Splendida Boarding & Check-In',
-        description: 'Arrive at the cruise terminal. Access the ship via boarding gates.',
-        location: 'Livorno Terminal - Molo Alto Fondale',
-        coordinates: '43.5558,10.3012',
-        icon: 'ship'
       },
       {
         time: '18:00',
@@ -415,7 +415,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Port Arrival: Cagliari',
         description: 'Deep-water docking at Cagliari Port. The historic bastions loom high over the harbor as the ship settles.',
         coordinates: '39.2132,9.1121',
-        icon: 'ship'
+        icon: 'explore'
       },
       {
         title: 'Seafood Venture at San Benedetto Market',
@@ -480,7 +480,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Port Arrival: Palermo',
         description: 'Ship docks. Settle in and prepare for a vibrant, chaotic collision of history, culture, and street food.',
         coordinates: '38.1292,13.3647',
-        icon: 'ship'
+        icon: 'explore'
       },
       {
         title: 'Mosaics at Martorana Church & Monastic Pastries',
@@ -537,7 +537,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Port Arrival: Valletta Grand Harbour',
         description: 'Secure mooring in the grandiose limestone fortress of the Grand Harbour. Ensure you are on deck early to witness Malta entering view!',
         coordinates: '35.8893,14.5094',
-        icon: 'ship'
+        icon: 'explore'
       },
       {
         title: 'Serene Views of Lower Barrakka Gardens & Valletta Underground',
@@ -569,9 +569,8 @@ export const itinerary: ItineraryDay[] = [
       {
         title: 'Traditional Boat Crossing to Birgu',
         description: 'Walk down to the custom wooden boat landing at the harbor bottom. Board a tiny, traditional "Dghajsa" water taxi for €3 across the water to the quiet, medieval streets of Birgu (Vittoriosa).',
-        transport: 'Water taxi crossing',
         coordinates: '35.8887,14.5205',
-        icon: 'transfer'
+        icon: 'explore'
       },
       {
         title: 'Decadent Lunch & Pastizzi at Crystal Palace pastizzi',
@@ -595,11 +594,6 @@ export const itinerary: ItineraryDay[] = [
         title: 'Panoramic Deck Viewing at the Aft & Bow',
         description: 'Discover the secret, quiet deck space at the absolute forward tip of Decks 14 and 15 right below the bridge. It provides an unobstructed 180° view of nothing but deep ocean indigo and clear horizons, with virtually no foot traffic.',
         icon: 'explore'
-      },
-      {
-        title: 'Relaxation & Spa Solarium',
-        description: 'Take a break inside the thermal suites or enjoy the hydrotherapy pools. If you\'re feeling hungry, the late-night pizzeria station at the aft of Deck 14 serves fresh, thin-crust Neapolitan-style pizza that is continuously baked to order.',
-        icon: 'ship'
       },
       {
         title: 'The Secret Bow Deck 11 Stargazing',
@@ -643,7 +637,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Port Arrival: Barcelona',
         description: 'Welcome to Spain! The ship docks at the central terminal. Prepare your walking shoes.',
         coordinates: '41.3688,2.1729',
-        icon: 'ship'
+        icon: 'explore'
       },
       {
         title: 'Hospital de Sant Pau Masterpiece',
@@ -683,6 +677,11 @@ export const itinerary: ItineraryDay[] = [
         description: 'Head up out of the city sprawl to the Bunkers del Carmel. Here, you will stand on concrete command bunkers from the Spanish Civil War and experience an incredible, windy 360° panoramic vista of the entire city skyline, mountains, and sea.',
         coordinates: '41.4193,2.1620',
         icon: 'explore'
+      },
+      {
+        title: 'Relaxation & Spa Solarium',
+        description: 'Take a break inside the thermal suites or enjoy the hydrotherapy pools. If you\'re feeling hungry, the late-night pizzeria station at the aft of Deck 14 serves fresh, thin-crust Neapolitan-style pizza that is continuously baked to order.',
+        icon: 'explore'
       }
     ]
   },
@@ -700,7 +699,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Port Arrival: Marseille',
         description: 'Marseille welcoming morning light reflecting on the white coastal limestone cliffs.',
         coordinates: '43.3444,5.3404',
-        icon: 'ship'
+        icon: 'explore'
       },
       {
         title: 'Le Panier Hidden Courtyard & Soap Shopping',
@@ -760,10 +759,11 @@ export const itinerary: ItineraryDay[] = [
     weatherDetails: 'High: 83°F, Low: 66°F. High summer warmth. Disembarkation and journey to airport for return transit to USA.',
     activities: [
       {
-        title: 'Disembarkation at Livorno',
-        description: 'Formally check out of MSC Splendida and gather all luggage items safely.',
-        icon: 'ship',
-        coordinates: '43.5518,10.2987'
+        title: 'Airport Transfer & Departure',
+        description: 'Private coach group transfer to the airport (Pisa, Florence, or FCO) to check in for flights back to the US.',
+        transport: 'Private charter coach service',
+        coordinates: '43.8100,11.2012',
+        icon: 'unclassified'
       },
       {
         title: 'Tasting market bites at Mercato delle Vettovaglie',
@@ -791,13 +791,6 @@ export const itinerary: ItineraryDay[] = [
         location: 'Fortezza Nuova canals ring',
         icon: 'explore',
         coordinates: '43.5539,10.3162'
-      },
-      {
-        title: 'Airport Transfer & Departure',
-        description: 'Private coach group transfer to the airport (Pisa, Florence, or FCO) to check in for flights back to the US.',
-        transport: 'Private charter coach service',
-        icon: 'transfer',
-        coordinates: '43.8100,11.2012'
       }
     ]
   }

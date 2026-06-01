@@ -1,27 +1,45 @@
 import { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 
-export function TripCountdown() {
+interface TripCountdownProps {
+  badgeStyle?: boolean;
+}
+
+export function TripCountdown({ badgeStyle = false }: TripCountdownProps) {
   const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft());
 
   function calculateTimeLeft() {
     // June 18, 2026 trip start
-    const difference = +new Date('2026-06-18T00:00:00') - +new Date();
-    let timeLeft = {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-    };
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
+    const tripStartDate = new Date('2026-06-18T00:00:00');
+    const now = new Date();
+    const difference = +tripStartDate - +now;
+    
+    let isTripStarted = difference <= 0;
+    
+    if (isTripStarted) {
+      // Return details for days count with June 18th being Day 1
+      const msInDay = 1000 * 60 * 60 * 24;
+      const startOfTodayVal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const startOfTripVal = new Date(tripStartDate.getFullYear(), tripStartDate.getMonth(), tripStartDate.getDate());
+      const daysSinceTripStart = Math.floor((+startOfTodayVal - +startOfTripVal) / msInDay);
+      const currentTripDay = daysSinceTripStart >= 0 ? daysSinceTripStart + 1 : 1;
+      
+      return {
+        isTripStarted: true,
+        currentTripDay,
+        days: 0,
+        hours: 0,
+        minutes: 0,
       };
     }
 
-    return timeLeft;
+    return {
+      isTripStarted: false,
+      currentTripDay: 0,
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+    };
   }
 
   useEffect(() => {
@@ -31,10 +49,39 @@ export function TripCountdown() {
     return () => clearInterval(timer);
   }, []);
 
-  if (timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0) {
+  if (badgeStyle) {
+    if (timeLeft.isTripStarted) {
+      return (
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2 border border-emerald-500/20 shadow-sm whitespace-nowrap">
+          <Clock className="w-3 h-3 text-emerald-400" />
+          Day {timeLeft.currentTripDay}
+        </span>
+      );
+    }
+
+    // Countdown active
+    let countdownText = '';
+    if (timeLeft.days > 0) {
+      countdownText = `${timeLeft.days}d ${timeLeft.hours}h`;
+    } else if (timeLeft.hours > 0) {
+      countdownText = `${timeLeft.hours}h ${timeLeft.minutes}m`;
+    } else {
+      countdownText = `${timeLeft.minutes}m`;
+    }
+
+    return (
+      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2 border border-indigo-500/20 shadow-sm whitespace-nowrap">
+        <Clock className="w-3 h-3 text-indigo-455" />
+        {countdownText} left
+      </span>
+    );
+  }
+
+  // Fallback / legacy display if badgeStyle is false
+  if (timeLeft.isTripStarted) {
     return (
       <div className="glass-panel p-3 mb-6 bg-emerald-950/20 border-emerald-500/30 text-emerald-400 font-bold text-center text-sm uppercase tracking-widest">
-        The Trip Has Begun!
+        Day {timeLeft.currentTripDay} of the Italian Adventure!
       </div>
     );
   }

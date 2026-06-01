@@ -141,23 +141,17 @@ export function InteractiveText({ text, disableLinks = false }: { text: string; 
 
 // Activity category icons
 function getActivityIcon(iconType?: string) {
-  switch (iconType) {
-    case 'hotel':
-      return <Home className="w-4 h-4 text-emerald-400" />;
-    case 'tour':
-      return <Compass className="w-4 h-4 text-indigo-400" />;
-    case 'food':
-      return <Utensils className="w-4 h-4 text-amber-400" />;
-    case 'concert':
-      return <Music className="w-4 h-4 text-rose-400" />;
-    case 'ship':
-      return <Ship className="w-4 h-4 text-blue-400" />;
-    case 'church':
-      return <Heart className="w-4 h-4 text-purple-400" />;
-    case 'transfer':
-    default:
-      return <Bus className="w-4 h-4 text-sky-400" />;
+  const category = getActivityCategory(iconType);
+  if (category === 'Food') {
+    return <Utensils className="w-4 h-4 text-amber-400" />;
   }
+  if (category === 'Sights') {
+    return <Camera className="w-4 h-4 text-emerald-400" />;
+  }
+  if (iconType === 'ship') {
+    return <Ship className="w-4 h-4 text-blue-400" />;
+  }
+  return <Bus className="w-4 h-4 text-sky-400" />;
 }
 
 function getDayStyle(dayNum: number, month: string, isActive: boolean) {
@@ -274,6 +268,52 @@ const staggerItem = {
   }
 };
 
+function getActivityCategory(iconType?: string): 'Sights' | 'Food' | 'Transit' | 'Unclassified' {
+  if (iconType === 'food') return 'Food';
+  if (iconType === 'unclassified') return 'Unclassified';
+  if (iconType === 'transfer' || iconType === 'ship') return 'Transit';
+  return 'Sights';
+}
+
+function parseTimeToMinutes(timeStr?: string): number {
+  if (!timeStr) return 9999;
+  const cleaned = timeStr.trim().toLowerCase();
+  
+  // Try matching HH:MM or H:MM (e.g. 10:30, 09:00, 14:00, 9 AM, 1:30 PM, etc)
+  const timeRegex = /(\d{1,2}):(\d{2})\s*(am|pm)?/i;
+  const match = cleaned.match(timeRegex);
+  if (match) {
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const ampm = match[3];
+    if (ampm) {
+      if (ampm.toLowerCase() === 'pm' && hours < 12) hours += 12;
+      if (ampm.toLowerCase() === 'am' && hours === 12) hours = 0;
+    }
+    return hours * 60 + minutes;
+  }
+  
+  // Support simple AM/PM matching without colon e.g. "9 AM" or "2 PM"
+  const ampmRegex = /(\d{1,2})\s*(am|pm)/i;
+  const ampmMatch = cleaned.match(ampmRegex);
+  if (ampmMatch) {
+    let hours = parseInt(ampmMatch[1], 10);
+    const ampm = ampmMatch[2].toLowerCase();
+    if (ampm === 'pm' && hours < 12) hours += 12;
+    if (ampm === 'am' && hours === 12) hours = 0;
+    return hours * 60;
+  }
+
+  // Fallbacks for descriptors
+  if (cleaned.includes('morning')) return 8 * 60; // 08:00
+  if (cleaned.includes('noon') || cleaned.includes('lunch')) return 12 * 60; // 12:00
+  if (cleaned.includes('afternoon')) return 14 * 60; // 14:00
+  if (cleaned.includes('evening') || cleaned.includes('dinner')) return 19 * 60; // 19:00
+  if (cleaned.includes('night')) return 21 * 60; // 21:00
+  
+  return 9999; // fallback high value for anything else
+}
+
 export function ItineraryTimeline() {
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     try {
@@ -294,6 +334,11 @@ export function ItineraryTimeline() {
   });
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<'All' | 'Sights' | 'Food' | 'Transit'>('All');
+
+  useEffect(() => {
+    setActiveCategory('All');
+  }, [selectedDate]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -314,6 +359,21 @@ export function ItineraryTimeline() {
   };
 
   const selectedDay = itinerary.find(day => day.date === selectedDate) || itinerary[0];
+
+  const familyActivities = selectedDay.activities?.filter(act => act.isFamilyEvent) || [];
+  
+  // Planned are other activities with a time
+  const plannedActivities = selectedDay.activities?.filter(act => !act.isFamilyEvent && act.time && act.time.trim() !== '') || [];
+  const sortedPlannedActivities = [...plannedActivities].sort((a, b) => parseTimeToMinutes(a.time) - parseTimeToMinutes(b.time));
+
+  // Suggested are other activities without a time
+  const suggestedActivities = selectedDay.activities?.filter(act => !act.isFamilyEvent && (!act.time || act.time.trim() === '')) || [];
+  const filteredSuggestedActivities = suggestedActivities.filter(act => {
+    if (activeCategory === 'All') return true;
+    return getActivityCategory(act.icon) === activeCategory;
+  });
+
+  const hasActivities = selectedDay.activities && selectedDay.activities.length > 0;
 
   const handleCopyPhone = (phone: string) => {
     navigator.clipboard.writeText(phone);
@@ -508,24 +568,14 @@ export function ItineraryTimeline() {
 
           {/* Daily Schedule Events Timeline */}
           <div>
-            <span className="text-slate-400 font-extrabold uppercase tracking-widest text-[9px] block mb-4 border-b border-slate-800 pb-2">
-              Timeline Activities
-            </span>
-
-            {selectedDay.activities && selectedDay.activities.length > 0 ? (
-              <motion.div 
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-                className="flex flex-col gap-3 relative"
-              >
-                {/* Visual vertical lineage line connector */}
-                <div className="absolute top-2 bottom-2 left-[18px] w-0.5 bg-slate-850"></div>
-
-                {selectedDay.activities.map((activity, index) => {
+            {/* Render Family Activities at the VERY TOP of the activities section */}
+            {familyActivities.length > 0 && (
+              <div className="flex flex-col gap-3 mb-6">
+                <span className="text-amber-400/80 font-extrabold uppercase tracking-widest text-[9px] block border-b border-slate-800/80 pb-2">
+                  Family Feature Day Spotlight
+                </span>
+                {familyActivities.map((activity, index) => {
                   const isAtSeaDay = selectedDay.dayNum === 27 && selectedDay.month === 'June';
-                  
-                  // Construct a rich local query for Maps & Images search
                   const searchQuery = [
                     activity.title,
                     activity.location,
@@ -534,31 +584,26 @@ export function ItineraryTimeline() {
 
                   return (
                     <motion.div 
-                      key={index} 
-                      variants={staggerItem}
-                      className="flex gap-4 relative z-10 group"
+                      key={`family-${index}`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex gap-4 relative z-10"
                     >
                       {/* Visual icon badge step */}
-                      <div className="w-9 h-9 rounded-xl bg-slate-950 border border-slate-850 flex items-center justify-center shrink-0 group-hover:border-slate-700 transition-colors">
+                      <div className="w-9 h-9 rounded-xl bg-slate-950 border border-amber-500/40 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(234,179,8,0.1)]">
                         {getActivityIcon(activity.icon)}
                       </div>
 
                       {/* Timeline card activity */}
-                      <div className={`flex-1 p-4 rounded-xl transition-all flex flex-col gap-1.5 ${
-                        activity.isFamilyEvent 
-                          ? 'bg-amber-950/15 border-2 border-amber-400 shadow-[0_0_15px_rgba(234,179,8,0.15)] ring-1 ring-amber-400/20' 
-                          : 'bg-slate-950/40 border border-slate-900 group-hover:border-slate-800'
-                      }`}>
+                      <div className="flex-1 p-4 rounded-xl bg-amber-950/15 border-2 border-amber-400 shadow-[0_0_15px_rgba(234,179,8,0.15)] ring-1 ring-amber-400/20 flex flex-col gap-1.5 transition-all">
                         {/* Family Event Heading Block */}
-                        {activity.isFamilyEvent && (
-                          <div className="flex items-center gap-1.5 bg-amber-400/10 text-amber-300 text-[10px] sm:text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-amber-400/25 w-fit mb-1 shadow-sm leading-none">
-                            <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0" />
-                            <span>FAMILY EVENT</span>
-                          </div>
-                        )}
+                        <div className="flex items-center gap-1.5 bg-amber-400/10 text-amber-300 text-[10px] sm:text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-amber-400/25 w-fit mb-1 shadow-sm leading-none">
+                          <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0" />
+                          <span>FAMILY EVENT</span>
+                        </div>
 
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                          <h4 className={`font-black text-sm pr-9 sm:pr-0 ${activity.isFamilyEvent ? 'text-amber-200 text-base' : 'text-slate-100'}`}>
+                          <h4 className="font-bold text-amber-200 text-base pr-9 sm:pr-0">
                             <InteractiveText text={activity.title} disableLinks={isAtSeaDay} />
                           </h4>
                           
@@ -569,7 +614,7 @@ export function ItineraryTimeline() {
                           )}
                         </div>
 
-                        <p className={`text-xs leading-relaxed font-normal ${activity.isFamilyEvent ? 'text-amber-100/90' : 'text-slate-400'}`}>
+                        <p className="text-xs leading-relaxed font-normal text-amber-100/90">
                           <InteractiveText text={activity.description} disableLinks={isAtSeaDay} />
                         </p>
 
@@ -589,11 +634,7 @@ export function ItineraryTimeline() {
                         )}
 
                         {activity.location && !isAtSeaDay && (
-                          <div className={`mt-1 flex items-center gap-1.5 text-[11px] font-extrabold px-2.5 py-1 rounded-md w-fit font-sans ${
-                            activity.isFamilyEvent
-                              ? 'text-amber-300 bg-amber-400/10 border border-amber-400/20'
-                              : 'text-rose-450 bg-rose-500/10 border border-rose-500/20'
-                          }`}>
+                          <div className="mt-1 flex items-center gap-1.5 text-[11px] font-extrabold px-2.5 py-1 rounded-md w-fit font-sans text-amber-300 bg-amber-400/10 border border-amber-400/20">
                             <MapPin className="w-3.5 h-3.5" />
                             <span>LOCATION: <InteractiveText text={activity.location} disableLinks={isAtSeaDay} /></span>
                           </div>
@@ -614,12 +655,8 @@ export function ItineraryTimeline() {
                               target="_blank"
                               rel="noopener noreferrer"
                               referrerPolicy="no-referrer"
-                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border transition-all cursor-pointer ${
-                                activity.isFamilyEvent
-                                  ? 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border-amber-400/35 hover:border-amber-400/65 shadow-sm'
-                                  : 'bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 border-orange-500/20 hover:border-orange-500/30'
-                              }`}
-                              id={`img-search-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border transition-all cursor-pointer bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border-amber-400/35 hover:border-amber-400/65 shadow-sm"
+                              id={`img-search-family-${index}`}
                             >
                               <Camera className="w-3.5 h-3.5" />
                               <span>IMAGE HIGHLIGHTS</span>
@@ -630,12 +667,8 @@ export function ItineraryTimeline() {
                               target="_blank"
                               rel="noopener noreferrer"
                               referrerPolicy="no-referrer"
-                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border transition-all cursor-pointer ${
-                                activity.isFamilyEvent
-                                  ? 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border-amber-400/35 hover:border-amber-400/65 shadow-sm'
-                                  : 'bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 border-indigo-500/20 hover:border-indigo-500/30'
-                              }`}
-                              id={`map-link-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border transition-all cursor-pointer bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border-amber-400/35 hover:border-amber-400/65 shadow-sm"
+                              id={`map-link-family-${index}`}
                             >
                               <MapPin className="w-3.5 h-3.5" />
                               <span>OPEN MAPS</span>
@@ -646,8 +679,287 @@ export function ItineraryTimeline() {
                     </motion.div>
                   );
                 })}
-              </motion.div>
-            ) : (
+              </div>
+            )}
+
+            {/* Planned Activities Section */}
+            {sortedPlannedActivities.length > 0 && (
+              <div className="flex flex-col gap-3 mb-6">
+                <span className="text-slate-400 font-extrabold uppercase tracking-widest text-[9px] block border-b border-slate-800 pb-2">
+                  Planned Activities
+                </span>
+
+                <motion.div 
+                  variants={staggerContainer}
+                  initial="hidden"
+                  animate="visible"
+                  className="flex flex-col gap-3 relative mt-1"
+                >
+                  {/* Visual vertical lineage line connector */}
+                  <div className="absolute top-2 bottom-2 left-[18px] w-0.5 bg-slate-850"></div>
+
+                  {sortedPlannedActivities.map((activity, index) => {
+                    const isAtSeaDay = selectedDay.dayNum === 27 && selectedDay.month === 'June';
+                    const searchQuery = [
+                      activity.title,
+                      activity.location,
+                      selectedDay.location !== 'AT SEA' ? selectedDay.location : null
+                    ].filter(Boolean).join(', ');
+
+                    return (
+                      <motion.div 
+                        key={`planned-${index}`} 
+                        variants={staggerItem}
+                        className="flex gap-4 relative z-10 group"
+                      >
+                        {/* Visual icon badge step */}
+                        <div className="w-9 h-9 rounded-xl bg-slate-950 border border-slate-850 flex items-center justify-center shrink-0 group-hover:border-slate-700 transition-colors">
+                          {getActivityIcon(activity.icon)}
+                        </div>
+
+                        {/* Timeline card activity */}
+                        <div className="flex-1 p-4 rounded-xl bg-slate-950/40 border border-slate-900 group-hover:border-slate-800 transition-all flex flex-col gap-1.5">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 font-sans">
+                            <h4 className="font-extrabold text-sm pr-9 sm:pr-0 text-slate-100">
+                              <InteractiveText text={activity.title} disableLinks={isAtSeaDay} />
+                            </h4>
+                            
+                            {activity.time && (
+                              <span className="font-mono text-[11px] font-black text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 uppercase tracking-widest shrink-0 self-start sm:self-center shadow-[0_0_8px_rgba(99,102,241,0.08)]">
+                                {activity.time}
+                              </span>
+                            )}
+                          </div>
+
+                          <p className="text-xs leading-relaxed font-normal text-slate-400">
+                            <InteractiveText text={activity.description} disableLinks={isAtSeaDay} />
+                          </p>
+
+                          {/* Optional metadata additions */}
+                          {activity.guidedBy && (
+                            <div className="mt-1 flex items-center gap-1 text-[11px] font-extrabold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20 w-fit">
+                              <Compass className="w-3.5 h-3.5" />
+                              <span>GUIDED BY: {activity.guidedBy}</span>
+                            </div>
+                          )}
+
+                          {activity.transport && (
+                            <div className="mt-1 flex items-center gap-1.5 text-[11px] font-extrabold text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded-md border border-sky-500/20 w-fit font-sans">
+                              <Bus className="w-3.5 h-3.5" />
+                              <span>TRANSPORTATION: {activity.transport}</span>
+                            </div>
+                          )}
+
+                          {activity.location && !isAtSeaDay && (
+                            <div className="mt-1 flex items-center gap-1.5 text-[11px] font-extrabold px-2.5 py-1 rounded-md w-fit font-sans text-rose-450 bg-rose-500/10 border border-rose-500/20">
+                              <MapPin className="w-3.5 h-3.5" />
+                              <span>LOCATION: <InteractiveText text={activity.location} disableLinks={isAtSeaDay} /></span>
+                            </div>
+                          )}
+
+                          {activity.menu && (
+                            <div className="mt-2 bg-amber-500/5 p-2.5 rounded-lg border border-amber-500/25 text-[11px] sm:text-xs">
+                              <span className="font-black text-amber-400 uppercase tracking-wide block mb-1">Catering & Beverage Menu:</span>
+                              <span className="text-slate-300 font-medium leading-relaxed">{activity.menu}</span>
+                            </div>
+                          )}
+
+                          {/* Standalone Google Images and Google Maps actions */}
+                          {!isAtSeaDay && (
+                            <div className="mt-3 pt-3 border-t border-slate-900 flex flex-wrap gap-2">
+                              <a
+                                href={`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(searchQuery)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                referrerPolicy="no-referrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-orange-500/20 hover:border-orange-500/30 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 transition-all cursor-pointer"
+                                id={`planned-img-search-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                              >
+                                <Camera className="w-3.5 h-3.5" />
+                                <span>IMAGE HIGHLIGHTS</span>
+                              </a>
+                              
+                              <a
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.coordinates || searchQuery)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                referrerPolicy="no-referrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-indigo-500/20 hover:border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 transition-all cursor-pointer"
+                                id={`planned-map-link-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                              >
+                                <MapPin className="w-3.5 h-3.5" />
+                                <span>OPEN MAPS</span>
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              </div>
+            )}
+
+            {/* Suggested Activities Section */}
+            {suggestedActivities.length > 0 && (
+              <div>
+                <span className="text-slate-400 font-extrabold uppercase tracking-widest text-[9px] block mb-4 border-b border-slate-800 pb-2">
+                  Suggested Activities
+                </span>
+
+              {hasActivities && (
+                <div className="flex flex-col gap-3">
+                  {/* Category Filter Chips Bar */}
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5 bg-slate-950/25 p-2.5 rounded-xl border border-slate-800/40 mb-1">
+                    <span className="text-[10px] font-black tracking-wider text-slate-400 uppercase font-mono pl-1">
+                      Daily Suggestions in {getCityShortName(selectedDay.dayNum, selectedDay.month, selectedDay.location)}:
+                    </span>
+                    
+                    <div className="flex gap-1.5 overflow-x-auto pb-0.5 pt-0.5 scrollbar-none shrink-0 px-1">
+                      {(['All', 'Sights', 'Food'] as const).map((cat) => {
+                        const isActive = cat === activeCategory;
+                        let catIcon = <Compass className="w-3.5 h-3.5" />;
+                        if (cat === 'Sights') catIcon = <Camera className="w-3.5 h-3.5" />;
+                        if (cat === 'Food') catIcon = <Utensils className="w-3.5 h-3.5" />;
+
+                        const isEmeraldDay = selectedDay.month === 'June' && selectedDay.dayNum >= 18 && selectedDay.dayNum <= 22;
+                        const activeBtnStyle = isEmeraldDay
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-md shadow-emerald-500/5 font-extrabold'
+                          : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/50 shadow-md shadow-indigo-500/5 font-extrabold';
+
+                        return (
+                          <button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 border leading-none ${
+                              isActive 
+                                ? activeBtnStyle 
+                                : 'bg-slate-900/50 text-slate-400 border-slate-800 hover:bg-slate-850 hover:text-slate-200'
+                            }`}
+                          >
+                            {catIcon}
+                            {cat}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Filtered suggestions list */}
+                  {filteredSuggestedActivities.length > 0 ? (
+                    <motion.div 
+                      variants={staggerContainer}
+                      initial="hidden"
+                      animate="visible"
+                      className="flex flex-col gap-3 relative mt-1"
+                    >
+                      {/* Visual vertical lineage line connector */}
+                      <div className="absolute top-2 bottom-2 left-[18px] w-0.5 bg-slate-850"></div>
+
+                      {filteredSuggestedActivities.map((activity, index) => {
+                        const isAtSeaDay = selectedDay.dayNum === 27 && selectedDay.month === 'June';
+                        const searchQuery = [
+                          activity.title,
+                          activity.location,
+                          selectedDay.location !== 'AT SEA' ? selectedDay.location : null
+                        ].filter(Boolean).join(', ');
+
+                        return (
+                          <motion.div 
+                            key={index} 
+                            variants={staggerItem}
+                            className="flex gap-4 relative z-10 group"
+                          >
+                            {/* Visual icon badge step */}
+                            <div className="w-9 h-9 rounded-xl bg-slate-950 border border-slate-850 flex items-center justify-center shrink-0 group-hover:border-slate-700 transition-colors">
+                              {getActivityIcon(activity.icon)}
+                            </div>
+
+                            {/* Timeline card activity */}
+                            <div className="flex-1 p-4 rounded-xl bg-slate-950/40 border border-slate-900 group-hover:border-slate-800 transition-all flex flex-col gap-1.5">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 font-sans">
+                                <h4 className="font-extrabold text-sm pr-9 sm:pr-0 text-slate-100">
+                                  <InteractiveText text={activity.title} disableLinks={isAtSeaDay} />
+                                </h4>
+                              </div>
+
+                              <p className="text-xs leading-relaxed font-normal text-slate-400">
+                                <InteractiveText text={activity.description} disableLinks={isAtSeaDay} />
+                              </p>
+
+                              {/* Optional metadata additions */}
+                              {activity.guidedBy && (
+                                <div className="mt-1 flex items-center gap-1 text-[11px] font-extrabold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20 w-fit">
+                                  <Compass className="w-3.5 h-3.5" />
+                                  <span>GUIDED BY: {activity.guidedBy}</span>
+                                </div>
+                              )}
+
+                              {activity.transport && (
+                                <div className="mt-1 flex items-center gap-1.5 text-[11px] font-extrabold text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded-md border border-sky-500/20 w-fit font-sans">
+                                  <Bus className="w-3.5 h-3.5" />
+                                  <span>TRANSPORTATION: {activity.transport}</span>
+                                </div>
+                              )}
+
+                              {activity.location && !isAtSeaDay && (
+                                <div className="mt-1 flex items-center gap-1.5 text-[11px] font-extrabold px-2.5 py-1 rounded-md w-fit font-sans text-rose-450 bg-rose-500/10 border border-rose-500/20">
+                                  <MapPin className="w-3.5 h-3.5" />
+                                  <span>LOCATION: <InteractiveText text={activity.location} disableLinks={isAtSeaDay} /></span>
+                                </div>
+                              )}
+
+                              {activity.menu && (
+                                <div className="mt-2 bg-amber-500/5 p-2.5 rounded-lg border border-amber-500/25 text-[11px] sm:text-xs">
+                                  <span className="font-black text-amber-400 uppercase tracking-wide block mb-1">Catering & Beverage Menu:</span>
+                                  <span className="text-slate-300 font-medium leading-relaxed">{activity.menu}</span>
+                                </div>
+                              )}
+
+                              {/* Standalone Google Images and Google Maps actions */}
+                              {!isAtSeaDay && (
+                                <div className="mt-3 pt-3 border-t border-slate-900 flex flex-wrap gap-2">
+                                  <a
+                                    href={`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(searchQuery)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    referrerPolicy="no-referrer"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-orange-500/20 hover:border-orange-500/30 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 transition-all cursor-pointer"
+                                    id={`img-search-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                                  >
+                                    <Camera className="w-3.5 h-3.5" />
+                                    <span>IMAGE HIGHLIGHTS</span>
+                                  </a>
+                                  
+                                  <a
+                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.coordinates || searchQuery)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    referrerPolicy="no-referrer"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-indigo-500/20 hover:border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 transition-all cursor-pointer"
+                                    id={`map-link-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                                  >
+                                    <MapPin className="w-3.5 h-3.5" />
+                                    <span>OPEN MAPS</span>
+                                  </a>
+                                </div>
+                              )}
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </motion.div>
+                  ) : (
+                    <span className="text-slate-500 font-bold text-xs italic block text-center py-6 bg-slate-950/25 border border-slate-900/60 rounded-xl">
+                      No suggestions found for category "{activeCategory}" on this day. Explore other tabs!
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+            )}
+
+            {!hasActivities && (
               <span className="text-slate-500 font-bold text-xs italic block text-center py-4">No scheduled specific activities listed. Take advantage of leisure time!</span>
             )}
           </div>
