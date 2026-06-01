@@ -24,6 +24,7 @@ import {
   ArrowUp
 } from 'lucide-react';
 import { itinerary, ItineraryDay, ItineraryActivity } from '../data';
+import { InteractiveMap } from './InteractiveMap';
 
 // Locations to turn into Google Images links
 const LOCATIONS = [
@@ -415,6 +416,7 @@ export function ItineraryTimeline() {
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeCategory, setActiveCategory] = useState<'All' | 'Sights' | 'Food' | 'Transit'>('All');
+  const [showTransitMap, setShowTransitMap] = useState(false);
 
   useEffect(() => {
     setActiveCategory('All');
@@ -511,6 +513,23 @@ export function ItineraryTimeline() {
                 </button>
               );
             })}
+
+            {/* Interactive Route Map Trigger Grid Button */}
+            <button
+              onClick={() => setShowTransitMap(true)}
+              className="col-span-3 sm:col-span-1 flex flex-row sm:flex-col items-center justify-center sm:justify-between p-2 rounded-lg border text-center transition-all cursor-pointer bg-gradient-to-br from-emerald-950/20 to-teal-950/20 border-emerald-500/30 hover:from-emerald-950/35 hover:to-teal-950/35 hover:border-emerald-500/60 text-emerald-400 hover:text-emerald-300 hover:scale-[1.02] active:scale-98 shadow-md gap-3 sm:gap-1.5"
+              title="Open Interactive Mediterranean Cruise Map"
+              id="open-transit-map-grid"
+            >
+              <div className="flex flex-col items-start sm:items-center">
+                <span className="text-[9px] text-emerald-300 font-extrabold font-mono tracking-wider leading-none">MSC DECK</span>
+                <span className="text-[8px] text-slate-500 font-mono tracking-wider mt-0.5 leading-none">TRACKER</span>
+              </div>
+              <Compass className="w-5 h-5 text-emerald-400 shrink-0 select-none animate-spin-slow my-0 sm:my-1.5" />
+              <span className="text-[8.5px] font-bold text-emerald-300 uppercase tracking-tight truncate max-w-full leading-none py-0.5 sm:pt-1 sm:border-t sm:border-emerald-500/20 w-fit sm:w-full">
+                Route Map
+              </span>
+            </button>
           </div>
         </div>
         
@@ -1086,6 +1105,18 @@ export function ItineraryTimeline() {
           >
             <ArrowUp className="w-5 h-5 shrink-0" />
           </motion.button>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showTransitMap && (
+          <InteractiveMap 
+            selectedDate={selectedDate}
+            onSelectDate={(date) => {
+              setSelectedDate(date);
+            }}
+            onClose={() => setShowTransitMap(false)}
+          />
         )}
       </AnimatePresence>
     </div>
