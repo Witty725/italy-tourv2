@@ -10,9 +10,8 @@ export const packingList: ChecklistItem[] = [
   { id: 'doc-1', category: 'Documents & Finance', text: 'Passports (both)', subText: 'Global Entry Cards' },
   { id: 'doc-3', category: 'Documents & Finance', text: 'Airline Tickets', subText: 'Digital/Printed Boarding Passes (Delta)' },
   { id: 'doc-4', category: 'Documents & Finance', text: 'MSC Splendida Cruise Boarding Passes', subText: 'Embarkation vouchers & luggage tags' },
-  { id: 'doc-5', category: 'Documents & Finance', text: 'Rome & Vatican Tours', subText: 'The Tour Guy guided confirmations' },
   { id: 'doc-6', category: 'Documents & Finance', text: 'Travel Insurance Policies', subText: 'Printed papers + mobile app access' },
-  { id: 'doc-7', category: 'Documents & Finance', text: 'Hotel Confirmations', subText: 'Pontremoli Napoleon Hotel + Rome stays' },
+  { id: 'doc-7', category: 'Documents & Finance', text: 'Hotel Confirmations', subText: 'Pontremoli Napoleon Hotel reservations' },
   { id: 'doc-8', category: 'Documents & Finance', text: 'Car Rental Confirmations', subText: 'Private transfer summaries & Tesla rentals' },
   { id: 'doc-9', category: 'Documents & Finance', text: 'Prescription Records' },
   { id: 'doc-11', category: 'Documents & Finance', text: 'List of Medications & Allergies' },
@@ -28,7 +27,7 @@ export const packingList: ChecklistItem[] = [
   { id: 'pe-3', category: 'Packing Essentials', text: '6-8 Versatile Tops & T-Shirts', subText: 'Mix of light blouses, athletic, and casual wear' },
   { id: 'pe-4', category: 'Packing Essentials', text: '4-5 Polos', subText: 'Comfortable shirts for dinners, Mass, and cruise ship days' },
   { id: 'pe-5', category: 'Packing Essentials', text: '1-2 Light Layers', subText: 'Cardigans, shawls, or long-sleeve button-ups (AC & sun protection)' },
-  { id: 'pe-6', category: 'Packing Essentials', text: '1 Vatican Proper Attire Outfit', subText: 'Modest, long dress/skirt or pants covering knees (July 1st)' },
+  { id: 'pe-6', category: 'Packing Essentials', text: '1 Church Proper Attire Outfit', subText: 'Modest long dress/skirt or light pants covering knees for historic churches' },
   { id: 'pe-7', category: 'Packing Essentials', text: '10x Underwear & 6-8x Pairs of Performance Socks', subText: 'Comfortable performance fabrics or merino wool for sightseeing' },
   { id: 'pe-8', category: 'Packing Essentials', text: '2 Swimwear Sets', subText: 'Pack 2 beach sets / swim trunks + light cover-ups' },
   { id: 'pe-9', category: 'Packing Essentials', text: '2-3 Athletic Clothing Sets', subText: 'For active days (e-bikes, gorge floating, gym)' },
@@ -45,7 +44,7 @@ export const packingList: ChecklistItem[] = [
 
   // Electronics & Gear
   { id: 'elec-1', category: 'Electronics & Gear', text: 'Anti-Theft Gear', subText: 'Neck wallet or RFID-blocking security pouch' },
-  { id: 'elec-2', category: 'Electronics & Gear', text: 'Collapsible Water Bottle', subText: 'Reusable companion for Rome\'s free flowing public fountains' },
+  { id: 'elec-2', category: 'Electronics & Gear', text: 'Collapsible Water Bottle', subText: 'Reusable companion for scenic day walks, hot port excursions, and airport/cruise transits' },
   { id: 'elec-3', category: 'Electronics & Gear', text: 'Personal Devices', subText: 'Mobile phone, chargers, and compact personal tech' },
   { id: 'elec-4', category: 'Electronics & Gear', text: 'Work & Travel Laptop', subText: 'Laptop + power adapter packed safely in backpack' },
   { id: 'elec-5', category: 'Electronics & Gear', text: 'Power Banks', subText: 'High capacity backup battery for mobile phone cameras' },
@@ -60,6 +59,7 @@ export interface ItineraryActivity {
   transport?: string;
   menu?: string;
   location?: string;
+  coordinates?: string;
   icon?: 'hotel' | 'tour' | 'food' | 'concert' | 'ship' | 'church' | 'explore' | 'alert' | 'transfer';
   isFamilyEvent?: boolean;
 }
@@ -79,6 +79,7 @@ export interface ItineraryDay {
     address: string;
     phone: string;
     notes?: string;
+    coordinates?: string;
   };
   activities?: ItineraryActivity[];
 }
@@ -97,43 +98,50 @@ export const itinerary: ItineraryDay[] = [
       name: 'Hotel Napoleon',
       address: 'Piazza Italia, 2, 54027 Pontremoli MS, Italy',
       phone: '+39 0187 830544',
-      notes: 'Welcome to Pontremoli! Settle into your accommodations at Hotel Napoleon (Check-in starts at 15:00) and relax after your long journey. Ground transportation arrangements are ready.'
+      notes: 'Welcome to Pontremoli! Settle into your accommodations at Hotel Napoleon (Check-in starts at 15:00) and relax after your long journey. Ground transportation arrangements are ready.',
+      coordinates: '44.3791,9.8784'
     },
     activities: [
       {
         title: 'Walk the historic Chiosi Bridge',
         description: 'Take a picturesque stroll over the 14th-century Chiosi Bridge (Ponte Chiosi) crossing the Verde river. The riverbed stones and historical arches make it a fantastic photo spot.',
         location: 'Ponte Chiosi, Pontremoli',
+        coordinates: '44.3804,9.8821',
         icon: 'explore'
       },
       {
         title: 'Savor Amor cookies at Caffè Svizzer',
         description: 'Visit the historic Caffè Svizzer, open in Piazza della Repubblica since 1842. It has gorgeous wooden interiors. Pair your morning espresso with Pontremoli\'s signature Amor cream cake.',
         location: 'Piazza della Repubblica, Pontremoli',
+        coordinates: '44.3778,9.8814',
         icon: 'food'
       },
       {
         title: 'Visit the historic Campanone Tower',
         description: 'Stand under the grand 14th-century defensive bell tower (Cacciaguerra) that separates the old Guelph and Ghibelline quarters. It has stood since 1322 as the iconic heart of the town.',
         location: 'Piazza del Duomo, Pontremoli',
+        coordinates: '44.3789,9.8804',
         icon: 'explore'
       },
       {
         title: 'Admire the Golden Splendor of Pontremoli Cathedral',
         description: 'Step inside the light-filled Baroque interior of the Cathedral of Santa Maria Assunta. It features a giant, masterfully painted cupola, detailed gold stuccos, and spectacular marble altars.',
         location: 'Cattedrale di Santa Maria Assunta, Pontremoli',
+        coordinates: '44.3787,9.8805',
         icon: 'tour'
       },
       {
         title: 'Enjoy Baci di Pontremoli at Pasticceria Della Cresa',
         description: 'Try their other super famous regional cookies, the chocolate and hazelnut Baci di Pontremoli (kisses), beautifully prepared at Pasticceria Della Cresa right near the river.',
         location: 'Pasticceria Della Cresa, Pontremoli',
+        coordinates: '44.3791,9.8789',
         icon: 'food'
       },
       {
         title: 'Dinner at Osteria della Sanacore',
         description: 'Indulge in authentic Testaroli pasta—traditional dough baked in red-hot cast-iron testi pans and dressed in fresh basil pesto. Pair it with local Lunigiana white wine.',
         location: 'Osteria della Sanacore, Pontremoli',
+        coordinates: '44.3785,9.8816',
         icon: 'food'
       }
     ]
@@ -151,43 +159,50 @@ export const itinerary: ItineraryDay[] = [
       name: 'Hotel Napoleon',
       address: 'Piazza Italia, 2, 54027 Pontremoli MS, Italy',
       phone: '+39 0187 830544',
-      notes: 'Night 2 of stay in Pontremoli. Walking distance to local cafes and piazzas.'
+      notes: 'Night 2 of stay in Pontremoli. Walking distance to local cafes and piazzas.',
+      coordinates: '44.3791,9.8784'
     },
     activities: [
       {
         title: 'Walk the historic Chiosi Bridge',
         description: 'Take a picturesque stroll over the 14th-century Chiosi Bridge (Ponte Chiosi) crossing the Verde river. The riverbed stones and historical arches make it a fantastic photo spot.',
         location: 'Ponte Chiosi, Pontremoli',
+        coordinates: '44.3804,9.8821',
         icon: 'explore'
       },
       {
         title: 'Savor Amor cookies at Caffè Svizzer',
         description: 'Visit the historic Caffè Svizzer, open in Piazza della Repubblica since 1842. It has gorgeous wooden interiors. Pair your morning espresso with Pontremoli\'s signature Amor cream cake.',
         location: 'Piazza della Repubblica, Pontremoli',
+        coordinates: '44.3778,9.8814',
         icon: 'food'
       },
       {
         title: 'Visit the historic Campanone Tower',
         description: 'Stand under the grand 14th-century defensive bell tower (Cacciaguerra) that separates the old Guelph and Ghibelline quarters. It has stood since 1322 as the iconic heart of the town.',
         location: 'Piazza del Duomo, Pontremoli',
+        coordinates: '44.3789,9.8804',
         icon: 'explore'
       },
       {
         title: 'Admire the Golden Splendor of Pontremoli Cathedral',
         description: 'Step inside the light-filled Baroque interior of the Cathedral of Santa Maria Assunta. It features a giant, masterfully painted cupola, detailed gold stuccos, and spectacular marble altars.',
         location: 'Cattedrale di Santa Maria Assunta, Pontremoli',
+        coordinates: '44.3787,9.8805',
         icon: 'tour'
       },
       {
         title: 'Enjoy Baci di Pontremoli at Pasticceria Della Cresa',
         description: 'Try their other super famous regional cookies, the chocolate and hazelnut Baci di Pontremoli (kisses), beautifully prepared at Pasticceria Della Cresa right near the river.',
         location: 'Pasticceria Della Cresa, Pontremoli',
+        coordinates: '44.3791,9.8789',
         icon: 'food'
       },
       {
         title: 'Dinner at Osteria della Sanacore',
         description: 'Indulge in authentic Testaroli pasta—traditional dough baked in red-hot cast-iron testi pans and dressed in fresh basil pesto. Pair it with local Lunigiana white wine.',
         location: 'Osteria della Sanacore, Pontremoli',
+        coordinates: '44.3785,9.8816',
         icon: 'food'
       }
     ]
@@ -201,6 +216,13 @@ export const itinerary: ItineraryDay[] = [
     lowF: 59,
     weather: 'Mostly Sunny',
     weatherDetails: 'High: 76°F, Low: 59°F. Pleasant day with some high-altitude clouds. High UV index of 8, so make sure to wear sunscreen during the walking tour.',
+    hotel: {
+      name: 'Hotel Napoleon',
+      address: 'Piazza Italia, 2, 54027 Pontremoli MS, Italy',
+      phone: '+39 0187 830544',
+      notes: 'Settle into your accommodations at Hotel Napoleon and relax.',
+      coordinates: '44.3791,9.8784'
+    },
     activities: [
       {
         time: '14:00',
@@ -208,6 +230,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'A spectacular tour exploring the robust fortress of Piagnaro Castle and the mysterious ancient Stele Statues, fascinating prehistoric stone monuments.',
         guidedBy: 'Laura Consonni (Local Expert)',
         transport: 'Private Van Service provided',
+        coordinates: '44.3809,9.8803',
         icon: 'tour'
       },
       {
@@ -216,6 +239,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'An exclusive history session and social gathering hosted by local scholar Paolo. Please note this is a standing-room event with only a few small tables and chairs for comfort.',
         guidedBy: 'Paolo (Historian & Presenter)',
         menu: 'Savory pies (Torta d’Erbi), authentic focaccia with cured meats and local cheeses, spritz cocktail, sparkling prosecco, soft drinks, and mineral water.',
+        coordinates: '44.3787,9.8805',
         icon: 'food'
       }
     ]
@@ -229,12 +253,20 @@ export const itinerary: ItineraryDay[] = [
     lowF: 58,
     weather: 'Warm & Sunny',
     weatherDetails: 'High: 79°F, Low: 58°F. Absolutely perfect warm and clear summer weather. Strong sun, clear mountain valley vistas.',
+    hotel: {
+      name: 'Hotel Napoleon',
+      address: 'Piazza Italia, 2, 54027 Pontremoli MS, Italy',
+      phone: '+39 0187 830544',
+      notes: 'Settle into your accommodations at Hotel Napoleon and relax.',
+      coordinates: '44.3791,9.8784'
+    },
     activities: [
       {
         time: '08:15',
         title: 'Guided Village Touring',
         description: 'Set off early to visit and tour the lovely surrounding hill villages of Cargalla, Molinello, and Toplecca.',
         transport: 'Two comfortable Maxi Vans provided',
+        coordinates: '44.4022,9.8978',
         icon: 'explore'
       },
       {
@@ -242,6 +274,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Holy Mass at Santissima Annunziata Church',
         description: 'Observe or participate in a Traditional holy Catholic liturgy in the stunning Baroque interior of the Santissima Annunziata Church.',
         transport: 'Shuttle service from Hotel Napoleon to the church',
+        coordinates: '44.3712,9.8828',
         icon: 'church'
       },
       {
@@ -249,6 +282,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Lunch at Ristorante Abramo',
         description: 'Enjoy a rich traditional Lunigiana feast at the highly-rated local hostelry Ristorante Abramo.',
         transport: 'Shuttle service provided after Mass directly from the church',
+        coordinates: '44.3790,9.8804',
         icon: 'food'
       },
       {
@@ -256,6 +290,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Jack White Concert Transfer',
         description: 'Ready for action! Private transfer to the coastal concert venue in Lido di Camaiore.',
         transport: 'Transfer provided for up to six (6) passengers',
+        coordinates: '43.9105,10.2229',
         icon: 'concert'
       }
     ]
@@ -270,12 +305,20 @@ export const itinerary: ItineraryDay[] = [
     weather: 'Clear, Cool Night',
     weatherDetails: 'High: 77°F, Low: 56°F. Pleasant during the day, but a sharp temperature drop after sunset. Highly recommend taking a light layer or cardigan for the evening.',
     warning: 'Cooler evening - carry light layers!',
+    hotel: {
+      name: 'Hotel Napoleon',
+      address: 'Piazza Italia, 2, 54027 Pontremoli MS, Italy',
+      phone: '+39 0187 830544',
+      notes: 'Settle into your accommodations at Hotel Napoleon and relax.',
+      coordinates: '44.3791,9.8784'
+    },
     activities: [
       {
         time: '09:00',
         title: 'Guided Village Touring',
         description: 'Second round of exploration into Pontremoli\'s rich hills, specifically visiting countryside clusters of Cargalla, Molinello, and Toplecca.',
         transport: 'Two Maxi Vans provided for comfortable transit',
+        coordinates: '44.4022,9.8978',
         icon: 'explore'
       },
       {
@@ -283,6 +326,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Guided Visit to Villa Dosi Delfini',
         description: 'A magical guided tour of the breath-taking Villa Dosi Delfini, a masterpiece of Baroque architecture and theatrical fresco painting in Pontremoli. Run from 11:30 to 13:00.',
         guidedBy: 'Villa Tour Coordinator',
+        coordinates: '44.3813,9.8755',
         icon: 'tour'
       },
       {
@@ -290,6 +334,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'Farewell Luncheon at Ristorante Locanda Ca\' del Moro',
         description: 'Celebrate our stay in Pontremoli with a luxury farewell lunch at the pristine Locanda Ca\' del Moro restaurant.',
         transport: 'Shuttle transport provided back to Hotel Napoleon after lunch',
+        coordinates: '44.3644,9.8885',
         icon: 'food'
       }
     ]
@@ -308,36 +353,42 @@ export const itinerary: ItineraryDay[] = [
         title: 'Transfer to Cruise Port',
         description: 'Travel from Hotel Napoleon in Pontremoli to the coastal cruise port of Livorno, Italy.',
         transport: 'Scheduled group shuttle service',
+        coordinates: '43.5558,10.3012',
         icon: 'transfer'
       },
       {
         title: 'Venezia Nuova (New Venice) Canal District',
         description: 'Explore the historic, picturesque 17th-century district built on water canals; walk over peaceful stone bridges and explore local shops. Highly walkable if you are in Livorno early or taking a short taxi.',
         location: 'Livorno Venezia Nuova quarter',
+        coordinates: '43.5539,10.3079',
         icon: 'explore'
       },
       {
         title: 'Ponce Livornese at Pasticceria Castalie',
         description: 'Stop by this legendary spot near the Central Market to taste Ponce Livornese, the signature hot, sweet, punchy coffee concoction made of dark rum, cognac, sugar, and lemon zest. Loved by old sailors. Easily walkable from the public transit drop-off or center.',
         location: 'Mercato delle Vettovaglie area',
+        coordinates: '43.5516,10.3129',
         icon: 'food'
       },
       {
         title: 'Sunset views at Terrazza Mascagni',
         description: 'Marvel at this spectacular, massive waterfront promenade lined by 34,000 black-and-white checkered checkerboard floor tiles. Need a brief taxi or local Bus Route 1 from harbor gates.',
         location: 'Terrazza Mascagni coastal walkway',
+        coordinates: '43.5358,10.3014',
         icon: 'explore'
       },
       {
         title: 'MSC Splendida Boarding & Check-In',
         description: 'Arrive at the cruise terminal. Access the ship via boarding gates.',
         location: 'Livorno Terminal - Molo Alto Fondale',
+        coordinates: '43.5558,10.3012',
         icon: 'ship'
       },
       {
         time: '18:00',
         title: 'MSC Splendida Cruise Departure',
         description: 'Ship cast-off is scheduled. Watch the sail-away from the balcony or high deck!',
+        coordinates: '43.5518,10.2987',
         icon: 'ship'
       }
     ]
@@ -356,45 +407,53 @@ export const itinerary: ItineraryDay[] = [
         title: 'Beach Club',
         description: 'Vibrant sunshine, private luxury beach loungers, and sparkling clear waters. A wonderful day to swim, relax, and share refreshing sea breezes together with the family.',
         location: 'Cagliari Beach, Sardinia, Italy',
+        coordinates: '39.2064,9.1578',
         icon: 'explore',
         isFamilyEvent: true
       },
       {
         title: 'Port Arrival: Cagliari',
         description: 'Deep-water docking at Cagliari Port. The historic bastions loom high over the harbor as the ship settles.',
+        coordinates: '39.2132,9.1121',
         icon: 'ship'
       },
       {
         title: 'Seafood Venture at San Benedetto Market',
         description: 'Skip the overcrowded waterfront. Head directly to San Benedetto Market, one of Europe\'s largest enclosed fresh markets. The seafood section on the lower level is a theater of sensory overload. Taste local Burrida (shark marinated in walnuts and vinegar paste).',
+        coordinates: '39.2227,9.1245',
         icon: 'food'
       },
       {
         title: 'Lunch at Stella Marina di Montecristo',
         description: 'Tucked away in a humble brick alleyway, Stella Marina di Montecristo is a legendary, no-nonsense local tavern serving incredibly fresh seafood, handmade culurgiones (stuffed pasta pockets), and crisp Sardinian Vermentino wine.',
+        coordinates: '39.2139,9.1158',
         icon: 'food'
       },
       {
         title: 'Caffè Libarium Nostrum Sunset Aperitivo',
         description: 'Sit on the ancient golden limestone bastions of the hilltop Castello district, enjoying local pecorino cheese and cold Ichnusa beer while overlooking the whole harbor. Easily walkable, though steep uphill—it is highly recommended to take the public elevator from Piazza Yenne.',
         location: 'Castello district fortress peaks',
+        coordinates: '39.2178,9.1152',
         icon: 'food'
       },
       {
         title: 'San Pancrazio Tower & Roman Amphitheatre',
         description: 'Exquisite 14th-century white limestone military watchtower. Walk along its high brick parapet paths. Accessible by taking local Line 7 bus or steep uphill walk.',
         location: 'Upper Castello historic ring',
+        coordinates: '39.2215,9.1165',
         icon: 'tour'
       },
       {
         title: 'Observe wild flamingos at Molentargius Saline Park',
         description: 'Witness thousands of wild, nesting candy-pink flamingos in the natural saltwater marshes directly adjacent to the city. Highly recommend a fast 10-minute taxi from the main cruise dock gates.',
         location: 'Parco Naturale Molentargius',
+        coordinates: '39.2241,9.1481',
         icon: 'explore'
       },
       {
         title: 'Coastal Hike to Sella del Diavolo',
         description: 'For a spectacular escape from the city streets, take a quick transit to the trailhead of Sella del Diavolo (Devil\'s Saddle). This scenic dirt path climbs through fragrant wild sage and juniper to sheer white limestone cliffs overlooking the sparkling turquoise waters of the Gulf of Angels.',
+        coordinates: '39.1884,9.1558',
         icon: 'explore'
       }
     ]
@@ -413,45 +472,53 @@ export const itinerary: ItineraryDay[] = [
         title: 'Moreal Cathedral',
         description: 'A spectacular, must-see family excursion to admire the majestic golden Byzantine mosaics, stunning medieval architecture, and historic quiet cloisters of the Cathedral of Monreale.',
         location: 'Moreal Cathedral, Palermo, Sicily',
+        coordinates: '38.0818,13.2925',
         icon: 'church',
         isFamilyEvent: true
       },
       {
         title: 'Port Arrival: Palermo',
         description: 'Ship docks. Settle in and prepare for a vibrant, chaotic collision of history, culture, and street food.',
+        coordinates: '38.1292,13.3647',
         icon: 'ship'
       },
       {
         title: 'Mosaics at Martorana Church & Monastic Pastries',
         description: 'Marvel at the stunning Byzantine gold mosaics at Martorana Church (Santa Maria dell\'Ammiraglio). Afterward, sneak into the adjacent Monastero di Santa Caterina where cloistered nuns once baked. Today, local bakers still use their historic secrets and recipes to sell cannoli, cassata, and almond cookies in the courtyard.',
+        coordinates: '38.1130,13.3626',
         icon: 'tour'
       },
       {
         title: 'Street Food Lunch at Friggitoria Chiluzzo',
         description: 'Escape the rowdy shouting of Ballarò and have lunch in the historic Kalsa district at Friggitoria Chiluzzo, an old-school neighborhood kiosk. Taste real Palermo street food classics: Panelle (chickpea fritters in bread), Crocchè (potato croquettes), and Arancine.',
+        coordinates: '38.1172,13.3688',
         icon: 'food'
       },
       {
         title: 'Sarde a Beccafico at La Vucciria local street stalls',
         description: 'Wander deep into the heart of Palermo\'s ancient market, La Vucciria. Stop by Piazza Caracciolo to eat fresh Sardines stuffed with pine nuts, raisins, and bay leaves. Easily walkable from the ship docks.',
         location: 'La Vucciria historical markets',
+        coordinates: '38.1175,13.3639',
         icon: 'food'
       },
       {
         title: 'Tropical giants of the Orto Botanico',
         description: 'Escape the city rush into this massive, lush botanical garden filled with enormous exotic tree species, including the iconic giant strangler fig. Walkable or short taxi ride for convenience.',
         location: 'Orto Botanico green refuge',
+        coordinates: '38.1124,13.3739',
         icon: 'explore'
       },
       {
         title: 'Seven layers of chocolate at Pasticceria Cappello',
         description: 'Indulge in Palermo\'s legendary Setteveli (seven-layer chocolate and hazelnut cake) at this historical bakery. Accessible via walking or a direct city cab.',
         location: 'Via Colonna Rotta 68',
+        coordinates: '38.1118,13.3441',
         icon: 'food'
       },
       {
         title: 'Historical Descent to the Capuchin Catacombs',
         description: 'For a solemn, fascinating, and cooler experience (underground temperatures are a refreshing 60°F), visit the Capuchin Catacombs. Here lie over 8,000 preserved bodies from the 16th to 19th centuries, organized by profession, gender, and social status.',
+        coordinates: '38.1116,13.3400',
         icon: 'explore'
       }
     ]
@@ -469,40 +536,47 @@ export const itinerary: ItineraryDay[] = [
       {
         title: 'Port Arrival: Valletta Grand Harbour',
         description: 'Secure mooring in the grandiose limestone fortress of the Grand Harbour. Ensure you are on deck early to witness Malta entering view!',
+        coordinates: '35.8893,14.5094',
         icon: 'ship'
       },
       {
         title: 'Serene Views of Lower Barrakka Gardens & Valletta Underground',
         description: 'Skip the dense crowds at Upper Barrakka Gardens. Walk over to the peaceful Lower Barrakka Gardens and the impressive Siege Bell War Memorial to capture stunning harbor photos in quiet air. If you\'re daring, take a guided tour of the Valletta Underground tunnels built by the Knights of St. John.',
+        coordinates: '35.8973,14.5169',
         icon: 'explore'
       },
       {
         title: 'Walk the cozy Strait Street Jazz Passages',
         description: 'Stroll the narrowest street in Valletta. Once the rowdy nightlife center for WWII navy sailors, it now hosts high-end, tucked-away local wine taverns and live jazz steps. Easily walkable after using the main Barrakka Harbour lift.',
         location: 'Strait Street historical passage',
+        coordinates: '35.8988,14.5126',
         icon: 'explore'
       },
       {
         title: 'Cisk & Craft Beers at Gżira Waterfront',
         description: 'Taste authentic Maltese microbrews and crisp Cisk lager at The Brew right next to the local docks. Grab a fast coastal ferry across Sliema or a quick taxi.',
         location: 'Sliema ferry outer ring',
+        coordinates: '35.9048,14.4968',
         icon: 'food'
       },
       {
         title: 'Blue Grotto Sea Cave Adventure',
         description: 'Explore the spectacular natural limestone arches and deep sea caverns reflecting rich, glowing neon-blue waters. You must take a taxi or arranged driver.',
         location: 'Malta Southern coast',
+        coordinates: '35.8219,14.4528',
         icon: 'explore'
       },
       {
         title: 'Traditional Boat Crossing to Birgu',
         description: 'Walk down to the custom wooden boat landing at the harbor bottom. Board a tiny, traditional "Dghajsa" water taxi for €3 across the water to the quiet, medieval streets of Birgu (Vittoriosa).',
         transport: 'Water taxi crossing',
+        coordinates: '35.8887,14.5205',
         icon: 'transfer'
       },
       {
         title: 'Decadent Lunch & Pastizzi at Crystal Palace pastizzi',
         description: 'Have a long rustic lunch in the historic harbor. Seek out authentic, flaky, pea-and-ricotta savories known as pastizzi from local gems like Crystal Palace pastizzi, paired with a cold can of Kinnie (made of bittersweet Maltese oranges and herbs).',
+        coordinates: '35.8858,14.4034',
         icon: 'food'
       }
     ]
@@ -561,45 +635,53 @@ export const itinerary: ItineraryDay[] = [
         title: 'Sagrada Familia',
         description: 'An unforgettable family pilgrimage to Antoni Gaudí\'s towering, world-famous basilica masterpiece. Witness the incredible tree-like columns and spectacular, colorful stained-glass window reflections.',
         location: 'Sagrada Familia, Barcelona, Spain',
+        coordinates: '41.4036,2.1744',
         icon: 'church',
         isFamilyEvent: true
       },
       {
         title: 'Port Arrival: Barcelona',
         description: 'Welcome to Spain! The ship docks at the central terminal. Prepare your walking shoes.',
+        coordinates: '41.3688,2.1729',
         icon: 'ship'
       },
       {
         title: 'Hospital de Sant Pau Masterpiece',
         description: 'Instead of standing in lines for the busy Gaudí sites, stroll through the breathtaking and peaceful Hospital de Sant Pau. This is a magnificent, vast Art Nouveau garden complex with bright mosaic domes designed by Lluís Domènech i Montaner, a true hidden gem of Barcelona architecture.',
+        coordinates: '41.4124,2.1745',
         icon: 'tour'
       },
       {
         title: 'Alleyway Tapas Explorer at Carrer dels Flassaders',
         description: 'Skip modern tourist restaurants on La Rambla. Wander deep into the El Born medieval district, finding the small secret passages like Carrer dels Flassaders. Eat Basque-style pintxos and classical dishes at El Xampanyet, a historic, tiny champagne tapas bar open since 1929.',
+        coordinates: '41.3854,2.1818',
         icon: 'food'
       },
       {
         title: 'Stand-up Cava & Chorizo at Can Paixano',
         description: 'Enjoy a rowdy, standing-room-only Catalan experience drinking cheap pink sparkling Cava paired with warm, freshly grilled spicy chorizo sausages in flatbread. Easily walkable from the lower port gates (near Barceloneta).',
         location: 'La Xampanyeria bodega, Born borders',
+        coordinates: '41.3814,2.1868',
         icon: 'food'
       },
       {
         title: 'Hidden Columns at Roman Temple of Augustus',
         description: 'Marvel at four colossal, 2,000-year-old Corinthian columns tucked completely inside a quiet, medieval residential courtyard in the Gothic Quarter. Walkable from the main cathedral.',
         location: 'Carrer Paradís 10, Gothic Quarter',
+        coordinates: '41.3835,2.1775',
         icon: 'tour'
       },
       {
         title: 'Green Labyrinth of Parc del Laberint d\'Horta',
         description: 'Get lost in Barcelona\'s oldest neoclassical garden, boasting a pristine cypress maze and marble temple structures. Need to take the L3 Green Metro Line directly from Drassanes near the port.',
         location: 'Horta-Guinardó district',
+        coordinates: '41.4398,2.1465',
         icon: 'explore'
       },
       {
         title: 'Panoramic Bunkers del Carmel',
         description: 'Head up out of the city sprawl to the Bunkers del Carmel. Here, you will stand on concrete command bunkers from the Spanish Civil War and experience an incredible, windy 360° panoramic vista of the entire city skyline, mountains, and sea.',
+        coordinates: '41.4193,2.1620',
         icon: 'explore'
       }
     ]
@@ -617,44 +699,52 @@ export const itinerary: ItineraryDay[] = [
       {
         title: 'Port Arrival: Marseille',
         description: 'Marseille welcoming morning light reflecting on the white coastal limestone cliffs.',
+        coordinates: '43.3444,5.3404',
         icon: 'ship'
       },
       {
         title: 'Le Panier Hidden Courtyard & Soap Shopping',
         description: 'Explore Le Panier, the oldest neighborhood in France. Its narrow, pastel-painted lanes are filled with colorful laundry, murals, small artisan shops, and hidden staircases. Browse for authentic olive oil soaps.',
+        coordinates: '43.2995,5.3681',
         icon: 'explore'
       },
       {
         title: 'Secrets of Vallon des Auffes',
         description: 'Take a wander over to Vallon des Auffes. This is a tiny, incredibly picturesque, traditional French fishing harbor tucked completely underneath an enormous stone road archway. It contains traditional wooden boats, tiny pastel shacks, and zero industrial noise.',
+        coordinates: '43.2851,5.3505',
         icon: 'tour'
       },
       {
         title: 'Rustic wood-fired pizza at Chez Étienne',
         description: 'Stop by this legendary Le Panier bistro to grab delicious, thin-crust anchovy-and-garlic pizza or pan-seared calamari. Note: Cash-only and no reservations. Easily walkable from the Vieux-Port shuttle drop.',
         location: 'Rue de Lorette, old Marseille',
+        coordinates: '43.2996,5.3692',
         icon: 'food'
       },
       {
         title: 'Mucem suspended Rooftop Footbridge walk',
         description: 'Stroll the awesome open-air concrete canopy of the Museum of European Civilisations. Walk across the 130-meter suspended bridge that floats high over the sea. Easily walkable from old harbor docks.',
         location: 'Fort Saint-Jean ramparts',
+        coordinates: '43.2969,5.3611',
         icon: 'explore'
       },
       {
         title: 'Swimming cove at Plage de Malmousque',
         description: 'Sunbathe like a local on flat stone platforms tucked within narrow sea-facing passages. Take beautiful pictures of Marseille bay away from tourists. Take local City Bus 83 along the Corniche Kennedy.',
         location: 'Malmousque coastal rocks',
+        coordinates: '43.2801,5.3488',
         icon: 'explore'
       },
       {
         title: 'Lunch & Pastis at La Caravelle',
         description: 'Eat incredible bouillabaisse fish stew or fresh salads. Follow it up by sipping a classic anise-flavored pastis cocktail on the small balcony of La Caravelle, a secret second-story bar overlooking the Vieux-Port that has welcomed patrons since the 1920s.',
+        coordinates: '43.2965,5.3725',
         icon: 'food'
       },
       {
         title: 'Fjord Escape to Calanque de Sugiton',
         description: 'If you want dramatic nature, visit the incredible Calanque de Sugiton, a stunning narrow sea inlet bordered by towering white rocky cliffs and sapphire maritime pools.',
+        coordinates: '43.2181,5.4542',
         icon: 'explore'
       }
     ]
@@ -663,102 +753,51 @@ export const itinerary: ItineraryDay[] = [
     date: 'June 30, 2026',
     dayNum: 30,
     month: 'June',
-    location: 'LIVORNO / ROME',
+    location: 'LIVORNO / DEPARTURE',
     highF: 83,
     lowF: 66,
     weather: 'Sunny & Warm',
-    weatherDetails: 'High: 83°F, Low: 66°F. High summer warmth. Standard transit temperatures.',
+    weatherDetails: 'High: 83°F, Low: 66°F. High summer warmth. Disembarkation and journey to airport for return transit to USA.',
     activities: [
       {
         title: 'Disembarkation at Livorno',
         description: 'Formally check out of MSC Splendida and gather all luggage items safely.',
-        icon: 'ship'
+        icon: 'ship',
+        coordinates: '43.5518,10.2987'
       },
       {
         title: 'Tasting market bites at Mercato delle Vettovaglie',
         description: 'Explore the monumental iron-and-glass Central Market hall in Livorno. Sample local pecorino, salumi, or cold pastries. Easily walkable or short taxi from port gates.',
         location: 'Scali Aurelio Saffi, Livorno',
-        icon: 'food'
+        icon: 'food',
+        coordinates: '43.5516,10.3129'
       },
       {
         title: 'Grab-and-Go Torta di Ceci at Gagarin',
         description: 'Before departing Livorno, run quickly to Gagarin, a legendary, tiny shop near central market specializing in Torta di Ceci / Cinque e Cinque (a rich savory chickpea pancake seasoned with black pepper, served inside hot focaccia). Highly recommended local treat! Easily walkable from central shops.',
-        icon: 'food'
+        icon: 'food',
+        coordinates: '43.5516,10.3119'
       },
       {
         title: 'Pisan poet coffee at Caffè dell\'Ussero',
         description: 'Part of your private charger road-trip route! Sip historical coffee at this River Arno riverside café open since 1775. Accessible as a beautiful stopping point during your private coach transfer route.',
         location: 'Lungarno Pacinotti, Pisa',
-        icon: 'food'
+        icon: 'food',
+        coordinates: '43.7164,10.4005'
       },
       {
         title: 'Historical Walk in Fortezza Nuova gardens',
         description: 'Briefly stroll the quiet public park tucked completely inside Livorno\'s enormous, water-surrounded pentagonal red-brick fortress. Easily walkable or a fast cab ride.',
         location: 'Fortezza Nuova canals ring',
-        icon: 'explore'
+        icon: 'explore',
+        coordinates: '43.5539,10.3162'
       },
       {
-        title: 'Transfer to Rome',
-        description: 'Group journey to the final destination: Rome, Italy. Enjoy the beautiful scenic landscapes passing through the Maremma coastal countryside.',
+        title: 'Airport Transfer & Departure',
+        description: 'Private coach group transfer to the airport (Pisa, Florence, or FCO) to check in for flights back to the US.',
         transport: 'Private charter coach service',
-        icon: 'transfer'
-      }
-    ]
-  },
-  {
-    date: 'July 1, 2026',
-    dayNum: 1,
-    month: 'July',
-    location: 'ROME (VATICAN DAY)',
-    highF: 86,
-    lowF: 65,
-    weather: 'Hot & Dry',
-    weatherDetails: 'High: 86°F, Low: 65°F. Classic dry Roman heat. Very light winds. Staying in shade and carrying a personal water bottle is highly recommended.',
-    warning: 'STRICT VATICAN DRESS CODE - shoulders & knees MUST be covered!',
-    activities: [
-      {
-        time: '09:00',
-        title: 'Vatican Museums and Sistine Chapel Guided Tour',
-        description: 'Enjoy a deep cultural immersion through historic papal collections and the famous ceiling frescoes by Michelangelo. Ensure clothing is fully modest.',
-        guidedBy: 'The Tour Guy Guide',
-        icon: 'tour'
-      }
-    ]
-  },
-  {
-    date: 'July 2, 2026',
-    dayNum: 2,
-    month: 'July',
-    location: 'ROME, ITALY',
-    highF: 87,
-    lowF: 66,
-    weather: 'Sunny Roman Summer',
-    weatherDetails: 'High: 87°F, Low: 66°F. Hot afternoon. UV index of 9. Always walk on the shady side of streets like the locals do.',
-    activities: [
-      {
-        time: '09:30',
-        title: 'Colosseum & Roman Forum Excursion',
-        description: 'Step directly back into the days of gladiators and emperors with a tour around the Colosseum and historic ruins.',
-        icon: 'explore'
-      }
-    ]
-  },
-  {
-    date: 'July 3, 2026',
-    dayNum: 3,
-    month: 'July',
-    location: 'ROME / DEPARTURE',
-    highF: 88,
-    lowF: 67,
-    weather: 'Hot & Clear',
-    weatherDetails: 'High: 88°F, Low: 67°F. Searing July day. Perfect time to pack up in air-conditioned comfort and check in for flights.',
-    activities: [
-      {
-        time: '10:00',
-        title: 'Check-out & Flight Transfer',
-        description: 'Leave hotel in Rome and transfer safely to Rome Fiumicino Airport (FCO) for flights home.',
-        transport: 'Airport private shuttle service',
-        icon: 'transfer'
+        icon: 'transfer',
+        coordinates: '43.8100,11.2012'
       }
     ]
   }
@@ -766,8 +805,7 @@ export const itinerary: ItineraryDay[] = [
 
 export const laundryStrategy = [
   { id: 'ls-1', dates: 'June 18-22', location: 'Pontremoli Countryside (Small Hotel)', rules: 'NO washer/dryer in hotel. Self-service laundromat: "Lavanderia Il Giglio" (Via Sismondo 13/15) ~5 min walk. Bring detergent sheets + portable sink stopper.' },
-  { id: 'ls-2', dates: 'June 23-30', location: 'MSC Splendida Cruise (Balcony Cabin)', rules: 'NO self-service laundry on MSC ships. Paid valet service only (Pre-purchase "Back Home Clean" 40-item package online for ~$50-55). Drop bag before noon, returned in 48 hours.' },
-  { id: 'ls-3', dates: 'July 1-3', location: 'Rome (Short Stay)', rules: 'Use any leftover clean cruise laundry or quick hand-wash in hotel sink. Pack a small quick-dry towel & travel detergent sheets.' }
+  { id: 'ls-2', dates: 'June 23-30', location: 'MSC Splendida Cruise (Balcony Cabin)', rules: 'NO self-service laundry on MSC ships. Paid valet service only (Pre-purchase "Back Home Clean" 40-item package online for ~$50-55). Drop bag before noon, returned in 48 hours.' }
 ];
 
 export const emergencyContacts = {
@@ -791,9 +829,9 @@ export const italyFunFacts: FunFact[] = [
   },
   {
     id: 'f-2',
-    category: 'The Fountain Rules',
-    fact: 'Rome has over 2,500 public drinking fountains known as "nasoni" (big noses). The water is cold, pristine, and entirely free to refill your bottle.',
-    italianTranslation: 'L\'acqua è freschissima e potabile.'
+    category: 'Pisa Tower',
+    fact: 'The Leaning Tower of Pisa took nearly 200 years to build because of wars and political disruptions. The lean actually started during construction of the second floor in 1178 because of soft, sandy soil!',
+    italianTranslation: 'La Torre pendente di Pisa.'
   },
   {
     id: 'f-3',
@@ -809,9 +847,9 @@ export const italyFunFacts: FunFact[] = [
   },
   {
     id: 'f-5',
-    category: 'Fountain Coin Toss',
-    fact: 'An estimated €3,000 is thrown into Rome’s Trevi Fountain every single day. The money is collected and donated to local charities aiding families in need.',
-    italianTranslation: 'Lanciare la monetina nella fontana.'
+    category: 'Tuscan Landscapes',
+    fact: 'Tuscany is home to six world-famous UNESCO World Heritage sites, including the historic centers of Florence, Siena, San Gimignano, and the Piazza del Duomo in Pisa.',
+    italianTranslation: 'La bellissima Toscana.'
   },
   {
     id: 'f-6',
@@ -878,11 +916,5 @@ export const italyFunFacts: FunFact[] = [
     category: 'Marseille Magic',
     fact: 'Marseille\'s culinary masterpiece is "Bouillabaisse" seafood stew. Traditionally, local fishermen boiled their unsellable bony rockfish in a broth loaded with saffron, garlic, and wild fennel.',
     italianTranslation: 'Una bouillabaisse tradizionale nel porto vecchio.'
-  },
-  {
-    id: 'f-17',
-    category: 'Vatican Modesty',
-    fact: 'For your July 1st Vatican City schedule, note that Saint Peter\'s Basilica has an strictly enforced modesty Dress Code. Both knees and shoulders must be completely covered!',
-    italianTranslation: 'Spalle e ginocchia coperte per favore.'
   }
 ];

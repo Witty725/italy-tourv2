@@ -53,46 +53,46 @@ const travelTips = [
     icon: <Wifi className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />,
     items: [
       {
-        title: '1. Hotel Napoleon (Pontremoli) — Essential First Tip',
-        content: '• Free Wi-Fi: Hotel Napoleon offers free Wi-Fi connection to all guests.\n• Zero-Cost Base: Secure WiFi key at check-in; use as a free base for maps, messages, and calls.'
+        title: '1. Hotel Napoleon Free Wi-Fi',
+        content: '• Free Wi-Fi: Hotel Napoleon offers free wireless connection to all guests.\n• Zero-Cost Base: Secure WiFi key at check-in. Use as your free starting base to look up daily maps, chat, and download files.'
       },
       {
-        title: '2. Carrier International Plans & The Cruise Ship Satellite Trap',
+        title: '2. Carrier Plans & Cruise Satellite Danger',
         isCarrierTrap: true,
-        content: '• Satellite Trap: Land-based travel passes do NOT cover at-sea cellular networks (e.g. "Cellular at Sea").\n• Cost Danger: Maritime grids charge extreme pay-as-you-go fees. Keep roaming OFF or use Airplane Mode.'
+        content: '• Satellite Trap: Standard cellular passes do NOT cover at-sea networks (e.g. "Cellular at Sea").\n• Cost Danger: Cruises charge astronomical satellite data rates. Turn roaming OFF or toggle Airplane Mode.'
       },
       {
-        title: '3. Critical Safeguard: Preventing Hidden Background Data Triggers',
+        title: '3. Stop iPhone Background Data',
         device: 'iphone',
-        content: '• Low Data Mode: Settings → Cellular → Cellular Data Options → Turn ON to stop background tasks.\n• App Refresh: Settings → General → Background App Refresh → OFF.\n• iCloud Sync: Settings → [Your Name] → iCloud → Photos → Toggle mobile syncing to OFF.'
+        content: '• Low Data Mode: Settings → Cellular → Cellular Data Options → Turn ON (pauses automatic updates).\n• App Refresh: Settings → General → Background App Refresh → Toggle OFF.\n• iCloud Sync: Settings → [Your Name] → iCloud → Photos → Toggle mobile syncing tool to OFF.'
       },
       {
-        title: '3. Critical Safeguard: Preventing Hidden Background Data Triggers',
+        title: '3. Stop Android Background Data',
         device: 'android',
-        content: '• Data Saver: Settings → Network & internet → Data Saver → Toggle ON.\n• Play Store Updates: Play Store app → Profile → Settings → Don\'t auto-update apps.\n• Restrict Apps: Settings → Apps → Choose Photos/Drive → Battery → Select Restricted.'
+        content: '• Data Saver: Settings → Network & internet → Data Saver → Toggle ON.\n• App Updates: Play Store app → Profile → Settings → Set Network Preferences to Don\'t auto-update.\n• Restrict Apps: Settings → Apps → Select Photos/Drive → Battery → Choose Restricted.'
       },
       {
-        title: '4. Local Public WiFi Etiquette & Access Phrases',
+        title: '4. Public Wi-Fi Courtesies',
         isInteractivePhrases: true,
-        content: '• Public Hotspots: Readily available at cafes, restaurants, and town squares.\n• Proper Courtesy: Purchase a small item (like a coffee) before asking for its Wi-Fi credentials.'
+        content: '• Hotspots: Common at central squares. Order a small coffee before asking for Wi-Fi codes.\n• Safety Rules: Avoid logging into sensitive bank cards or passwords over public unsecured hotspots.'
       },
       {
-        title: '5. Cellular Signal Dynamics: Pontremoli & The Surrounding Hills',
-        content: '• Town Signal: Great coverage in Pontremoli with fast 4G/5G on local partner grids.\n• Rural Hills: Sparse signal. Searching for networks drains power. Lock to 4G/LTE to conserve your battery.'
+        title: '5. Countryside Signal Sparking',
+        content: '• Town Reception: Fast 4G/5G coverage around Pontremoli center on partner grids.\n• Rural Valleys: Spotty reception drains battery fast. Lock your device to 4G/LTE mode to prolong battery life.'
       },
       {
-        title: '6. How to Manually Force 4G LTE (Instead of 5G)',
+        title: '6. Force 4G/LTE (iPhone)',
         device: 'iphone',
-        content: '• iPhone Network: Settings → Cellular → Cellular Data Options → Voice & Data → Select LTE.'
+        content: '• Toggle LTE: Settings → Cellular → Cellular Data Options → Voice & Data → Select LTE.'
       },
       {
-        title: '6. How to Manually Force 4G LTE (Instead of 5G)',
+        title: '6. Force 4G/LTE (Android)',
         device: 'android',
-        content: '• Galaxy/Samsung: Settings → Connections → Mobile networks → Network mode → Select LTE/3G/2G.\n• Pixel/Stock Android: Settings → Network & internet → SIMs → Preferred network type → Select LTE.'
+        content: '• Samsung: Settings → Connections → Mobile networks → Network mode → Select LTE/3G/2G.\n• Pixel: Settings → Network & internet → SIMs → Preferred network type → Select LTE.'
       },
       {
-        title: '7. WiFi Calling, Messaging & Video Apps Abroad',
-        content: '• Wi-Fi Calling: Settings → Phone → Enable BEFORE US departure to text/call US numbers for free.\n• Apple Ecosystem: iMessage and FaceTime are 100% free over Wi-Fi.\n• WhatsApp App: Link your US mobile number to enjoy free messaging/calling over any steady Wi-Fi network.\n• Zoom calling: Make unrestricted audio/video online calls without using mobile carrier plan minutes.'
+        title: '7. Free Calls & Messages',
+        content: '• Wi-Fi Calling: Enable under phone settings BEFORE departing USA to make free texts/calls home.\n• FaceTime: Apple iMessage/FaceTime are 100% free over Wi-Fi.\n• WhatsApp: Ideal for international calls. Set up with your US number before you leave.'
       }
     ]
   },
@@ -102,18 +102,18 @@ const travelTips = [
     icon: <Battery className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />,
     items: [
       {
-        title: '1. System Optimization for iPhone',
+        title: '1. Save Battery (iPhone)',
         device: 'iphone',
-        content: '• Low Power Mode: Settings → Battery → Turn ON (or add to your custom Control Center swipes).\n• Screen Timeout: Settings → Display & Brightness → Set screen Sleep timeout to 30 Seconds.\n• Dark Mode: Settings → Display & Brightness → Enable Dark Mode (and disable Lift to Wake and Always-On).\n• Location Check: Settings → Privacy & Security → Location Services → Allow "While Using" only.'
+        content: '• Low Power Mode: Settings → Battery → Turn ON (add as custom slider in Control Center).\n• Auto Lock: Settings → Display & Brightness → Set screen Sleep automatic timeout to 30 Seconds.\n• Dark Mode: Settings → Display & Brightness → Enable Dark Mode (conserves OLED pixel energy).\n• Location Guard: Settings → Privacy & Security → Location Services → set apps to "While Using" only.'
       },
       {
-        title: '1. System Optimization for Android',
+        title: '1. Save Battery (Android)',
         device: 'android',
-        content: '• Power Saver: Toggle ON "Power Saving Mode" or "Battery Saver" in Quick Settings.\n• Sync Settings: Settings → Battery → Under power settings, toggle Adaptive Battery to ON.\n• Screen Timeout: Set screen Auto-off delay down to 15 or 30 seconds under Display options.\n• Dark Style: Toggle system-wide Dark Theme to conserve pixel power.'
+        content: '• Power Saver: Toggle ON Battery Saver or Power Saving Mode in Quick Settings tiles.\n• Sync Guard: Settings → Battery → Under power options, toggle Adaptive Battery to ON.\n• Auto Lock: Settings → Display → Screen Timeout → Select 15 or 30 seconds delay.\n• Dark Theme: Toggle system-wide Dark Theme to conserve pixel power on OLED models.'
       },
       {
-        title: '2. Practical Field Tactics for Excursion Days',
-        content: '• Google Offline Maps: Pre-download maps over Wi-Fi. GPS works with zero cellular signal and saves battery.\n• Airplane Mode: Toggle ON in spotty areas (trains, valleys). Prevents constant battery-draining searching.\n• Portable Charger: Always carry a small backup power bank. Frequent photos and maps drain battery fast.'
+        title: '2. Battery Field Tactics',
+        content: '• Offline Maps: Pre-download maps on Wi-Fi. Offline GPS uses zero cellular searching energy.\n• Airplane Mode: Toggle ON in weak coverage areas (high speed trains, tunnels, deep valleys).\n• Portable Pack: Always pack a compact backup power bank to secure top-ups during long excursions.'
       }
     ]
   },
@@ -177,7 +177,7 @@ const travelTips = [
     items: [
       { title: 'The "Pos" Law', content: 'By Italian law, all merchants—including taxis, tobacco shops, and cafes—are required to accept credit cards for any amount. However, small businesses hate paying the transaction fees. If you try to pay for a €1.20 espresso with a Visa, expect some eye-rolling. Carry coins for the coffee bars.' },
       { title: 'Atm Traps', content: 'Avoid the standalone ATMs labeled "Euronet" found in heavy tourist areas. They charge predatory conversion fees. Only use official bank ATMs attached to an actual bank building (look for names like Intesa Sanpaolo, Unicredit, or Banco BPM).' },
-      { title: 'The "Gift" Scam', content: 'In Rome, if someone hands you a rose, a bracelet, or a photo prop, do not take it into your hands. The moment you touch it, they will demand money aggressively. Keep your hands down, say a firm "No, grazie," and keep walking.' }
+      { title: 'The "Gift" Scam', content: 'In busy Italian piazzas and tourist hubs, if someone hands you a rose, a bracelet, or a photo prop, do not take it into your hands. The moment you touch it, they will demand money aggressively. Keep your hands down, say a firm "No, grazie," and keep walking.' }
     ]
   },
   {
@@ -304,7 +304,7 @@ export function TravelTipsTab() {
                           </span>
                         </div>
                         <p className="text-slate-400 text-xs leading-relaxed">
-                          Quickly locate medical care in Pontremoli, Rome, or your cruise ports. Tapping any button below opens Google Maps results for the nearest services:
+                          Quickly locate medical care in Pontremoli or your cruise ports. Tapping any button below opens Google Maps results for the nearest services:
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-1">
                           <a 

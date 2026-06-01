@@ -40,10 +40,6 @@ const LOCATIONS = [
   { name: "Valletta", query: "Valletta Malta" },
   { name: "Barcelona", query: "Barcelona Spain coast" },
   { name: "Marseille", query: "Marseille France port" },
-  { name: "Rome", query: "Rome Italy Colosseum" },
-  { name: "Vatican", query: "Vatican City tour" },
-  { name: "Colosseum", query: "Colosseum Rome Italy" },
-  { name: "Roman Forum", query: "Roman Forum Rome ruins" },
   { name: "Sella del Diavolo", query: "Sella del Diavolo Cagliari Sardinia" },
   { name: "San Benedetto Market", query: "Mercato di San Benedetto Cagliari" },
   { name: "Stella Marina di Montecristo", query: "Stella Marina di Montecristo Cagliari" },
@@ -85,9 +81,7 @@ export function getCityShortName(dayNum: number, month: string, fullLocation: st
     if (dayNum === 27) return 'At Sea';
     if (dayNum === 28) return 'Barcelona';
     if (dayNum === 29) return 'Marseille';
-    if (dayNum === 30) return 'Rome';
-  } else if (month === 'July') {
-    return 'Rome';
+    if (dayNum === 30) return 'Departure';
   }
   // Fallback: extract first word before comma or parenthesis
   const parts = fullLocation.split(/[,(]/);
@@ -184,16 +178,11 @@ function getDayStyle(dayNum: number, month: string, isActive: boolean) {
         ? 'bg-slate-200/20 border-slate-100 shadow-md ring-1 ring-slate-200/35 text-white font-bold scale-[1.02]'
         : 'bg-slate-900/40 border-slate-800 text-slate-400 hover:bg-slate-800 hover:border-slate-700';
     } else if (dayNum === 30) {
-      // June 30: Blend White -> Red
+      // June 30: Blend White -> Slate (Disembark & Departure)
       return isActive
-        ? 'bg-gradient-to-r from-slate-200/15 to-red-500/25 border-rose-450 text-rose-200 shadow-md ring-1 ring-rose-450/45 scale-[1.02]'
-        : 'bg-gradient-to-r from-slate-900/40 to-red-950/30 border-rose-950/40 hover:from-slate-800 hover:to-red-950/40 text-slate-300';
+        ? 'bg-gradient-to-r from-slate-200/15 to-indigo-500/25 border-indigo-400 text-indigo-200 shadow-md ring-1 ring-indigo-400/45 scale-[1.02]'
+        : 'bg-gradient-to-r from-slate-900/40 to-slate-950/30 border-slate-800 hover:from-slate-800 hover:to-slate-900 text-slate-300';
     }
-  } else if (month === 'July') {
-    // July 1-3: Red
-    return isActive
-      ? 'bg-red-500/25 border-red-500/70 shadow-lg shadow-red-500/10 ring-1 ring-red-500/50 text-red-100 font-bold scale-[1.02]'
-      : 'bg-red-950/15 border-red-500/30 text-red-400 hover:bg-red-950/25 hover:border-red-500/50';
   }
   return isActive
     ? 'bg-rose-500/25 border-rose-500/60 shadow-lg'
@@ -236,27 +225,27 @@ function getDetailsThemeClasses(dayNum: number, month: string) {
       };
     } else if (dayNum === 30) {
       return {
-        accentLine: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-[3.5px] before:bg-gradient-to-r before:from-slate-200 before:to-red-500',
-        dateText: 'text-rose-300 font-bold',
-        weatherIcon: 'text-rose-450',
+        accentLine: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-[3.5px] before:bg-gradient-to-r before:from-slate-200 before:to-indigo-500',
+        dateText: 'text-indigo-300 font-bold font-mono text-xs',
+        weatherIcon: 'text-indigo-400',
         weatherHigh: 'text-white',
-        weatherLow: 'text-red-400',
-        cardBg: 'bg-gradient-to-br from-blue-950/20 to-red-950/25 border-rose-500/25 shadow-[0_4px_30px_rgba(244,63,94,0.03),inset_0_1px_1px_rgba(244,63,94,0.1)]',
-        phaseName: 'Rome Transition',
-        phaseColor: 'text-rose-400 border-rose-500/30 bg-rose-500/10'
+        weatherLow: 'text-indigo-450',
+        cardBg: 'bg-gradient-to-br from-indigo-950/20 to-slate-950/25 border-indigo-505/25 shadow-[0_4px_30px_rgba(99,102,241,0.03),inset_0_1px_1px_rgba(99,102,241,0.1)]',
+        phaseName: 'Return Journey Home',
+        phaseColor: 'text-indigo-400 border-indigo-500/30 bg-indigo-500/10'
       };
     }
   }
-  // July 1-3
+  // Fallback for extreme cases
   return {
-    accentLine: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-[3.5px] before:bg-red-500',
-    dateText: 'text-red-400 font-bold',
-    weatherIcon: 'text-red-400',
-    weatherHigh: 'text-red-550',
-    weatherLow: 'text-cyan-450',
-    cardBg: 'bg-red-950/20 border-red-500/25 shadow-[0_4px_30px_rgba(239,68,68,0.03),inset_0_1px_1px_rgba(239,68,68,0.1)]',
-    phaseName: 'Rome & Vatican Landmarks',
-    phaseColor: 'text-red-400 border-red-500/30 bg-red-550/10'
+    accentLine: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-[3.5px] before:bg-slate-500',
+    dateText: 'text-slate-400 font-bold',
+    weatherIcon: 'text-slate-405',
+    weatherHigh: 'text-slate-100',
+    weatherLow: 'text-slate-400',
+    cardBg: 'bg-slate-900/20 border-slate-750 shadow-md',
+    phaseName: 'Travel segment',
+    phaseColor: 'text-slate-400 border-slate-700 bg-slate-800/10'
   };
 }
 
@@ -334,7 +323,6 @@ export function ItineraryTimeline() {
 
   // Group by month for nice calendar separation
   const juneDays = itinerary.filter(day => day.month === 'June');
-  const julyDays = itinerary.filter(day => day.month === 'July');
 
   const theme = getDetailsThemeClasses(selectedDay.dayNum, selectedDay.month);
 
@@ -350,51 +338,15 @@ export function ItineraryTimeline() {
       <div className="glass-panel p-3.5 flex flex-col gap-3">
         {/* June Section */}
         <div>
-          <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase block mb-2">
+          <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase block mb-2 font-mono">
             June 2026
           </span>
-          <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
+          <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 font-sans">
             {juneDays.map((day) => {
               const isActive = day.date === selectedDate;
               const styleClasses = getDayStyle(day.dayNum, day.month, isActive);
               // Calculate day of the week for June 2026 (Month 5 is June in Date constructor)
               const dateObj = new Date(2026, 5, day.dayNum);
-              const weekdayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-              const cityShortName = getCityShortName(day.dayNum, day.month, day.location);
-              return (
-                <button
-                  key={day.date}
-                  onClick={() => setSelectedDate(day.date)}
-                  className={`flex flex-col items-center justify-between p-2 rounded-lg border text-center transition-all cursor-pointer ${styleClasses}`}
-                >
-                  <span className="text-[10px] leading-none uppercase tracking-wider font-black flex flex-col items-center gap-0.5">
-                    <span className="text-[9px] text-indigo-400 font-extrabold">{weekdayName}</span>
-                    <span className="text-[8px] text-slate-550 opacity-80 mt-0.5">{day.date.split(' ')[0].substring(0, 3)}</span>
-                  </span>
-                  <span className="text-sm font-black mt-1 mb-1 leading-none">{day.dayNum}</span>
-                  <span className="text-[9px] font-mono leading-none font-extrabold mb-1">
-                    {day.highF}°/{day.lowF}°
-                  </span>
-                  <span className="text-[8.5px] font-bold text-slate-300 uppercase tracking-tight truncate max-w-full leading-none pt-0.5 border-t border-slate-700/30 w-full">
-                    {cityShortName}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* July Section */}
-        <div>
-          <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase block mb-2">
-            July 2026
-          </span>
-          <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
-            {julyDays.map((day) => {
-              const isActive = day.date === selectedDate;
-              const styleClasses = getDayStyle(day.dayNum, day.month, isActive);
-              // Calculate day of the week for July 2026 (Month 6 is July in Date constructor)
-              const dateObj = new Date(2026, 6, day.dayNum);
               const weekdayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
               const cityShortName = getCityShortName(day.dayNum, day.month, day.location);
               return (
@@ -528,7 +480,7 @@ export function ItineraryTimeline() {
                 </button>
 
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedDay.hotel.name + ', ' + selectedDay.hotel.address)}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedDay.hotel.coordinates || (selectedDay.hotel.name + ', ' + selectedDay.hotel.address))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   referrerPolicy="no-referrer"
@@ -674,7 +626,7 @@ export function ItineraryTimeline() {
                             </a>
                             
                             <a
-                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(searchQuery)}`}
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.coordinates || searchQuery)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               referrerPolicy="no-referrer"

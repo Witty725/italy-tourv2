@@ -8,8 +8,7 @@ const LOCATIONS = [
   { id: 'cagliari', name: 'Cagliari', lat: 39.22, lon: 9.12, region: 'Sardinia' },
   { id: 'palermo', name: 'Palermo', lat: 38.12, lon: 13.36, region: 'Sicily' },
   { id: 'barcelona', name: 'Barcelona', lat: 41.38, lon: 2.17, region: 'Spain' },
-  { id: 'marseille', name: 'Marseille', lat: 43.30, lon: 5.37, region: 'France' },
-  { id: 'rome', name: 'Rome', lat: 41.90, lon: 12.50, region: 'Lazio' }
+  { id: 'marseille', name: 'Marseille', lat: 43.30, lon: 5.37, region: 'France' }
 ];
 
 const DEFAULT_WEATHER: Record<string, { tempC: number; tempF: number; code: number; desc: string; humidity: number; windSpeed: number }> = {
@@ -17,7 +16,6 @@ const DEFAULT_WEATHER: Record<string, { tempC: number; tempF: number; code: numb
   livorno: { tempC: 27, tempF: 81, code: 1, desc: 'Partly Cloudy', humidity: 60, windSpeed: 12 },
   cagliari: { tempC: 30, tempF: 86, code: 0, desc: 'Sunny', humidity: 50, windSpeed: 15 },
   palermo: { tempC: 31, tempF: 88, code: 0, desc: 'Sunny', humidity: 48, windSpeed: 10 },
-  rome: { tempC: 32, tempF: 90, code: 0, desc: 'Sunny', humidity: 45, windSpeed: 6 },
   barcelona: { tempC: 28, tempF: 82, code: 1, desc: 'Partly Cloudy', humidity: 62, windSpeed: 11 },
   marseille: { tempC: 29, tempF: 84, code: 0, desc: 'Sunny', humidity: 55, windSpeed: 14 }
 };
@@ -28,8 +26,7 @@ const CITY_TIPS: Record<string, string> = {
   cagliari: 'Incredible Sardinian high sun exposure. Very strong UV indexes. Be sure to pack high-SPF sunscreen, polarized designer sunglasses, and a wide-brimmed sun hat. Perfect weather for swimming, boating, and airy resort-chic garments.',
   palermo: 'Exquisite southern Sicilian heat. High sun and warm temperatures are a constant. Bring a refillable hydration flask, wear loose cotton apparel, and wear highly comfortable walking sneakers for city food marketplace tours.',
   barcelona: 'Seaside Catalan capital. Humidity is generally high during the summer nights. Lightweight, breathable materials like thin cotton and linen-blend dresses or shorts are perfect. Wear a secure crossbody bag to walk carefree through bustling plazas.',
-  marseille: 'Breezy historical French port. Famous for the "Mistral"—the strong, cool, dry northerly wind blowing through mountain valleys that clears the cloud cover but can drop temperatures rapidly. A stylish windproof jacket or a light wrap scarf is smart.',
-  rome: 'Ancient capital of stone and asphalt which retains high heat. Very warm during peak sun times. Stay shaded and stay hydrated using the free flowing public "nasoni" iron fountains. CHURCH DRESS CODE REMINDER: For July 1st activities (Saint Peter\'s Basilica, Vatican), knees and shoulders must be fully covered, so pack a light shawl/wrap or lightweight zip-off/long pants.'
+  marseille: 'Breezy historical French port. Famous for the "Mistral"—the strong, cool, dry northerly wind blowing through mountain valleys that clears the cloud cover but can drop temperatures rapidly. A stylish windproof jacket or a light wrap scarf is smart.'
 };
 
 function parseWeatherCode(code: number): { desc: string; emoji: string; bg: string; text: string } {

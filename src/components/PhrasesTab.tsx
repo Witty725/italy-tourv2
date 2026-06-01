@@ -232,7 +232,7 @@ export function PhrasesTab() {
             </span>
           </div>
           <p className="text-slate-400 text-xs leading-relaxed">
-            Quickly locate medical care in Pontremoli, Rome, or your cruise ports. Tapping any button below opens Google Maps results for the nearest services:
+            Quickly locate medical care in Pontremoli or your cruise ports. Tapping any button below opens Google Maps results for the nearest services:
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-1">
             <a 

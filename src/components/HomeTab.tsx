@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Compass, Sparkles, CalendarRange } from 'lucide-react';
+import { Compass, Sparkles, CalendarRange, Info } from 'lucide-react';
 import { italyFunFacts } from '../data';
 
 interface HomeTabProps {
@@ -9,6 +9,7 @@ interface HomeTabProps {
 
 export function HomeTab({ onNavigate }: HomeTabProps) {
   const [factIndex, setFactIndex] = useState(0);
+  const [showOfflineMapsGuide, setShowOfflineMapsGuide] = useState(false);
 
   const changeFact = () => {
     setFactIndex((prev) => (prev + 1) % italyFunFacts.length);
@@ -296,6 +297,9 @@ export function HomeTab({ onNavigate }: HomeTabProps) {
             <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-md leading-relaxed">
               Welcome to your dedicated luxury Italian adventure hub. Prepare your bags, practice the culture, monitor the weather, and preview your premium itinerary.
             </p>
+            <p className="text-emerald-400 font-extrabold italic text-xs sm:text-sm mt-2 leading-relaxed">
+              Scroll down to get easy instructions on how to prepare your phone to navigate without cell service.
+            </p>
           </div>
           
           <div className="flex items-center gap-2 bg-slate-950/50 p-2 rounded-xl border border-slate-800/80 shrink-0">
@@ -349,51 +353,81 @@ export function HomeTab({ onNavigate }: HomeTabProps) {
         </motion.div>
       </div>
 
-      {/* Trip Highlights Journey Overview */}
-      <div className="glass-panel p-5 border-slate-700/50">
-        <h3 className="text-[10px] font-black tracking-widest text-slate-400 uppercase flex items-center gap-1.5 mb-4 border-b border-slate-800 pb-2">
-          <CalendarRange className="w-3.5 h-3.5 text-red-400" />
-          The Italian Route Chronicles
-        </h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {/* Phase 1 */}
-          <div className="bg-slate-950/40 p-3.5 rounded-xl border border-slate-900 flex flex-col gap-1 hover:border-slate-800 transition-colors">
-            <div className="flex justify-between items-start">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider leading-none">Days 18 - 22</span>
-              <span className="text-[9px] font-black text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded uppercase leading-none border border-amber-500/20">Phase 1</span>
+      {/* Get Your Map Navigation to Work Offline Banner */}
+      <div className="glass-panel p-4 bg-gradient-to-r from-emerald-950/40 to-slate-900/40 border-emerald-500/25 rounded-xl shadow-lg flex flex-col gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <Compass className="w-5 h-5 text-emerald-400 shrink-0" />
+            <div>
+              <h4 className="text-white font-black text-xs uppercase tracking-wider">Get Your Map Navigation to Work Offline</h4>
+              <p className="text-[11px] text-slate-350 leading-tight mt-0.5">Download Google Maps regions in advance to navigate smoothly without cell service.</p>
             </div>
-            <h4 className="text-slate-100 font-extrabold text-sm mt-1">Tuscany Hills & Pontremoli</h4>
-            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Explore historic Piagnaro Castle, enjoy traditional Lunigiana food feasts, and sleep cozy at Hotel Napoleon.</p>
           </div>
-
-          {/* Phase 2 */}
-          <div className="bg-slate-950/40 p-3.5 rounded-xl border border-slate-900 flex flex-col gap-1 hover:border-slate-800 transition-colors">
-            <div className="flex justify-between items-start">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider leading-none">Days 23 - 30</span>
-              <span className="text-[9px] font-black text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded uppercase leading-none border border-blue-500/20">Phase 2</span>
-            </div>
-            <h4 className="text-slate-100 font-extrabold text-sm mt-1">MSC Splendida Cruising</h4>
-            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Embark from Livorno. Sail across stunning coastlines to Cagliari, Sicily, Rome, Barcelona, sea days and France!</p>
-          </div>
-
-          {/* Phase 3 */}
-          <div className="bg-slate-950/40 p-3.5 rounded-xl border border-slate-900 flex flex-col gap-1 hover:border-slate-800 transition-colors">
-            <div className="flex justify-between items-start">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider leading-none">Days 1 - 3 (July)</span>
-              <span className="text-[9px] font-black text-red-400 bg-red-500/10 px-1.5 py-0.5 rounded uppercase leading-none border border-red-500/20">Phase 3</span>
-            </div>
-            <h4 className="text-slate-100 font-extrabold text-sm mt-1">Eternal City of Rome</h4>
-            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Take the exclusive pre-booked Vatican museums & Colosseum guided tours. Prepare well for strict modesty dress codes.</p>
-          </div>
+          <button
+            onClick={() => setShowOfflineMapsGuide(!showOfflineMapsGuide)}
+            className="sm:self-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-[10px] uppercase tracking-wider rounded-lg shadow-md transition-all flex items-center justify-center gap-1 cursor-pointer"
+          >
+            {showOfflineMapsGuide ? 'Close Instructions' : 'View Download Steps'}
+          </button>
         </div>
 
-        <button 
-          onClick={() => onNavigate('Itinerary')}
-          className="mt-4 w-full py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider rounded-lg border border-red-500/20 transition-all flex items-center justify-center gap-1.5"
-        >
-          View Full Interactive Calendar
-        </button>
+        {showOfflineMapsGuide && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="border-t border-slate-800/80 pt-3 mt-1 space-y-3.5 text-xs text-slate-300 leading-relaxed overflow-hidden"
+          >
+            <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-900 flex flex-col gap-1.5">
+              <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest font-mono">Why GPS Coordinates?</span>
+              <p className="text-[11px] text-slate-355 text-justify leading-relaxed">
+                When your phone is on airplane mode or lacks an active international data connection, searching for specific text names (like local restaurants or country roads) in Google Maps offline will often fail. However, <strong className="text-white font-black">Google Maps offline can always read and pin exact GPS coordinates!</strong> All map links throughout this itinerary have been upgraded to load physical GPS coordinates.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest font-mono">Step-by-Step Instructions:</span>
+              <ol className="space-y-2.5 list-none pl-0">
+                <li className="flex gap-2.5 items-start">
+                  <span className="flex items-center justify-center bg-slate-850 text-emerald-400 w-5 h-5 rounded-full text-[10px] font-black shrink-0 border border-slate-700 shadow font-mono">1</span>
+                  <span>Connect your phone to home/hotel Wi-Fi and open the <strong className="text-slate-100">Google Maps App</strong>.</span>
+                </li>
+                <li className="flex gap-2.5 items-start">
+                  <span className="flex items-center justify-center bg-slate-850 text-emerald-400 w-5 h-5 rounded-full text-[10px] font-black shrink-0 border border-slate-700 shadow font-mono">2</span>
+                  <div>
+                    <span><strong className="text-slate-100">Define the map area</strong> by searching for our destinations:</span>
+                    <ul className="grid grid-cols-2 gap-2 mt-2 text-[10.5px] text-slate-400 font-medium">
+                      <li>• 📍 <em>Lunigiana / Pontremoli</em></li>
+                      <li>• 📍 <em>Livorno, Pisa & Florence</em></li>
+                      <li>• 📍 <em>Cagliari & Southern Sardinia</em></li>
+                      <li>• 📍 <em>Palermo / Mondello</em></li>
+                      <li>• 📍 <em>Valletta (Malta Island)</em></li>
+                      <li>• 📍 <em>Barcelona & Marseille</em></li>
+                    </ul>
+                  </div>
+                </li>
+                <li className="flex gap-2.5 items-start">
+                  <span className="flex items-center justify-center bg-slate-850 text-emerald-400 w-5 h-5 rounded-full text-[10px] font-black shrink-0 border border-slate-700 shadow font-mono">3</span>
+                  <div>
+                    <strong className="text-white">On iPhone / iOS:</strong> After searching for a town (e.g. <em>Pontremoli</em>), Google Maps may automatically show "Directions" at the bottom. If so, tap the <strong className="text-slate-100">"Details"</strong> button (about two options to the right of Directions) to open the full place page. From there, locate the row of action tabs (such as Directions, Save, Share). You may need to <strong className="text-slate-100">swipe these tabs to the left</strong> to reveal the three dots button (<span className="text-emerald-400 font-bold">...</span>) or the direct <strong className="text-slate-100">"Download offline map"</strong> option to start downloading.
+                  </div>
+                </li>
+                <li className="flex gap-2.5 items-start">
+                  <span className="flex items-center justify-center bg-slate-850 text-emerald-400 w-5 h-5 rounded-full text-[10px] font-black shrink-0 border border-slate-700 shadow font-mono">4</span>
+                  <div>
+                    <strong className="text-white">On Android:</strong> Tap your Google Profile Picture (top right) → tap <strong className="text-slate-100">"Offline maps"</strong> → select <strong className="text-slate-100">"SELECT YOUR OWN MAP"</strong>, adjust the blue bounding rectangle over the region, and hit <strong className="text-slate-100">"Download"</strong>.
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <div className="bg-emerald-950/15 border border-emerald-500/15 p-2.5 rounded-lg text-[10.5px] text-emerald-300 flex items-start gap-1.5">
+              <Info className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+              <span><strong className="text-white">Ready to test?</strong> Once downloaded, turn on Airplane Mode and click any address or location link inside the daily itinerary. It will load the location instantly with high accuracy!</span>
+            </div>
+          </motion.div>
+        )}
       </div>
     </div>
   );

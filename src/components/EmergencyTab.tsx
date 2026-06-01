@@ -21,7 +21,7 @@ export function EmergencyTab() {
           <a href={`tel:${emergencyContacts.usEmbassy.replace(/\s/g, '')}`} className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-slate-900/60 hover:bg-slate-800/80 border border-slate-700 rounded-xl transition-all group">
             <Building className="w-6 h-6 sm:w-8 sm:h-8 text-blue-400 group-hover:scale-110 transition-transform" />
             <span className="text-lg sm:text-xl font-black text-white">{emergencyContacts.usEmbassy}</span>
-            <span className="text-[10px] sm:text-xs font-bold text-blue-200 uppercase tracking-widest text-center">US Embassy Rome</span>
+            <span className="text-[10px] sm:text-xs font-bold text-blue-200 uppercase tracking-widest text-center">US Embassy in Italy</span>
           </a>
         </div>
       </div>

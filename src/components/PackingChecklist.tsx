@@ -431,7 +431,7 @@ export function PackingChecklist() {
                 <div>
                   <h4 className="text-amber-400 font-extrabold text-[10px] uppercase tracking-widest mb-1.5">Master Plan Overview</h4>
                   <p className="text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
-                    Packing light for a diverse 16-day continental tour requires meticulous efficiency. Balancing countryside explorations (Apuane Alps, e-bikes), luxury cruise staterooms (MSC Gala evenings), and sacred sites (Vatican Proper) is easy when you adopt the right strategy.
+                    Packing light for a diverse 16-day continental tour requires meticulous efficiency. Balancing countryside explorations (Apuane Alps, e-bikes), luxury cruise staterooms (MSC Gala evenings), and sacred sites (historic churches) is easy when you adopt the right strategy.
                   </p>
                 </div>
 
@@ -502,7 +502,7 @@ export function PackingChecklist() {
                       <div className="flex gap-2">
                         <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
                         <p className="leading-relaxed">
-                          <strong className="text-white">RFID-Blocking Neck Pouch:</strong> Wear an under-clothing passport bag or cross-body sling bag particularly in dense crowds (Rome Metro Station Termini, Vatican museums, markets).
+                          <strong className="text-white">RFID-Blocking Neck Pouch:</strong> Wear an under-clothing passport bag or cross-body sling bag particularly in dense crowds (busy train stations, cruise ports, crowded market avenues).
                         </p>
                       </div>
                       <div className="flex gap-2">
@@ -530,7 +530,7 @@ export function PackingChecklist() {
                       <div className="flex gap-2">
                         <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                         <p className="leading-relaxed">
-                          <strong className="text-white">Proper Vatican Attire (July 1):</strong> Ensure your knees and shoulders are covered. Keep a lightweight shawl or convertible modesty setup inside your active daypack.
+                          <strong className="text-white">Church Modesty Attire:</strong> Ensure your knees and shoulders are covered when entering historic cathedrals in Tuscany, Sicily, or Spain. Keep a lightweight shawl or cover-up setup inside your active daypack.
                         </p>
                       </div>
                       <div className="flex gap-2">
