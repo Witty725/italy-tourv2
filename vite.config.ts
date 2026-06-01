@@ -27,7 +27,68 @@ export default defineConfig(() => {
           ]
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'google-fonts',
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
+            },
+            {
+              // Custom caching rule for phrasebook speech audio files or assets
+              urlPattern: /\.(?:mp3|wav|ogg|m4a|mp4|aac)$/i,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'phrasebook-audio-cache',
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
+            },
+            {
+              // Cache local JSON or mock/served itinerary data, should it be fetched dynamically
+              urlPattern: /\/api\/.*|\/data\/.*|itinerary.*\.json$/i,
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'itinerary-details-cache',
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
+            },
+            {
+              // Cache live weather queries for offline fallback
+              urlPattern: /^https:\/\/api\.open-meteo\.com\/v1\/.*/i,
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'weather-api-cache',
+                expiration: {
+                  maxEntries: 20,
+                  maxAgeSeconds: 60 * 60 * 6 // 6 hours
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
+            }
+          ]
         }
       })
     ],

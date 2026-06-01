@@ -47,8 +47,8 @@ export default function App() {
             onClick={() => setActiveTab('Weather')}
             className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl border text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all cursor-pointer truncate ${
               activeTab === 'Weather' 
-                ? 'bg-blue-500/25 border-blue-500 text-blue-400' 
-                : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:text-white'
+                ? 'bg-slate-800 hover:bg-slate-700 border-blue-400 text-blue-300 shadow-[0_0_10px_rgba(59,130,246,0.15)]' 
+                : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-300 hover:text-white'
             }`}
             title="Live Weather"
           >
@@ -59,7 +59,7 @@ export default function App() {
           {/* Top Center: Photos Button Symmetrical Alignment */}
           <button 
             onClick={() => setShowPhotoModal(true)}
-            className="flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shadow-md cursor-pointer truncate"
+            className="flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shadow-md cursor-pointer truncate"
             title="Photos Gallery"
           >
             <Camera className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-400 shrink-0" />
@@ -71,8 +71,8 @@ export default function App() {
             onClick={() => setActiveTab('Emergency')}
             className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl border text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all cursor-pointer truncate ${
               activeTab === 'Emergency'
-                ? 'bg-red-500/25 border-red-500 text-red-400'
-                : 'bg-slate-950/40 border-slate-800 text-red-400/80 hover:text-red-450'
+                ? 'bg-slate-800 hover:bg-slate-700 border-red-500 text-red-300 shadow-[0_0_10px_rgba(239,68,68,0.15)]'
+                : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-red-400 hover:text-red-450'
             }`}
             title="Emergency Info & SOS Contacts"
           >

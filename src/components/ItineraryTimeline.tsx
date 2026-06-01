@@ -74,17 +74,24 @@ const LOCATIONS = [
   { name: "Baci di Pontremoli", query: "Baci di Pontremoli cookies pastry" }
 ];
 
-export const VOYAGE_PORTS = [
-  { city: 'Pontremoli', abbr: 'PT', date: 'June 18, 2026', day: 'June 18-22' },
-  { city: 'Livorno', abbr: 'LV', date: 'June 23, 2026', day: 'June 23' },
-  { city: 'Cagliari', abbr: 'CG', date: 'June 24, 2026', day: 'June 24' },
-  { city: 'Palermo', abbr: 'PL', date: 'June 25, 2026', day: 'June 25' },
-  { city: 'Valletta', abbr: 'VL', date: 'June 26, 2026', day: 'June 26' },
-  { city: 'At Sea', abbr: 'AS', date: 'June 27, 2026', day: 'June 27' },
-  { city: 'Barcelona', abbr: 'BC', date: 'June 28, 2026', day: 'June 28' },
-  { city: 'Marseille', abbr: 'MS', date: 'June 29, 2026', day: 'June 29' },
-  { city: 'Rome', abbr: 'RM', date: 'July 1, 2026', day: 'July 1-3' }
-];
+export function getCityShortName(dayNum: number, month: string, fullLocation: string) {
+  if (month === 'June') {
+    if (dayNum >= 18 && dayNum <= 22) return 'Pontremoli';
+    if (dayNum === 23) return 'Livorno';
+    if (dayNum === 24) return 'Cagliari';
+    if (dayNum === 25) return 'Palermo';
+    if (dayNum === 26) return 'Valletta';
+    if (dayNum === 27) return 'At Sea';
+    if (dayNum === 28) return 'Barcelona';
+    if (dayNum === 29) return 'Marseille';
+    if (dayNum === 30) return 'Rome';
+  } else if (month === 'July') {
+    return 'Rome';
+  }
+  // Fallback: extract first word before comma or parenthesis
+  const parts = fullLocation.split(/[,(]/);
+  return parts[0].trim();
+}
 
 // Helper to convert plain text into rich components featuring Google Images hyperlinks
 export function InteractiveText({ text, disableLinks = false }: { text: string; disableLinks?: boolean }) {
@@ -191,7 +198,6 @@ function getDayStyle(dayNum: number, month: string, isActive: boolean) {
     ? 'bg-rose-500/25 border-rose-500/60 shadow-lg'
     : 'bg-slate-900/40 border-slate-800/80';
 }
-
 function getDetailsThemeClasses(dayNum: number, month: string) {
   if (month === 'June') {
     if (dayNum >= 18 && dayNum <= 22) {
@@ -201,6 +207,9 @@ function getDetailsThemeClasses(dayNum: number, month: string) {
         weatherIcon: 'text-emerald-400',
         weatherHigh: 'text-emerald-500',
         weatherLow: 'text-cyan-400',
+        cardBg: 'bg-emerald-950/25 border-emerald-500/25 shadow-[0_4px_30px_rgba(16,185,129,0.03),inset_0_1px_1px_rgba(16,185,129,0.1)]',
+        phaseName: 'Tuscany Discovery',
+        phaseColor: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10'
       };
     } else if (dayNum === 23) {
       return {
@@ -209,6 +218,9 @@ function getDetailsThemeClasses(dayNum: number, month: string) {
         weatherIcon: 'text-indigo-400',
         weatherHigh: 'text-emerald-500',
         weatherLow: 'text-slate-300',
+        cardBg: 'bg-gradient-to-br from-emerald-950/20 to-blue-950/25 border-cyan-500/25 shadow-[0_4px_30px_rgba(6,182,212,0.03),inset_0_1px_1px_rgba(6,182,212,0.1)]',
+        phaseName: 'Cruise Embarkation',
+        phaseColor: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10'
       };
     } else if (dayNum >= 24 && dayNum <= 29) {
       return {
@@ -217,6 +229,9 @@ function getDetailsThemeClasses(dayNum: number, month: string) {
         weatherIcon: 'text-slate-400',
         weatherHigh: 'text-white',
         weatherLow: 'text-slate-400',
+        cardBg: 'bg-blue-950/20 border-blue-500/25 shadow-[0_4px_30px_rgba(59,130,246,0.03),inset_0_1px_1px_rgba(59,130,246,0.1)]',
+        phaseName: 'Mediterranean Cruise',
+        phaseColor: 'text-sky-400 border-sky-500/30 bg-sky-500/10'
       };
     } else if (dayNum === 30) {
       return {
@@ -225,6 +240,9 @@ function getDetailsThemeClasses(dayNum: number, month: string) {
         weatherIcon: 'text-rose-450',
         weatherHigh: 'text-white',
         weatherLow: 'text-red-400',
+        cardBg: 'bg-gradient-to-br from-blue-950/20 to-red-950/25 border-rose-500/25 shadow-[0_4px_30px_rgba(244,63,94,0.03),inset_0_1px_1px_rgba(244,63,94,0.1)]',
+        phaseName: 'Rome Transition',
+        phaseColor: 'text-rose-400 border-rose-500/30 bg-rose-500/10'
       };
     }
   }
@@ -233,8 +251,11 @@ function getDetailsThemeClasses(dayNum: number, month: string) {
     accentLine: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-[3.5px] before:bg-red-500',
     dateText: 'text-red-400 font-bold',
     weatherIcon: 'text-red-400',
-    weatherHigh: 'text-red-500',
+    weatherHigh: 'text-red-550',
     weatherLow: 'text-cyan-450',
+    cardBg: 'bg-red-950/20 border-red-500/25 shadow-[0_4px_30px_rgba(239,68,68,0.03),inset_0_1px_1px_rgba(239,68,68,0.1)]',
+    phaseName: 'Rome & Vatican Landmarks',
+    phaseColor: 'text-red-400 border-red-500/30 bg-red-550/10'
   };
 }
 
@@ -280,68 +301,6 @@ export function ItineraryTimeline() {
         <span>Tap any date below to inspect detailed schedules, lodging details, and live image highlights.</span>
       </div>
 
-      {/* Interactive Voyage Route Map Card */}
-      <div className="glass-panel bg-gradient-to-br from-slate-950 via-slate-900/60 to-slate-950 p-4 border-slate-800 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] font-black tracking-widest text-indigo-400 uppercase flex items-center gap-1.5 leading-none">
-            <Compass className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-            Interactive Cruise Voyage Path
-          </span>
-          <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-            Mediterranean Loop
-          </span>
-        </div>
-        
-        {/* Horizontal Scrollable Voyage Progress and Ports indicator map */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 scrollbar-none shrink-0 -mx-1 px-1">
-          {VOYAGE_PORTS.map((port, index) => {
-            const isSelected = selectedDay.location.toLowerCase().includes(port.city.toLowerCase()) || 
-                               (port.city === 'At Sea' && selectedDay.location.includes('AT SEA')) ||
-                               (port.city === 'Rome' && selectedDay.location.includes('ROME')) ||
-                               (port.city === 'Rome' && selectedDay.location.includes('VATICAN'));
-            return (
-              <div key={index} className="flex items-center shrink-0">
-                {/* Connected Line (hidden for first) */}
-                {index > 0 && (
-                  <div className={`h-0.5 w-4 sm:w-6 transition-all shrink-0 ${isSelected ? 'bg-indigo-500' : 'bg-slate-800'}`}></div>
-                )}
-                
-                {/* Port Point Interactive Node */}
-                <button
-                  onClick={() => {
-                    const found = itinerary.find(d => d.date === port.date);
-                    if (found) setSelectedDate(found.date);
-                  }}
-                  className={`flex flex-col items-center gap-1 cursor-pointer transition-all ${
-                    isSelected 
-                      ? 'scale-105 select-none' 
-                      : 'opacity-55 hover:opacity-100 hover:scale-[1.02]'
-                  }`}
-                  id={`voyage-port-${port.city.toLowerCase().replace(/\s+/g, '-')}`}
-                  title={`Jump to ${port.city}`}
-                >
-                  <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border-2 transition-all shadow-md ${
-                    isSelected 
-                      ? 'bg-indigo-500/20 text-indigo-300 border-indigo-400 font-extrabold shadow-indigo-500/15' 
-                      : 'bg-slate-950 text-slate-400 border-slate-800'
-                  }`}>
-                    <span className="text-[10px] sm:text-xs font-mono font-black">{port.abbr}</span>
-                  </div>
-                  <span className={`text-[9px] sm:text-[10px] font-black leading-none tracking-tight uppercase ${
-                    isSelected ? 'text-indigo-400 font-extrabold' : 'text-slate-500'
-                  }`}>
-                    {port.city}
-                  </span>
-                  <span className="text-[8px] font-mono font-semibold text-slate-500 leading-none mt-0.5">
-                    {port.day}
-                  </span>
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
       {/* Pocket Calendar Grid Tab */}
       <div className="glass-panel p-3.5 flex flex-col gap-3">
         {/* June Section */}
@@ -353,18 +312,26 @@ export function ItineraryTimeline() {
             {juneDays.map((day) => {
               const isActive = day.date === selectedDate;
               const styleClasses = getDayStyle(day.dayNum, day.month, isActive);
+              // Calculate day of the week for June 2026 (Month 5 is June in Date constructor)
+              const dateObj = new Date(2026, 5, day.dayNum);
+              const weekdayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+              const cityShortName = getCityShortName(day.dayNum, day.month, day.location);
               return (
                 <button
                   key={day.date}
                   onClick={() => setSelectedDate(day.date)}
                   className={`flex flex-col items-center justify-between p-2 rounded-lg border text-center transition-all cursor-pointer ${styleClasses}`}
                 >
-                  <span className="text-[10px] leading-none text-slate-400 uppercase tracking-widest font-black">
-                    {day.date.split(' ')[0].substring(0, 3)}
+                  <span className="text-[10px] leading-none uppercase tracking-wider font-black flex flex-col items-center gap-0.5">
+                    <span className="text-[9px] text-indigo-400 font-extrabold">{weekdayName}</span>
+                    <span className="text-[8px] text-slate-550 opacity-80 mt-0.5">{day.date.split(' ')[0].substring(0, 3)}</span>
                   </span>
                   <span className="text-sm font-black mt-1 mb-1 leading-none">{day.dayNum}</span>
-                  <span className="text-[9px] font-mono leading-none font-extrabold">
+                  <span className="text-[9px] font-mono leading-none font-extrabold mb-1">
                     {day.highF}°/{day.lowF}°
+                  </span>
+                  <span className="text-[8.5px] font-bold text-slate-300 uppercase tracking-tight truncate max-w-full leading-none pt-0.5 border-t border-slate-700/30 w-full">
+                    {cityShortName}
                   </span>
                 </button>
               );
@@ -381,18 +348,26 @@ export function ItineraryTimeline() {
             {julyDays.map((day) => {
               const isActive = day.date === selectedDate;
               const styleClasses = getDayStyle(day.dayNum, day.month, isActive);
+              // Calculate day of the week for July 2026 (Month 6 is July in Date constructor)
+              const dateObj = new Date(2026, 6, day.dayNum);
+              const weekdayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+              const cityShortName = getCityShortName(day.dayNum, day.month, day.location);
               return (
                 <button
                   key={day.date}
                   onClick={() => setSelectedDate(day.date)}
                   className={`flex flex-col items-center justify-between p-2 rounded-lg border text-center transition-all cursor-pointer ${styleClasses}`}
                 >
-                  <span className="text-[10px] leading-none text-slate-400 uppercase tracking-widest font-black">
-                    {day.date.split(' ')[0].substring(0, 3)}
+                  <span className="text-[10px] leading-none uppercase tracking-wider font-black flex flex-col items-center gap-0.5">
+                    <span className="text-[9px] text-indigo-400 font-extrabold">{weekdayName}</span>
+                    <span className="text-[8px] text-slate-550 opacity-80 mt-0.5">{day.date.split(' ')[0].substring(0, 3)}</span>
                   </span>
                   <span className="text-sm font-black mt-1 mb-1 leading-none">{day.dayNum}</span>
-                  <span className="text-[9px] font-mono leading-none font-extrabold">
+                  <span className="text-[9px] font-mono leading-none font-extrabold mb-1">
                     {day.highF}°/{day.lowF}°
+                  </span>
+                  <span className="text-[8.5px] font-bold text-slate-300 uppercase tracking-tight truncate max-w-full leading-none pt-0.5 border-t border-slate-700/30 w-full">
+                    {cityShortName}
                   </span>
                 </button>
               );
@@ -402,7 +377,7 @@ export function ItineraryTimeline() {
         
         {/* Footnote about historical temperatures */}
         <p className="text-[10px] sm:text-xs text-amber-400 italic text-center font-semibold mt-2.5">
-          * Displayed temperatures reflect historical weather data. Check home tab for real-time weather.
+          * Displayed temperatures reflect historical weather data. See button in top left of screen for real-time weather data.*
         </p>
       </div>
 
@@ -414,15 +389,20 @@ export function ItineraryTimeline() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          className={`glass-panel p-5 sm:p-6 flex flex-col gap-4 relative overflow-hidden ${theme.accentLine}`}
+          className={`rounded-xl p-5 sm:p-6 flex flex-col gap-4 relative overflow-hidden border backdrop-blur-[10px] transition-all duration-300 shadow-xl ${theme.cardBg} ${theme.accentLine}`}
         >
           {/* Header metadata summary */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 border-b border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-800">
             <div>
-              <span className={`${theme.dateText} font-black text-xs sm:text-sm uppercase tracking-widest font-mono`}>
-                {selectedDay.date}
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5 uppercase tracking-tight">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`${theme.dateText} font-black text-xs sm:text-sm uppercase tracking-widest font-mono`}>
+                  {selectedDay.date}
+                </span>
+                <span className={`inline-flex items-center text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded border ${theme.phaseColor} tracking-wider leading-none shadow-sm`}>
+                  {theme.phaseName}
+                </span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-white mt-1.5 uppercase tracking-tight">
                 {selectedDay.location}
               </h3>
             </div>
@@ -567,7 +547,7 @@ export function ItineraryTimeline() {
                           </h4>
                           
                           {activity.time && (
-                            <span className="font-mono text-[11px] font-black text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-850 uppercase tracking-widest shrink-0 self-start sm:self-center">
+                            <span className="font-mono text-[11px] font-black text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 uppercase tracking-widest shrink-0 self-start sm:self-center shadow-[0_0_8px_rgba(245,158,11,0.08)]">
                               {activity.time}
                             </span>
                           )}

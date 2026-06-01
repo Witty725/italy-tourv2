@@ -11,14 +11,15 @@ import {
   HelpCircle,
   Bookmark,
   Search,
-  X
+  X,
+  Activity
 } from 'lucide-react';
 
 interface Phrase {
   it: string;
   en: string;
   pronunciation?: string;
-  category: 'Greetings' | 'Courtesies' | 'Ordering Food' | 'Shopping' | 'Directions & Help';
+  category: 'Greetings' | 'Courtesies' | 'Ordering Food' | 'Shopping' | 'Directions & Help' | 'Medical & Pharmacy';
 }
 
 const phrasesData: Phrase[] = [
@@ -86,9 +87,21 @@ const phrasesData: Phrase[] = [
   { it: 'Mi sono perso', en: 'I am lost', pronunciation: 'mee so-no pehr-so', category: 'Directions & Help' },
   { it: 'Può ripetere lentamente?', en: 'Could you repeat slowly?', pronunciation: 'pwoh ree-peh-teh-reh len-tah-men-teh', category: 'Directions & Help' },
   { it: 'C\'è il Wi-Fi gratuito qui?', en: 'Is there free Wi-Fi here?', pronunciation: 'cheh eel wee-fee grah-too-ee-to kwee', category: 'Directions & Help' },
+
+  // Medical & Pharmacy
+  { it: 'Dov\'è la farmacia di turno più vicina?', en: 'Where is the nearest open shift pharmacy?', pronunciation: 'do-veh lah fahr-mah-chee-ah dee toor-no pyoo vee-chee-nah', category: 'Medical & Pharmacy' },
+  { it: 'Ho bisogno di un medico', en: 'I need a doctor', pronunciation: 'oh bee-zohn-yo dee oon meh-dee-ko', category: 'Medical & Pharmacy' },
+  { it: 'Dov\'è il pronto soccorso?', en: 'Where is the emergency room?', pronunciation: 'do-veh eel pron-to sok-kor-so', category: 'Medical & Pharmacy' },
+  { it: 'Mi fa male qui', en: 'It hurts here', pronunciation: 'mee fah mah-leh kwee', category: 'Medical & Pharmacy' },
+  { it: 'Ho la febbre', en: 'I have a fever', pronunciation: 'oh lah fehb-breh', category: 'Medical & Pharmacy' },
+  { it: 'Sono allergico a...', en: 'I am allergic to...', pronunciation: 'so-no al-lehr-zee-ko ah...', category: 'Medical & Pharmacy' },
+  { it: 'Avete qualcosa per il mal di stomaco?', en: 'Do you have something for stomach aches?', pronunciation: 'ah-veh-teh kwal-ko-zah pehr eel mahl dee sto-mah-ko', category: 'Medical & Pharmacy' },
+  { it: 'Posso avere un antidolorifico?', en: 'Can I have a painkiller?', pronunciation: 'pos-so ah-veh-reh oon ahn-tee-do-lo-ree-fee-ko', category: 'Medical & Pharmacy' },
+  { it: 'Ho bisogno di una ricetta per questo?', en: 'Do I need a prescription for this?', pronunciation: 'oh bee-zohn-yo dee oo-nah ree-tshet-tah pehr kwehs-to', category: 'Medical & Pharmacy' },
+  { it: 'Chiamate un\'ambulanza!', en: 'Call an ambulance!', pronunciation: 'kyah-mah-teh oon-ahm-boo-lahn-tsah', category: 'Medical & Pharmacy' },
 ];
 
-const categories = ['All', 'Greetings', 'Courtesies', 'Ordering Food', 'Shopping', 'Directions & Help'] as const;
+const categories = ['All', 'Greetings', 'Courtesies', 'Ordering Food', 'Shopping', 'Directions & Help', 'Medical & Pharmacy'] as const;
 
 export function PhrasesTab() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All');
@@ -136,6 +149,8 @@ export function PhrasesTab() {
         return <ShoppingBag className="w-3.5 h-3.5" />;
       case 'Directions & Help':
         return <MapPin className="w-3.5 h-3.5" />;
+      case 'Medical & Pharmacy':
+        return <Activity className="w-3.5 h-3.5" />;
       default:
         return <MessageCircle className="w-3.5 h-3.5" />;
     }
@@ -196,11 +211,59 @@ export function PhrasesTab() {
         })}
       </div>
 
-      {/* Grid displays filtered phrases */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 border-slate-700/50">
+      {/* Emergency GPS Maps Button Helpers for Medical & Pharmacy */}
+      {activeCategory === 'Medical & Pharmacy' && (
+        <div className="bg-emerald-950/20 border border-emerald-500/25 p-4 rounded-xl flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-emerald-400" />
+            <span className="text-xs font-black uppercase text-emerald-300 tracking-wider">
+              Emergency Map Locators (Italy / Cruise Ports)
+            </span>
+          </div>
+          <p className="text-slate-400 text-xs leading-relaxed">
+            Quickly locate medical care in Pontremoli, Rome, or your cruise ports. Tapping any button below opens Google Maps results for the nearest services:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-1">
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=farmacia"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 bg-emerald-500/10 hover:bg-emerald-500/25 active:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/60 text-emerald-300 hover:text-emerald-200 text-xs font-black uppercase tracking-wider rounded-lg transition-all text-center shadow-sm"
+              title="Locate nearest pharmacy with green cross"
+            >
+              Nearest Pharmacy
+            </a>
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=guardia+medica"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 bg-rose-500/10 hover:bg-rose-500/25 active:bg-rose-500/30 border border-rose-500/30 hover:border-rose-500/60 text-rose-300 hover:text-rose-200 text-xs font-black uppercase tracking-wider rounded-lg transition-all text-center shadow-sm"
+              title="Locate nearest walk-in urgent care"
+            >
+              Nearest Urgent Care
+            </a>
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=pronto+soccorso"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 bg-red-500/10 hover:bg-red-500/25 active:bg-red-500/30 border border-red-500/30 hover:border-red-500/60 text-red-300 hover:text-red-200 text-xs font-black uppercase tracking-wider rounded-lg transition-all text-center shadow-sm"
+              title="Locate nearest hospital ER"
+            >
+              Nearest ER
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* Grid or List displays filtered phrases */}
+      <div className={activeCategory === 'Medical & Pharmacy' 
+        ? "flex flex-col gap-2 border-slate-700/50 max-w-full" 
+        : "grid grid-cols-1 sm:grid-cols-2 gap-3 border-slate-700/50"
+      }>
         <AnimatePresence mode="popLayout">
           {filteredPhrases.map((phrase, idx) => {
             const isSpeaking = speakingIdx === idx;
+            const isMedicalList = activeCategory === 'Medical & Pharmacy';
             return (
               <motion.div
                 layout
@@ -210,37 +273,41 @@ export function PhrasesTab() {
                 transition={{ duration: 0.15 }}
                 key={phrase.it}
                 onClick={() => handleSpeak(phrase.it, idx)}
-                className={`flex justify-between items-center p-3.5 rounded-xl border transition-all group cursor-pointer shadow-sm select-none ${
-                  isSpeaking
-                    ? 'border-emerald-500 bg-emerald-950/20 scale-[1.01] shadow-lg shadow-emerald-950/30'
-                    : 'border-slate-800 bg-slate-900/40 hover:bg-slate-800/60 hover:border-slate-700/50'
+                className={`flex justify-between items-center border transition-all group cursor-pointer shadow-sm select-none ${
+                  isMedicalList 
+                    ? `p-3 rounded-xl ${isSpeaking ? 'border-emerald-500 bg-emerald-950/20 shadow-md shadow-emerald-950/10' : 'border-slate-800 bg-slate-900/30 hover:bg-slate-800/40 hover:border-slate-750'}`
+                    : `p-3.5 rounded-xl ${isSpeaking ? 'border-emerald-500 bg-emerald-950/20 scale-[1.01] shadow-lg shadow-emerald-950/30' : 'border-slate-800 bg-slate-900/40 hover:bg-slate-800/60 hover:border-slate-700/50'}`
                 }`}
                 id={`phrase-${phrase.it.replace(/\s+/g, '-').toLowerCase()}`}
               >
-                <div className="flex flex-col gap-1 pr-2">
+                <div className="flex flex-col gap-1 pr-2 w-full">
                   <span className="text-[10px] uppercase font-black tracking-widest text-indigo-400 leading-none">
                     {phrase.category}
                   </span>
-                  <span className="font-extrabold text-slate-100 text-sm sm:text-base tracking-tight leading-tight">
-                    {phrase.it}
-                  </span>
+                  
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <span className="font-extrabold text-slate-100 text-sm sm:text-base tracking-tight leading-tight">
+                      {phrase.it}
+                    </span>
+                    {phrase.pronunciation && (
+                      <span className="text-[9px] font-mono opacity-80 text-emerald-400 leading-none bg-emerald-500/5 px-2 py-0.5 rounded border border-emerald-500/10 w-fit shrink-0">
+                        [{phrase.pronunciation}]
+                      </span>
+                    )}
+                  </div>
+                  
                   <span className="text-[10px] sm:text-[11px] text-slate-400 font-semibold leading-snug">
                     {phrase.en}
                   </span>
-                  {phrase.pronunciation && (
-                    <span className="text-[9px] font-mono opacity-80 text-emerald-400 mt-0.5 leading-none bg-emerald-500/5 px-2 py-0.5 rounded border border-emerald-500/10 w-fit">
-                      [{phrase.pronunciation}]
-                    </span>
-                  )}
                 </div>
                 
                 {/* Voice Speaker Circle icon */}
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors border shrink-0 ${
+                <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-colors border shrink-0 ${
                   isSpeaking
                     ? 'bg-emerald-500 text-slate-950 border-emerald-400 animate-bounce'
                     : 'bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 group-hover:text-indigo-300 border-indigo-500/20'
                 }`}>
-                  <Volume2 className={`w-4 h-4 ${isSpeaking ? 'animate-pulse' : ''}`} />
+                  <Volume2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isSpeaking ? 'animate-pulse' : ''}`} />
                 </div>
               </motion.div>
             );

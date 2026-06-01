@@ -51,64 +51,138 @@ export function HomeTab({ onNavigate }: HomeTabProps) {
             {/* Middleground Rolling Garden Hills */}
             <path d="M-50 185 Q 240 120 530 168 T 850 180 L 850 200 L -50 200 Z" fill="#064e3b" fillOpacity="0.8" />
             
-            {/* Tall Elegant Cypress Trees (Needles) styled precisely like the reference image */}
-            {/* Tree 1: Left tall */}
-            <path d="M280 85 L283.5 178 L276.5 178 Z" fill="#022c22" stroke="#047857" strokeWidth="0.5" />
-            {/* Tree 2: Left medium */}
-            <path d="M295 105 L298 178 L292 178 Z" fill="#011f10" stroke="#047857" strokeWidth="0.5" />
-            {/* Tree 3: Center-right in front of sun */}
-            <path d="M414 112 L417 178 L411 178 Z" fill="#022c22" stroke="#047857" strokeWidth="0.5" />
-            {/* Tree 4: Right tall */}
-            <path d="M515 95 L518.5 178 L511.5 178 Z" fill="#022c22" stroke="#047857" strokeWidth="0.5" />
-            {/* Tree 5: Right medium */}
-            <path d="M530 108 L533.5 178 L526.5 178 Z" fill="#011f10" stroke="#047857" strokeWidth="0.5" />
-
-            {/* LEFT ELEMENT: Fully Custom Leaning Tower of Pisa (Tilted to the Left at ~10 degrees) */}
-            <g transform="translate(160, 115) rotate(-11) scale(0.55)">
-              {/* Foundation Slanted Steps */}
-              <path d="M-10 115 L110 115 L100 135 L0 135 Z" fill="#1e293b" />
-              {/* Tower Core Wall Background */}
-              <path d="M10 115 L25 -30 L75 -35 L90 115 Z" fill="#0f172a" />
-              {/* Vertical architectural lines / Column simulations */}
-              <line x1="25" y1="115" x2="35" y2="-30" stroke="#334155" strokeWidth="1" />
-              <line x1="45" y1="115" x2="52" y2="-32" stroke="#334155" strokeWidth="1" />
-              <line x1="65" y1="115" x2="68" y2="-33" stroke="#334155" strokeWidth="1" />
-              <line x1="85" y1="115" x2="80" y2="-30" stroke="#334155" strokeWidth="1" />
-              {/* Tier Horizontal Borders */}
-              <rect x="23" y="90" width="64" height="6" fill="#334155" />
-              <rect x="25" y="70" width="60" height="6" fill="#334155" />
-              <rect x="27" y="50" width="56" height="6" fill="#334155" />
-              <rect x="29" y="30" width="52" height="6" fill="#334155" />
-              <rect x="31" y="10" width="48" height="6" fill="#334155" />
-              <rect x="33" y="-10" width="44" height="6" fill="#334155" />
-              <rect x="35" y="-30" width="40" height="6" fill="#334155" />
-              {/* Symmetrical Window Arches on levels */}
-              <circle cx="35" cy="80" r="2.5" fill="#e2e8f0" />
-              <circle cx="45" cy="80" r="2.5" fill="#e2e8f0" />
-              <circle cx="55" cy="80" r="2.5" fill="#e2e8f0" />
-              <circle cx="65" cy="80" r="2.5" fill="#e2e8f0" />
-              <circle cx="75" cy="80" r="2.5" fill="#e2e8f0" />
+            {/* Beautiful Tuscan Vineyard rows following the contour of the green rolling hills */}
+            <g opacity="0.8">
+              {/* Vineyard Left Hill Rows */}
+              <path d="M 170 152 Q 220 138 270 150" fill="none" stroke="#15803d" strokeWidth="2.5" strokeDasharray="5 4" strokeLinecap="round" />
+              <path d="M 180 162 Q 230 148 280 160" fill="none" stroke="#16a34a" strokeWidth="3" strokeDasharray="6 3" strokeLinecap="round" />
+              <path d="M 190 174 Q 240 158 290 172" fill="none" stroke="#22c55e" strokeWidth="3" strokeDasharray="4 4" strokeLinecap="round" />
               
-              <circle cx="37" cy="60" r="2.5" fill="#e2e8f0" />
-              <circle cx="47" cy="60" r="2.5" fill="#e2e8f0" />
-              <circle cx="57" cy="60" r="2.5" fill="#e2e8f0" />
-              <circle cx="67" cy="60" r="2.5" fill="#e2e8f0" />
-              <circle cx="77" cy="60" r="2.5" fill="#e2e8f0" />
+              {/* Left Vineyard Tiny Supporting Posts */}
+              <line x1="185" y1="151" x2="185" y2="157" stroke="#78350f" strokeWidth="1.2" />
+              <line x1="215" y1="145" x2="215" y2="151" stroke="#78350f" strokeWidth="1.2" />
+              <line x1="245" y1="145" x2="245" y2="151" stroke="#78350f" strokeWidth="1.2" />
+              <line x1="275" y1="152" x2="275" y2="158" stroke="#78350f" strokeWidth="1.2" />
 
-              <circle cx="39" cy="40" r="2.5" fill="#e2e8f0" />
-              <circle cx="49" cy="40" r="2.5" fill="#e2e8f0" />
-              <circle cx="59" cy="40" r="2.5" fill="#e2e8f0" />
-              <circle cx="69" cy="40" r="2.5" fill="#e2e8f0" />
-              <circle cx="79" cy="40" r="2.5" fill="#e2e8f0" />
+              {/* Vineyard Right Hill Rows */}
+              <path d="M 450 165 Q 490 154 530 167" fill="none" stroke="#15803d" strokeWidth="2.5" strokeDasharray="5 4" strokeLinecap="round" />
+              <path d="M 440 176 Q 485 166 530 180" fill="none" stroke="#16a34a" strokeWidth="3" strokeDasharray="6 3" strokeLinecap="round" />
               
-              <circle cx="41" cy="20" r="2.5" fill="#e2e8f0" />
-              <circle cx="51" cy="20" r="2.5" fill="#e2e8f0" />
-              <circle cx="61" cy="20" r="2.5" fill="#e2e8f0" />
-              <circle cx="71" cy="20" r="2.5" fill="#e2e8f0" />
+              {/* Right Vineyard Tiny Supporting Posts */}
+              <line x1="460" y1="163" x2="460" y2="169" stroke="#78350f" strokeWidth="1.2" />
+              <line x1="490" y1="160" x2="490" y2="166" stroke="#78350f" strokeWidth="1.2" />
+              <line x1="520" y1="166" x2="520" y2="172" stroke="#78350f" strokeWidth="1.2" />
+            </g>
 
-              {/* Dome / Belfry top */}
-              <path d="M37 -30 Q 55 -55 73 -30 Z" fill="#475569" />
-              <rect x="52" y="-62" width="6" height="12" fill="#1e293b" />
+            {/* Highly artistic Organic Cypress Trees (with rich multi-layered volumetric canopies) */}
+            {/* Cypress 1: Elegant left tree */}
+            <g transform="translate(295, 118) scale(0.65)">
+              <rect x="-1.5" y="15" width="3" height="40" fill="#451a03" />
+              <path d="M 0 -22 C -11 0, -9 35, 0 45 C 9 35, 11 0, 0 -22 Z" fill="#064e3b" />
+              <path d="M 0 -10 C -8 10, -7 30, 0 38 C 7 30, 8 10, 0 -10 Z" fill="#022c22" />
+              <path d="M 0 2 C -5 18, -4 28, 0 32 C 4 28, 5 18, 0 2 Z" fill="#047857" />
+            </g>
+
+            {/* Cypress 2: Medium right tree by the castle */}
+            <g transform="translate(432, 128) scale(0.52)">
+              <rect x="-1" y="15" width="2" height="40" fill="#451a03" />
+              <path d="M 0 -22 C -11 0, -9 35, 0 45 C 9 35, 11 0, 0 -22 Z" fill="#064e3b" />
+              <path d="M 0 -10 C -8 10, -7 30, 0 38 C 7 30, 8 10, 0 -10 Z" fill="#022c22" />
+              <path d="M 0 2 C -5 18, -4 28, 0 32 C 4 28, 5 18, 0 2 Z" fill="#047857" />
+            </g>
+
+            {/* Cypress 3: Small background tree */}
+            <g transform="translate(418, 142) scale(0.38)">
+              <rect x="-1" y="15" width="2" height="30" fill="#451a03" />
+              <path d="M 0 -20 C -10 0, -8 30, 0 40 C 8 30, 10 0, 0 -20 Z" fill="#022c22" />
+              <path d="M 0 -5 C -6 10, -5 25, 0 31 C 5 25, 6 10, 0 -5 Z" fill="#047857" />
+            </g>
+
+            {/* LEFT ELEMENT: Symmetrical Masterpiece Leaning Tower of Pisa (Tilted to the Right at 5.2 degrees, mimicking the photo) */}
+            <g transform="translate(115, 184) rotate(5.2) scale(0.72)">
+              {/* Dual Stepped White Stone Base Foundation */}
+              <rect x="-33" y="-5" width="66" height="5" fill="#94a3b8" rx="0.5" />
+              <rect x="-29" y="-10" width="58" height="5" fill="#cbd5e1" rx="0.5" />
+
+              {/* TIER 1 (Tower Ground level - Solid white marble block with blind arches) */}
+              <rect x="-24.5" y="-34" width="49" height="24" fill="#f8fafc" />
+              {/* Round Column Trim at top of Base Tier */}
+              <rect x="-25" y="-36" width="50" height="2" fill="#cbd5e1" rx="0.5" />
+              {/* Dark blind arches recessed on Tier 1 */}
+              {[-19, -11, -3, 5, 13, 21].map((xLeft, cIdx) => (
+                <rect key={cIdx} x={xLeft - 1.5} y="-30" width="3" height="15" fill="#1e293b" rx="1.5" />
+              ))}
+
+              {/* SIX OPEN-GALLERY TIERS (Tiers 2 to 7 with columns and semicircular arches spanning cylinder) */}
+              {[0, 1, 2, 3, 4, 5].map((idx) => {
+                const bY = -36 - (idx * 14); // level bottom height
+                const tY = bY - 14;          // level top height
+                const width = 48 - (idx * 0.4); // extremely subtle cylindrical taper
+                const colCount = 8;
+                return (
+                  <g key={idx}>
+                    {/* Dark depth recess backdrop inside gallery */}
+                    <rect x={-width/2 + 2} y={tY} width={width - 4} height={14} fill="#020617" />
+                    
+                    {/* Gallery columns & delicate arches */}
+                    {Array.from({ length: colCount }).map((_, cIdx) => {
+                      const segmentLength = (width - 4) / (colCount - 1);
+                      const cx = -width/2 + 2 + (cIdx * segmentLength);
+                      return (
+                        <g key={cIdx}>
+                          {/* Semicircular gallery arch top link */}
+                          {cIdx < colCount - 1 && (
+                            <path 
+                              d={`M ${cx} ${tY + 3.5} A ${segmentLength/2} ${segmentLength/2} 0 0 1 ${cx + segmentLength} ${tY + 3.5}`} 
+                              fill="none" 
+                              stroke="#c084fc" 
+                              strokeWidth="0.3" 
+                              opacity="0.1" 
+                            />
+                          )}
+                          {/* Column Shafts */}
+                          <line x1={cx} y1={bY} x2={cx} y2={tY + 3.5} stroke="#f1f5f9" strokeWidth="0.9" />
+                          {/* Golden top capital details */}
+                          <circle cx={cx} cy={tY + 3.5} r="0.6" fill="#f8fafc" />
+                        </g>
+                      );
+                    })}
+
+                    {/* Horizontal balcony handrails & structural cornices */}
+                    <rect x={-width/2 - 1.5} y={tY} width={width + 3} height={2} fill="#e2e8f0" rx="0.5" />
+                    <rect x={-width/2 - 1} y={bY - 2} width={width + 2} height={2} fill="#cbd5e1" />
+                    {/* Dark baluster accents on railing */}
+                    <line x1={-width/2} y1={bY - 1} x2={width/2} y2={bY - 1} stroke="#64748b" strokeWidth="0.6" strokeDasharray="1.2 1.2" />
+                  </g>
+                );
+              })}
+
+              {/* TIER 8 (Belfry set back from the ledge - slightly narrower cylindrical top) */}
+              <g>
+                {/* Dark recess inside the belfry */}
+                <rect x="-17" y="-136" width="34" height="16" fill="#020617" />
+                {/* Belfry pillars & arches */}
+                {Array.from({ length: 6 }).map((_, cIdx) => {
+                  const cx = -14 + (cIdx * 5.6);
+                  return (
+                    <g key={cIdx}>
+                      <rect x={cx - 1} y="-133" width="2" height="13" fill="#cbd5e1" rx="0.5" />
+                      <path d={`M ${cx - 1.5} -130 A 1.5 1.5 0 0 1 ${cx + 1.5} -130`} fill="none" stroke="#f1f5f9" strokeWidth="0.8" />
+                    </g>
+                  );
+                })}
+                {/* Hanging gold metal bell in the center archway of belfry */}
+                <polygon points="-2,-128 2,-128 3,-124 -3,-124" fill="#fbbf24" stroke="#d97706" strokeWidth="0.5" />
+                <circle cx="0" cy="-122.5" r="1.2" fill="#d97706" />
+
+                {/* Top deck dome roof cornice ring & spire stack */}
+                <rect x="-19" y="-139" width="38" height="3" fill="#cbd5e1" rx="1" />
+                {/* Top safety railing */}
+                <line x1="-18" y1="-141" x2="18" y2="-141" stroke="#cbd5e1" strokeWidth="0.8" strokeDasharray="1 1" />
+                {/* Slim spire pole for Italian flagpole display */}
+                <line x1="0" y1="-139" x2="0" y2="-154" stroke="#475569" strokeWidth="1" />
+                <polygon points="0,-154 9,-151.5 0,-149" fill="#ef4444" />
+              </g>
             </g>
 
             {/* MIDDLE ELEMENT: Piagnaro Castle of Pontremoli (Dark, simple layout) */}

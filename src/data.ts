@@ -37,6 +37,7 @@ export const packingList: ChecklistItem[] = [
   { id: 'pe-12', category: 'Packing Essentials', text: '1 Pair of Flip-Flops', subText: 'Ideal for cruise cabin, deck pools, and sandy beaches' },
   { id: 'pe-13', category: 'Packing Essentials', text: 'Solar & Insect Protection', subText: 'High-SPF reef-safe sunscreen, travel bug spray' },
   { id: 'pe-14', category: 'Packing Essentials', text: 'Blister Plasters (Compeed)', subText: 'Essential for long trail walking + mini first-aid kit' },
+  { id: 'pe-19', category: 'Packing Essentials', text: 'Pepto Tablets', subText: 'Relief tablets for indigestion, sour stomach, or travelers diarrhea' },
   { id: 'pe-15', category: 'Packing Essentials', text: 'Travel Detergent Sheets', subText: 'Compact paper sheets + universal flat sink stoppers' },
   { id: 'pe-16', category: 'Packing Essentials', text: '1 Small Rain Umbrella', subText: 'Pocket size for unexpected continental rain showers' },
   { id: 'pe-17', category: 'Packing Essentials', text: 'Travel Size Toiletries', subText: 'TSA 3-1-1 compliant bottles & liquids bag' },
@@ -200,12 +201,6 @@ export const itinerary: ItineraryDay[] = [
     lowF: 59,
     weather: 'Mostly Sunny',
     weatherDetails: 'High: 76°F, Low: 59°F. Pleasant day with some high-altitude clouds. High UV index of 8, so make sure to wear sunscreen during the walking tour.',
-    hotel: {
-      name: 'Hotel Napoleon',
-      address: 'Piazza Italia, 2, 54027 Pontremoli MS, Italy',
-      phone: '+39 0187 830544',
-      notes: 'Night 3 of stay in Pontremoli.'
-    },
     activities: [
       {
         time: '14:00',
@@ -340,6 +335,7 @@ export const itinerary: ItineraryDay[] = [
         icon: 'ship'
       },
       {
+        time: '18:00',
         title: 'MSC Splendida Cruise Departure',
         description: 'Ship cast-off is scheduled. Watch the sail-away from the balcony or high deck!',
         icon: 'ship'
