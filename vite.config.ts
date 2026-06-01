@@ -11,6 +11,7 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
+        injectRegister: 'inline',
         manifest: {
           name: 'Italy Tour Dashboard',
           short_name: 'Italy Tour',
