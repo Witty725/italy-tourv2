@@ -260,6 +260,31 @@ function getDetailsThemeClasses(dayNum: number, month: string) {
   };
 }
 
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.02
+    }
+  }
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 260,
+      damping: 24
+    }
+  }
+};
+
 export function ItineraryTimeline() {
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     try {
@@ -405,10 +430,10 @@ export function ItineraryTimeline() {
       <AnimatePresence mode="wait">
         <motion.div
           key={selectedDay.date}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0, y: 15, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -15, scale: 0.97 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 28 }}
           className={`rounded-xl p-5 sm:p-6 flex flex-col gap-4 relative overflow-hidden border backdrop-blur-[10px] transition-all duration-300 shadow-xl ${theme.cardBg} ${theme.accentLine}`}
         >
           {/* Header metadata summary */}
@@ -442,13 +467,18 @@ export function ItineraryTimeline() {
 
           {/* Warning Banner */}
           {selectedDay.warning && (
-            <div className="bg-red-950/20 border border-red-500/30 p-3 rounded-xl flex items-start gap-2 text-xs text-red-200">
+            <motion.div 
+              initial={{ opacity: 0, height: 0, scale: 0.96 }}
+              animate={{ opacity: 1, height: 'auto', scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              className="bg-red-950/20 border border-red-500/30 p-3 rounded-xl flex items-start gap-2 text-xs text-red-200 overflow-hidden"
+            >
               <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
               <div className="flex flex-col">
                 <span className="font-extrabold uppercase tracking-wide text-red-300">Important Advisory:</span>
                 <span className="mt-0.5 font-medium leading-relaxed">{selectedDay.warning}</span>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* High-Fidelity Extended Weather description */}
@@ -461,7 +491,12 @@ export function ItineraryTimeline() {
 
           {/* Lodging & Accommodation Highlight */}
           {selectedDay.hotel && (
-            <div className="bg-gradient-to-br from-emerald-950/10 via-slate-900/40 to-slate-950/50 p-4 rounded-xl border border-emerald-500/20 flex flex-col gap-2.5">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.97, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.08, type: 'spring', stiffness: 280, damping: 22 }}
+              className="bg-gradient-to-br from-emerald-950/10 via-slate-900/40 to-slate-950/50 p-4 rounded-xl border border-emerald-500/20 flex flex-col gap-2.5"
+            >
               <div className="flex items-center gap-2">
                 <Home className="w-4.5 h-4.5 text-emerald-400 shrink-0" />
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider leading-none">Hotel Accommodation Stay</span>
@@ -516,7 +551,7 @@ export function ItineraryTimeline() {
                   <span>IMAGE HIGHLIGHTS</span>
                 </a>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* Daily Schedule Events Timeline */}
@@ -526,7 +561,12 @@ export function ItineraryTimeline() {
             </span>
 
             {selectedDay.activities && selectedDay.activities.length > 0 ? (
-              <div className="flex flex-col gap-3 relative">
+              <motion.div 
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-3 relative"
+              >
                 {/* Visual vertical lineage line connector */}
                 <div className="absolute top-2 bottom-2 left-[18px] w-0.5 bg-slate-850"></div>
 
@@ -541,7 +581,11 @@ export function ItineraryTimeline() {
                   ].filter(Boolean).join(', ');
 
                   return (
-                    <div key={index} className="flex gap-4 relative z-10 group">
+                    <motion.div 
+                      key={index} 
+                      variants={staggerItem}
+                      className="flex gap-4 relative z-10 group"
+                    >
                       {/* Visual icon badge step */}
                       <div className="w-9 h-9 rounded-xl bg-slate-950 border border-slate-850 flex items-center justify-center shrink-0 group-hover:border-slate-700 transition-colors">
                         {getActivityIcon(activity.icon)}
@@ -647,10 +691,10 @@ export function ItineraryTimeline() {
                           </div>
                         )}
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </div>
+              </motion.div>
             ) : (
               <span className="text-slate-500 font-bold text-xs italic block text-center py-4">No scheduled specific activities listed. Take advantage of leisure time!</span>
             )}
