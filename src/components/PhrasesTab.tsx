@@ -12,14 +12,15 @@ import {
   Bookmark,
   Search,
   X,
-  Activity
+  Activity,
+  Wifi
 } from 'lucide-react';
 
 interface Phrase {
   it: string;
   en: string;
   pronunciation?: string;
-  category: 'Greetings' | 'Courtesies' | 'Ordering Food' | 'Shopping' | 'Directions & Help' | 'Medical & Pharmacy';
+  category: 'Greetings' | 'Courtesies' | 'Ordering Food' | 'Shopping' | 'Directions & Help' | 'Medical & Pharmacy' | 'Technology & WiFi';
 }
 
 const phrasesData: Phrase[] = [
@@ -99,9 +100,17 @@ const phrasesData: Phrase[] = [
   { it: 'Posso avere un antidolorifico?', en: 'Can I have a painkiller?', pronunciation: 'pos-so ah-veh-reh oon ahn-tee-do-lo-ree-fee-ko', category: 'Medical & Pharmacy' },
   { it: 'Ho bisogno di una ricetta per questo?', en: 'Do I need a prescription for this?', pronunciation: 'oh bee-zohn-yo dee oo-nah ree-tshet-tah pehr kwehs-to', category: 'Medical & Pharmacy' },
   { it: 'Chiamate un\'ambulanza!', en: 'Call an ambulance!', pronunciation: 'kyah-mah-teh oon-ahm-boo-lahn-tsah', category: 'Medical & Pharmacy' },
+
+  // Technology & WiFi
+  { it: 'Scusi, avete il WiFi gratuito?', en: 'Excuse me, do you have free WiFi?', pronunciation: 'skoo-zee, ah-veh-teh eel wee-fee grah-too-ee-to', category: 'Technology & WiFi' },
+  { it: 'Posso avere la password del WiFi, per favore?', en: 'May I have the WiFi password, please?', pronunciation: 'pos-so ah-veh-reh lah pahs-word del wee-fee, pehr fah-vo-reh', category: 'Technology & WiFi' },
+  { it: 'Posso ricaricare il telefono qui?', en: 'Can I charge my phone here?', pronunciation: 'pos-so ree-kah-ree-kah-reh eel teh-leh-fo-no kwee', category: 'Technology & WiFi' },
+  { it: 'Avete una presa elettrica?', en: 'Do you have an electrical outlet?', pronunciation: 'ah-veh-teh oo-nah preh-zah eh-let-tree-kah', category: 'Technology & WiFi' },
+  { it: 'C\'è campo qui?', en: 'Is there mobile reception here?', pronunciation: 'cheh kahm-po kwee', category: 'Technology & WiFi' },
+  { it: 'Il mio telefono non ha segnale', en: 'My phone has no signal', pronunciation: 'eel mee-o teh-leh-fo-no non ah seh-nyah-leh', category: 'Technology & WiFi' },
 ];
 
-const categories = ['All', 'Greetings', 'Courtesies', 'Ordering Food', 'Shopping', 'Directions & Help', 'Medical & Pharmacy'] as const;
+const categories = ['All', 'Greetings', 'Courtesies', 'Ordering Food', 'Shopping', 'Directions & Help', 'Medical & Pharmacy', 'Technology & WiFi'] as const;
 
 export function PhrasesTab() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All');
@@ -151,6 +160,8 @@ export function PhrasesTab() {
         return <MapPin className="w-3.5 h-3.5" />;
       case 'Medical & Pharmacy':
         return <Activity className="w-3.5 h-3.5" />;
+      case 'Technology & WiFi':
+        return <Wifi className="w-3.5 h-3.5" />;
       default:
         return <MessageCircle className="w-3.5 h-3.5" />;
     }

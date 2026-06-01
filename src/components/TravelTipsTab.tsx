@@ -1,6 +1,23 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, Utensils, Coffee, CircleDollarSign, Train, Users, CreditCard, Ship, Lightbulb, Heart, MapPin } from 'lucide-react';
+import { 
+  ChevronDown, 
+  Utensils, 
+  Coffee, 
+  CircleDollarSign, 
+  Train, 
+  Users, 
+  CreditCard, 
+  Ship, 
+  Lightbulb, 
+  Heart, 
+  MapPin,
+  Smartphone,
+  Wifi,
+  Battery,
+  Volume2,
+  ExternalLink
+} from 'lucide-react';
 
 const travelTips = [
   {
@@ -27,6 +44,76 @@ const travelTips = [
       { 
         title: 'Bringing Prescriptions from Home', 
         content: 'Avoid using broad brand names (like "Tylenol" or "Motrin") when questioning pharmacists—instead, specify the generic substance names ("paracetamolo" for Tylenol/Acetaminophen, "ibuprofene" for Motrin/Advil). Carry your original home prescriptions and keep pills in their original labeled bottles.' 
+      }
+    ]
+  },
+  {
+    id: 'phone-service',
+    title: 'Cell Phone & WiFi Abroad',
+    icon: <Wifi className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />,
+    items: [
+      {
+        title: '1. Hotel Napoleon (Pontremoli) — Essential First Tip',
+        content: '• This hotel offers free Wi-Fi for all guests.\n• Ask for connection information at check-in and use as a zero-cost base for maps, emails, and video calls.'
+      },
+      {
+        title: '2. Carrier International Plans & The Cruise Ship Satellite Trap',
+        isCarrierTrap: true,
+        content: '• At-Sea Satellite: Standard land-based global travel passes do not cover at-sea maritime satellite cellular networks (such as "Cellular at Sea"). Connecting here without specific cruise passes leads to extremely expensive pay-as-you-go billing rates.\n• Basic Guard: Keep cellular data roaming disabled or stay in Airplane Mode entirely while sailing.'
+      },
+      {
+        title: '3. Critical Safeguard: Preventing Hidden Background Data Triggers',
+        device: 'iphone',
+        content: '• Airplane Mode State: Keep active as your baseline. Manually enable just WiFi when needed.\n• Low Data Mode: Navigate to Settings → Cellular → Cellular Data Options and toggle Low Data Mode to ON to disable background tasks.\n• Background Refresh: Disable entirely via Settings → General → Background App Refresh → OFF.\n• System Pause: Turn off automated iCloud Photo backup under Settings → [Your Name] → iCloud → Photos and click Pause Mobile Syncing.'
+      },
+      {
+        title: '3. Critical Safeguard: Preventing Hidden Background Data Triggers',
+        device: 'android',
+        content: '• Airplane Mode State: Keep active as your baseline. Turn on WiFi separately when in range.\n• Data Saver Mode: Navigate to Settings → Network & internet → Data Saver and toggle ON.\n• Stop Auto-Updates: Open Google Play Store -> tap profile -> Settings -> Network Preferences -> Auto-update apps -> Choose "Don\'t auto-update".\n• Restrict Bad Apps: Go to Settings -> Apps -> select problematic app (like Photos/Drive) -> Battery -> Choose "Restricted".'
+      },
+      {
+        title: '4. Local Public WiFi Etiquette & Access Phrases',
+        isInteractivePhrases: true,
+        content: '• Accessible Hotspots: Common wireless networks can routinely be found at central piazzas, local cafes, bars, and traditional trattorias.\n• Order First: It is standard courtesy to purchase a small item (such as an espresso) before requesting credentials.'
+      },
+      {
+        title: '5. Cellular Signal Dynamics: Pontremoli & The Surrounding Hills',
+        content: '• Town Center: Strong coverage inside Pontremoli. Your US model will automatically roam onto primary Italian networks (TIM, Vodafone, or WindTre) for stable 4G LTE/5G.\n• Tuscan Countryside: Signals in rural hills are highly sparse and weak. Searching for 5G forces your internal radio to run at maximum wattage, draining your cell battery instantly. Stick to 4G/LTE manually for maximum battery savings.'
+      },
+      {
+        title: '6. How to Manually Force 4G LTE (Instead of 5G)',
+        device: 'iphone',
+        content: '• iPhone Steps: Navigate to Settings → Cellular → Cellular Data Options → Voice & Data, and select LTE.'
+      },
+      {
+        title: '6. How to Manually Force 4G LTE (Instead of 5G)',
+        device: 'android',
+        content: '• Galaxy/Samsung: Navigate to Settings → Connections → Mobile networks → Network mode, and choose LTE/3G/2G.\n• Stock Android/Pixel: Navigate to Settings → Network & "internet" → SIMs → Preferred network type, and choose LTE or 4G.'
+      },
+      {
+        title: '7. WiFi Calling, Messaging & Video Apps Abroad',
+        content: '• Wi-Fi Calling: Toggle "Wi-Fi Calling" to ON under Settings → Phone (or Connections) BEFORE setting foot outside the US. This allows you to make/receive free calls and texts back to US numbers over any stable Wi-Fi network.\n• iMessage & FaceTime: Communication between Apple devices is entirely free of charge over standard Wi-Fi.\n• WhatsApp Messenger: The undisputed communication king in Europe. Widely used by guides, hotels, and locals. Ensure it is integrated with your US number for free calling/texting over Wi-Fi.\n• Zoom Personal Calls: Zoom video and audio sessions are 100% free of charge on standard personal accounts over Wi-Fi connection. They do not consume cell carrier plan roaming data/minutes.'
+      }
+    ]
+  },
+  {
+    id: 'phone-battery',
+    title: 'Cell Phone Battery Maximization Tips',
+    icon: <Battery className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />,
+    items: [
+      {
+        title: '1. System Optimization for iPhone',
+        device: 'iphone',
+        content: '• Low Power Mode: Keep this permanently active. Engage via Settings → Battery or add to your Control Center swipes.\n• Display Auto-Lock: Drop your standby screen timeout duration down to 30 Seconds under Settings → Display & Brightness.\n• Screen Modalities: Enable system-wide Dark Mode. Turn off Always-On display or Raise to Wake.\n• Location Privacy: Audit Settings → Privacy & Security → Location Services to run only "While Using the App" instead of background.'
+      },
+      {
+        title: '1. System Optimization for Android',
+        device: 'android',
+        content: '• Power Saving Profile: Toggle "Battery Saver" / "Power Saving Mode" ON under your Quick Settings panel.\n• Adaptive Batterying: Go to Settings → Battery and ensure "Adaptive Battery" or "Adaptive Power Saving" is turned ON.\n• Standby Timers: Set screen standby duration down to 15 or 30 seconds under Display options.\n• Dark Color Prefs: Toggle system-wide Dark Theme to minimize active pixel power drain.'
+      },
+      {
+        title: '2. Practical Field Tactics for Excursion Days',
+        content: '• Offline Mapping: Download the complete upcoming local map zones (Tuscany, Rome, or specific cruise ports) directly inside Google Maps or Apple Maps before departing your accommodation\'s Wi-Fi. Passive GPS tracking will pinpoint your position on these maps without triggering battery-hungry mobile cell radio adapters.\n• Network Search Overload: When traversing mountain trails or deep valleys with poor service, your device boosts its radio signal to the absolute limit trying to find a tower, instantly killing your battery. Put your phone in Airplane Mode until you reach reliable coverage.\n• Bring a High-Yield Power Bank: Keep a reliable backup battery in your day bag. Snapping continuous photos, capturing high-def videos, pulling up translation sheets, and tracking directions will quickly deplete your smartphone before late afternoon.'
       }
     ]
   },
@@ -107,9 +194,28 @@ const travelTips = [
 
 export function TravelTipsTab() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [phoneType, setPhoneType] = useState<'iphone' | 'android'>('iphone');
+  const [selectedCarrier, setSelectedCarrier] = useState<'att' | 'verizon' | 'tmobile'>('att');
+  const [speakingText, setSpeakingText] = useState<string | null>(null);
 
   const toggleCategory = (id: string) => {
     setActiveCategory(activeCategory === id ? null : id);
+  };
+
+  const playAudio = (text: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'it-IT';
+      utterance.rate = 0.85;
+      utterance.onstart = () => setSpeakingText(text);
+      utterance.onend = () => setSpeakingText(null);
+      utterance.onerror = () => setSpeakingText(null);
+      window.speechSynthesis.speak(utterance);
+    } else {
+      setSpeakingText(text);
+      setTimeout(() => setSpeakingText(null), 1000);
+    }
   };
 
   return (
@@ -202,12 +308,256 @@ export function TravelTipsTab() {
                         </div>
                       </div>
                     )}
-                    {category.items.map((item, idx) => (
-                      <div key={idx} className="bg-slate-950/50 p-3 rounded-lg border border-slate-800/80">
-                        <h4 className="text-teal-300 font-bold text-[13px] sm:text-sm mb-1.5">{item.title}</h4>
-                        <p className="text-slate-400 text-xs sm:text-[13px] leading-relaxed">{item.content}</p>
+
+                    {['phone-service', 'phone-battery'].includes(category.id) && (
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-950/60 p-3 rounded-xl mt-3 border border-indigo-500/10 gap-3">
+                        <div className="flex items-center gap-2">
+                          <Smartphone className="w-4 h-4 text-indigo-400 shrink-0" />
+                          <div className="flex flex-col">
+                            <span className="text-[11px] font-black uppercase text-indigo-300 tracking-wider leading-none mb-0.5">Device Customization</span>
+                            <span className="text-[10px] text-slate-400 leading-none">Filter steps specifically for your mobile platform</span>
+                          </div>
+                        </div>
+                        <div className="flex bg-slate-900 p-0.5 rounded-lg border border-slate-800 w-full sm:w-auto">
+                          <button 
+                            onClick={() => setPhoneType('iphone')}
+                            className={`flex-1 sm:flex-initial px-3.5 py-1 text-[11px] font-black uppercase tracking-wider rounded-md transition-all cursor-pointer ${
+                              phoneType === 'iphone'
+                                ? 'bg-indigo-650 text-white shadow-md font-extrabold'
+                                : 'text-slate-400 hover:text-slate-200'
+                            }`}
+                          >
+                            iPhone
+                          </button>
+                          <button 
+                            onClick={() => setPhoneType('android')}
+                            className={`flex-1 sm:flex-initial px-3.5 py-1 text-[11px] font-black uppercase tracking-wider rounded-md transition-all cursor-pointer ${
+                              phoneType === 'android'
+                                ? 'bg-indigo-650 text-white shadow-md font-extrabold'
+                                : 'text-slate-400 hover:text-slate-200'
+                            }`}
+                          >
+                            Android
+                          </button>
+                        </div>
                       </div>
-                    ))}
+                    )}
+
+                    {category.items
+                      .filter((item: any) => !item.device || item.device === phoneType)
+                      .map((item, idx) => {
+                        // Custom Interactive Phrasing Box for Public WiFi etiquette
+                        if (item.isInteractivePhrases) {
+                          return (
+                            <div key={idx} className="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80 space-y-3.5">
+                              <div>
+                                <h4 className="text-teal-300 font-bold text-[13px] sm:text-sm mb-1.5">{item.title}</h4>
+                                <p className="text-slate-400 text-xs sm:text-[13px] leading-relaxed whitespace-pre-line">{item.content}</p>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1.5">
+                                <div className="bg-slate-900 border border-indigo-500/10 p-3.5 rounded-xl flex flex-col justify-between hover:border-indigo-500/25 transition-all">
+                                  <div>
+                                    <div className="flex justify-between items-start gap-2 mb-1.5">
+                                      <span className="text-emerald-400 font-black text-xs sm:text-[13px] leading-tight">
+                                        "Scusi, avete il WiFi gratuito?"
+                                      </span>
+                                      <button 
+                                        onClick={() => playAudio("Scusi, avete il WiFi gratuito?")}
+                                        className={`p-1.5 rounded-full border transition-all cursor-pointer flex items-center justify-center shrink-0 shadow ${
+                                          speakingText === "Scusi, avete il WiFi gratuito?"
+                                            ? 'bg-emerald-500/30 text-emerald-300 border-emerald-400 animate-pulse'
+                                            : 'bg-slate-800 hover:bg-emerald-500/15 text-emerald-400 border-slate-700/60'
+                                        }`}
+                                        title="Play audible Italian pronunciation"
+                                      >
+                                        <Volume2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    </div>
+                                    <p className="text-[10px] text-slate-500 font-medium italic leading-none mb-1">
+                                      skoo-zee, ah-veh-teh eel wee-fee grah-too-ee-to
+                                    </p>
+                                  </div>
+                                  <p className="text-[11px] text-slate-300 font-medium pt-2 border-t border-slate-800/60 mt-1">
+                                    Excuse me, do you have free WiFi?
+                                  </p>
+                                </div>
+
+                                <div className="bg-slate-900 border border-indigo-500/10 p-3.5 rounded-xl flex flex-col justify-between hover:border-indigo-500/25 transition-all">
+                                  <div>
+                                    <div className="flex justify-between items-start gap-2 mb-1.5">
+                                      <span className="text-emerald-400 font-black text-xs sm:text-[13px] leading-tight">
+                                        "Posso avere la password del WiFi, per favore?"
+                                      </span>
+                                      <button 
+                                        onClick={() => playAudio("Posso avere la password del WiFi, per favore?")}
+                                        className={`p-1.5 rounded-full border transition-all cursor-pointer flex items-center justify-center shrink-0 shadow ${
+                                          speakingText === "Posso avere la password del WiFi, per favore?"
+                                            ? 'bg-emerald-500/30 text-emerald-300 border-emerald-400 animate-pulse'
+                                            : 'bg-slate-800 hover:bg-emerald-500/15 text-emerald-400 border-slate-700/60'
+                                        }`}
+                                        title="Play audible Italian pronunciation"
+                                      >
+                                        <Volume2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    </div>
+                                    <p className="text-[10px] text-slate-500 font-medium italic leading-none mb-1">
+                                      pos-so ah-veh-reh lah pahs-word del wee-fee, pehr fah-vo-reh
+                                    </p>
+                                  </div>
+                                  <p className="text-[11px] text-slate-300 font-medium pt-2 border-t border-slate-800/60 mt-1">
+                                    May I have the WiFi password, please?
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        // Custom Interactive Carrier Profile selector block to prevent word walls
+                        if (item.isCarrierTrap) {
+                          return (
+                            <div key={idx} className="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80 space-y-4">
+                              <div>
+                                <h4 className="text-teal-300 font-bold text-[13px] sm:text-sm mb-2">{item.title}</h4>
+                              </div>
+
+                              {/* Interactive Carrier Selector is now the FIRST element inside the card */}
+                              <div className="bg-slate-900 border border-indigo-500/10 p-3 sm:p-3.5 rounded-xl space-y-3.5">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800/80 pb-3 gap-2.5">
+                                  <span className="text-[11px] font-black uppercase text-indigo-400 tracking-wider">
+                                    Select Your Domestic Carrier:
+                                  </span>
+                                  <div className="grid grid-cols-3 bg-slate-950 p-1 rounded-xl border border-slate-800 w-full sm:w-auto gap-1">
+                                    <button 
+                                      onClick={() => setSelectedCarrier('att')}
+                                      className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${
+                                        selectedCarrier === 'att'
+                                          ? 'bg-amber-500 text-slate-950 font-extrabold shadow-sm'
+                                          : 'text-slate-450 hover:text-slate-200'
+                                      }`}
+                                    >
+                                      AT&T
+                                    </button>
+                                    <button 
+                                      onClick={() => setSelectedCarrier('verizon')}
+                                      className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${
+                                        selectedCarrier === 'verizon'
+                                          ? 'bg-rose-600 text-white font-extrabold shadow-sm'
+                                          : 'text-slate-455 hover:text-slate-200'
+                                      }`}
+                                    >
+                                      Verizon
+                                    </button>
+                                    <button 
+                                      onClick={() => setSelectedCarrier('tmobile')}
+                                      className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${
+                                        selectedCarrier === 'tmobile'
+                                          ? 'bg-pink-600 text-white font-extrabold shadow-sm'
+                                          : 'text-slate-455 hover:text-slate-200'
+                                      }`}
+                                    >
+                                      T-Mobile
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {selectedCarrier === 'att' && (
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between items-start gap-2">
+                                      <span className="text-amber-400 font-bold text-xs sm:text-[13px]">AT&T International/Cruise Pass</span>
+                                      <span className="text-[9px] bg-amber-400/10 text-amber-300 px-1.5 py-0.5 rounded border border-amber-500/30 uppercase font-black tracking-wider text-center shrink-0">
+                                        $20/Day
+                                      </span>
+                                    </div>
+                                    <p className="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+                                      At-sea usage on over 400 participating cruise ships runs at a flat <span className="text-amber-300 font-bold">$20/day per device</span>. This gives you unlimited talk and text, but high-speed cellular data is capped at <span className="text-amber-300 font-bold">500MB per day</span>, after which speeds are reduced. Note that land-based global passes (like IDP) do not cover at-sea cellular connections.
+                                    </p>
+                                    <div className="pt-2 border-t border-slate-800 mt-1">
+                                      <a
+                                        href="https://www.att.com/international"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-black uppercase tracking-wider group/link"
+                                      >
+                                        Verify Cruise Ship Coverage
+                                        <ExternalLink className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+                                      </a>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {selectedCarrier === 'verizon' && (
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between items-start gap-2">
+                                      <span className="text-red-400 font-bold text-xs sm:text-[13px]">Verizon Cruise Daily Pass</span>
+                                      <span className="text-[9px] bg-red-400/10 text-red-300 px-1.5 py-0.5 rounded border border-red-500/30 uppercase font-black tracking-wider text-center shrink-0">
+                                        $20/Day
+                                      </span>
+                                    </div>
+                                    <p className="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+                                      At-sea connectivity is handled via a dedicated <span className="text-red-300 font-bold">Verizon Cruise Pass for $20 per line per day</span> (which operates separately from land-based Verizon TravelPass options). It provides unlimited calling/texting with <span className="text-red-300 font-bold">0.5GB (500MB) of high-speed data</span> daily before throttling down to 3G.
+                                    </p>
+                                    <div className="pt-2 border-t border-slate-800 mt-1">
+                                      <a
+                                        href="https://www.verizon.com/plans/international"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 font-black uppercase tracking-wider group/link"
+                                      >
+                                        Inspect Verizon Cruise Rules
+                                        <ExternalLink className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+                                      </a>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {selectedCarrier === 'tmobile' && (
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between items-start gap-2">
+                                      <span className="text-pink-400 font-bold text-xs sm:text-[13px]">T-Mobile Cruise Roaming</span>
+                                      <span className="text-[9px] bg-pink-400/10 text-pink-300 px-1.5 py-0.5 rounded border border-pink-500/30 uppercase font-black tracking-wider text-center shrink-0">
+                                        Add-on Req.
+                                      </span>
+                                    </div>
+                                    <p className="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+                                      While standard land data roaming is normally free depending on your Go5G tier, <span className="text-pink-300 font-bold">at-sea maritime vessel connections are excluded</span>. You must buy custom T-Mobile ship packages or disable data roaming completely while the ship is in open waters to avoid extreme charges.
+                                    </p>
+                                    <div className="pt-2 border-t border-slate-800 mt-1">
+                                      <a
+                                        href="https://www.t-mobile.com/support/plans-features/international-roaming"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 text-xs text-pink-400 hover:text-pink-300 font-black uppercase tracking-wider group/link"
+                                      >
+                                        Check T-Mobile Limits
+                                        <ExternalLink className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+                                      </a>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Remaining Satellite details placed seamlessly underneath */}
+                              <div className="pt-2 border-t border-slate-800/60 mt-1">
+                                <span className="text-[10px] font-black uppercase text-indigo-300 tracking-wider block mb-1.5">
+                                  At-Sea Maritime Warning:
+                                </span>
+                                <p className="text-slate-400 text-xs sm:text-[13px] leading-relaxed whitespace-pre-line">{item.content}</p>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        // Default styled tip item
+                        return (
+                          <div key={idx} className="bg-slate-950/50 p-3.5 rounded-xl border border-slate-800/80">
+                            <h4 className="text-teal-300 font-bold text-[13px] sm:text-sm mb-1.5">{item.title}</h4>
+                            <p className="text-slate-400 text-xs sm:text-[13px] leading-relaxed whitespace-pre-line">{item.content}</p>
+                          </div>
+                        );
+                      })
+                    }
                   </div>
                 </motion.div>
               )}
