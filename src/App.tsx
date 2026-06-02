@@ -24,6 +24,7 @@ import { PhrasesTab } from './components/PhrasesTab';
 import { TravelTipsTab } from './components/TravelTipsTab';
 import { HomeTab } from './components/HomeTab';
 import { WeatherTab } from './components/WeatherTab';
+import { triggerHaptic } from './utils/haptics';
 
 type Tab = 'Home' | 'Itinerary' | 'Packing' | 'Laundry' | 'Tips' | 'Phrases' | 'Emergency' | 'Weather';
 
@@ -31,8 +32,22 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('Home');
   const [showPhotoModal, setShowPhotoModal] = useState(false);
 
+  const changeTab = (tab: Tab) => {
+    if (tab === 'Emergency') {
+      triggerHaptic('heavy');
+    } else {
+      triggerHaptic('light');
+    }
+    setActiveTab(tab);
+  };
+
   // Helper navigation function passed to child components
   const handleNavigate = (tab: any) => {
+    if (tab === 'Emergency') {
+      triggerHaptic('heavy');
+    } else {
+      triggerHaptic('light');
+    }
     setActiveTab(tab);
   };
 
@@ -44,7 +59,7 @@ export default function App() {
         <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto w-full">
           {/* Top Left: Dedicated Weather Section Button */}
           <button 
-            onClick={() => setActiveTab('Weather')}
+            onClick={() => changeTab('Weather')}
             className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl border text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all cursor-pointer truncate ${
               activeTab === 'Weather' 
                 ? 'bg-slate-800 hover:bg-slate-700 border-blue-400 text-blue-300 shadow-[0_0_10px_rgba(59,130,246,0.15)]' 
@@ -58,7 +73,10 @@ export default function App() {
 
           {/* Top Center: Photos Button Symmetrical Alignment */}
           <button 
-            onClick={() => setShowPhotoModal(true)}
+            onClick={() => {
+              triggerHaptic('light');
+              setShowPhotoModal(true);
+            }}
             className="flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shadow-md cursor-pointer truncate"
             title="Photos Gallery"
           >
@@ -68,7 +86,7 @@ export default function App() {
 
           {/* Top Right: Standardized Emergency Alert Button */}
           <button 
-            onClick={() => setActiveTab('Emergency')}
+            onClick={() => changeTab('Emergency')}
             className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 rounded-xl border text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all cursor-pointer truncate ${
               activeTab === 'Emergency'
                 ? 'bg-slate-800 hover:bg-slate-700 border-red-500 text-red-300 shadow-[0_0_10px_rgba(239,68,68,0.15)]'
@@ -110,7 +128,7 @@ export default function App() {
           
           {/* Order 1: Home Page */}
           <button 
-            onClick={() => setActiveTab('Home')}
+            onClick={() => changeTab('Home')}
             className={`flex flex-col items-center gap-1 flex-1 py-1 rounded-xl transition-all ${activeTab === 'Home' ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-400 hover:text-slate-200'}`}
           >
             <Home className="w-5 h-5" />
@@ -119,7 +137,7 @@ export default function App() {
 
           {/* Order 2: Itinerary */}
           <button 
-            onClick={() => setActiveTab('Itinerary')}
+            onClick={() => changeTab('Itinerary')}
             className={`flex flex-col items-center gap-1 flex-1 py-1 rounded-xl transition-all ${activeTab === 'Itinerary' ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-400 hover:text-slate-200'}`}
           >
             <CalendarDays className="w-5 h-5" />
@@ -128,7 +146,7 @@ export default function App() {
 
           {/* Order 3: Tips */}
           <button 
-            onClick={() => setActiveTab('Tips')}
+            onClick={() => changeTab('Tips')}
             className={`flex flex-col items-center gap-1 flex-1 py-1 rounded-xl transition-all ${activeTab === 'Tips' ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-400 hover:text-slate-200'}`}
           >
             <Lightbulb className="w-5 h-5" />
@@ -137,7 +155,7 @@ export default function App() {
 
           {/* Order 4: Phrases */}
           <button 
-            onClick={() => setActiveTab('Phrases')}
+            onClick={() => changeTab('Phrases')}
             className={`flex flex-col items-center gap-1 flex-1 py-1 rounded-xl transition-all ${activeTab === 'Phrases' ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-400 hover:text-slate-200'}`}
           >
             <MessageCircle className="w-5 h-5" />
@@ -146,7 +164,7 @@ export default function App() {
 
           {/* Order 5: Packing */}
           <button 
-            onClick={() => setActiveTab('Packing')}
+            onClick={() => changeTab('Packing')}
             className={`flex flex-col items-center gap-1 flex-1 py-1 rounded-xl transition-all ${activeTab === 'Packing' ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-400 hover:text-slate-200'}`}
           >
             <Briefcase className="w-5 h-5" />

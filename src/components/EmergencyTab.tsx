@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { triggerHaptic } from '../utils/haptics';
 import { 
   Phone, 
   ShieldAlert, 
@@ -102,7 +103,8 @@ export function EmergencyTab() {
 
   const currentCountry = EMERGENCY_DATA[selectedCountryKey];
 
-  const handleCopy = (text: string, key: string) => {
+   const handleCopy = (text: string, key: string) => {
+    triggerHaptic('success');
     navigator.clipboard.writeText(text).then(() => {
       setCopiedKey(key);
       setTimeout(() => setCopiedKey(null), 2500);
@@ -133,7 +135,10 @@ export function EmergencyTab() {
           return (
             <button
               key={countryId}
-              onClick={() => setSelectedCountryKey(countryId)}
+              onClick={() => {
+                triggerHaptic('medium');
+                setSelectedCountryKey(countryId);
+              }}
               className={`flex-1 py-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all text-xs font-black uppercase tracking-wider cursor-pointer ${
                 isActive 
                   ? 'bg-slate-800 text-white border border-slate-755 shadow-md' 
@@ -183,6 +188,7 @@ export function EmergencyTab() {
             
             <a 
               href={`tel:${currentCountry.generalSos}`} 
+              onClick={() => triggerHaptic('warning')}
               className="group flex items-center justify-between p-3.5 bg-red-900/40 hover:bg-red-800/50 border border-red-700/40 rounded-xl transition-all font-sans"
             >
               <div className="flex flex-col gap-0.5">
@@ -261,6 +267,7 @@ export function EmergencyTab() {
 
             <a 
               href={`tel:${currentCountry.embassyPhoneCleaned}`} 
+              onClick={() => triggerHaptic('medium')}
               className="group flex items-center justify-between p-3.5 bg-slate-950/30 hover:bg-slate-855/60 border border-slate-800 hover:border-slate-700/80 rounded-xl transition-all font-sans"
             >
               <div className="flex flex-col gap-0.5">
@@ -384,6 +391,7 @@ function ServiceRow({ name, subtitle, number, type, copiedKey, onCopy }: Service
           {/* Natural dial button */}
           <a 
             href={`tel:${number}`} 
+            onClick={() => triggerHaptic('heavy')}
             className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono font-bold text-sm rounded transition-colors flex items-center gap-1.5 cursor-pointer"
             title="Dial from phone"
           >

@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { itinerary, ItineraryDay, ItineraryActivity } from '../data';
 import { InteractiveMap } from './InteractiveMap';
+import { triggerHaptic } from '../utils/haptics';
 
 // Locations to turn into Google Images links
 const LOCATIONS = [
@@ -496,7 +497,10 @@ export function ItineraryTimeline() {
               return (
                 <button
                   key={day.date}
-                  onClick={() => setSelectedDate(day.date)}
+                  onClick={() => {
+                    triggerHaptic('light');
+                    setSelectedDate(day.date);
+                  }}
                   className={`flex flex-col items-center justify-between p-2 rounded-lg border text-center transition-all cursor-pointer ${styleClasses}`}
                 >
                   <span className="text-[10px] leading-none uppercase tracking-wider font-black flex flex-col items-center gap-0.5">
@@ -516,7 +520,10 @@ export function ItineraryTimeline() {
 
             {/* Interactive Route Map Trigger Grid Button */}
             <button
-              onClick={() => setShowTransitMap(true)}
+              onClick={() => {
+                triggerHaptic('medium');
+                setShowTransitMap(true);
+              }}
               className="col-span-3 sm:col-span-1 flex flex-row sm:flex-col items-center justify-center sm:justify-between p-2 rounded-lg border text-center transition-all cursor-pointer bg-gradient-to-br from-emerald-950/20 to-teal-950/20 border-emerald-500/30 hover:from-emerald-950/35 hover:to-teal-950/35 hover:border-emerald-500/60 text-emerald-400 hover:text-emerald-300 hover:scale-[1.02] active:scale-98 shadow-md gap-3 sm:gap-1.5"
               title="Open Interactive Mediterranean Cruise Map"
               id="open-transit-map-grid"
@@ -1113,6 +1120,7 @@ export function ItineraryTimeline() {
           <InteractiveMap 
             selectedDate={selectedDate}
             onSelectDate={(date) => {
+              triggerHaptic('light');
               setSelectedDate(date);
             }}
             onClose={() => setShowTransitMap(false)}
