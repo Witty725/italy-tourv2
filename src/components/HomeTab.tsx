@@ -486,7 +486,7 @@ export function HomeTab({ onNavigate }: HomeTabProps) {
                     <span className="flex items-center justify-center bg-slate-850 text-emerald-400 w-5 h-5 rounded-full text-[10px] font-black shrink-0 border border-slate-700 shadow font-mono">2</span>
                     <div>
                       <span><strong className="text-slate-100">Define the map area</strong> by searching for our destinations:</span>
-                      <ul className="grid grid-cols-2 gap-2 mt-2 text-[10.5px] text-slate-400 font-medium">
+                      <ul className="grid grid-cols-2 gap-2 mt-2 text-[10.5px] text-slate-400 font-medium font-sans">
                         <li>• 📍 <em>Lunigiana / Pontremoli</em></li>
                         <li>• 📍 <em>Livorno, Pisa & Florence</em></li>
                         <li>• 📍 <em>Cagliari & Southern Sardinia</em></li>
@@ -655,7 +655,7 @@ export function HomeTab({ onNavigate }: HomeTabProps) {
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed font-sans text-justify">
-                "Much love and special thanks to Teresa, Rita, Allan, Andrea, and everyone else who selflessly took so much of their personal time, effort, and resources to make this trip happen. Thank you, each and every one of you."
+                "Much love and special thanks to Teresa, Rita, Alan, Nancy, and everyone else who selflessly took so much of their personal time, effort, and resources to make this trip happen. Thank you, each and every one of you."
               </p>
 
               <button

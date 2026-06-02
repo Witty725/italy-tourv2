@@ -11,7 +11,7 @@ export const packingList: ChecklistItem[] = [
   { id: 'doc-3', category: 'Documents & Finance', text: 'Airline Tickets', subText: 'Digital/Printed Boarding Passes (Delta)' },
   { id: 'doc-4', category: 'Documents & Finance', text: 'MSC Splendida Cruise Boarding Passes', subText: 'Embarkation vouchers & luggage tags' },
   { id: 'doc-6', category: 'Documents & Finance', text: 'Travel Insurance Policies', subText: 'Printed papers + mobile app access' },
-  { id: 'doc-7', category: 'Documents & Finance', text: 'Hotel Confirmations', subText: 'Pontremoli Napoleon Hotel reservations' },
+  { id: 'doc-7', category: 'Documents & Finance', text: 'Cruise Booking Confirmation', subText: 'MSC Splendida boarding documents & details' },
   { id: 'doc-8', category: 'Documents & Finance', text: 'Car Rental Confirmations', subText: 'Private transfer summaries & Tesla rentals' },
   { id: 'doc-9', category: 'Documents & Finance', text: 'Prescription Records' },
   { id: 'doc-11', category: 'Documents & Finance', text: 'List of Medications & Allergies' },

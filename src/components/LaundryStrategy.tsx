@@ -1,4 +1,4 @@
-import { Droplets, Info, Sparkles, CheckCircle2, DollarSign, Clock, HelpCircle, Sun } from 'lucide-react';
+import { Droplets, Info, Sparkles, DollarSign, Clock, HelpCircle, Sun } from 'lucide-react';
 
 export function LaundryStrategy() {
   return (
@@ -10,19 +10,20 @@ export function LaundryStrategy() {
           Master Laundry Strategy
         </h3>
         <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl text-justify sm:text-left">
-          Packing light for a 16-day Italian tour is seamless with a structured washing plan. Below is your optimized timeline by travel phase, tracking exactly when and where your garments are cleaned.
+          Packing light for your 8-day Mediterranean cruise is seamless with a structured washing plan. Below is your optimized timeline and plan.
         </p>
 
         {/* Phase Timeline Tracker */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-800/80">
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center flex flex-col gap-1">
             <span className="text-[10px] font-black tracking-widest text-emerald-400 uppercase">Phase 1: Pontremoli</span>
-            <span className="text-xs font-extrabold text-slate-100 mt-1">Laundromat Visit</span>
+            <span className="text-xs font-extrabold text-slate-100 mt-1">Laundromat & Hand Wash Only</span>
             <span className="text-[10px] font-mono text-slate-500 mt-0.5">June 18 – June 22</span>
           </div>
+
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center flex flex-col gap-1">
-            <span className="text-[10px] font-black tracking-widest text-indigo-400 uppercase">Phase 2: MSC Cruise & Return</span>
-            <span className="text-xs font-extrabold text-slate-100 mt-1">Pre-Paid Valet Bag</span>
+            <span className="text-[10px] font-black tracking-widest text-indigo-400 uppercase">Phase 2: MSC Cruise</span>
+            <span className="text-xs font-extrabold text-slate-100 mt-1">Pre-Paid Valet Bag Service</span>
             <span className="text-[10px] font-mono text-slate-500 mt-0.5">June 23 – June 30</span>
           </div>
         </div>
@@ -34,7 +35,7 @@ export function LaundryStrategy() {
         <div className="glass-panel p-6 relative overflow-hidden border-l-4 border-emerald-500 bg-emerald-950/5 flex flex-col gap-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800/85 pb-4 gap-2">
             <div>
-              <span className="text-[9px] font-mono font-black uppercase text-emerald-400 tracking-widest bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">Phase 1</span>
+              <span className="text-[9px] font-mono font-black uppercase text-emerald-400 tracking-widest bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">Phase 1 Stops</span>
               <h4 className="text-base font-black text-white mt-2">Pontremoli Countryside Estate</h4>
             </div>
             <span className="text-[11px] font-bold text-slate-500 font-mono tracking-wider">June 18 – June 22 • 5 Days</span>
@@ -47,7 +48,7 @@ export function LaundryStrategy() {
                 The Laundry Dilemma
               </span>
               <p className="text-slate-300 leading-relaxed text-xs">
-                No laundry options or machines are available on-site at the countryside estate hotel. Self-service is required.
+                Our cozy countryside hotel has absolutely <strong>no in-room washer or dryer machines</strong>. Hand-wash or visit a local laundromat.
               </p>
             </div>
 
@@ -58,23 +59,23 @@ export function LaundryStrategy() {
               </span>
               <div className="flex flex-col gap-2 text-xs text-slate-300">
                 <div className="flex gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <span>Use nearby self-service laundromat: <a href="https://maps.google.com/?q=Lavanderia+Il+Giglio+Pontremoli" target="_blank" rel="noopener noreferrer" className="font-extrabold text-blue-400 hover:text-blue-300 underline decoration-blue-500/30 underline-offset-2 transition-colors">Lavanderia Il Giglio</a> (Via Sismondo 13/15, approx. 5 min walk).</span>
                 </div>
                 <div className="flex gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Bring compact travel detergent sheets and portable flat sink stoppers from home to wash small items.</span>
+                  <DollarSign className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>Use detergent sheets and a flat sink stopper for light items (underwear/socks) washed overnight in the bathroom sink.</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Phase 2 Detail Card */}
+        {/* MSC Cruise Detail Card */}
         <div className="glass-panel p-6 relative overflow-hidden border-l-4 border-indigo-500 bg-indigo-950/5 flex flex-col gap-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800/85 pb-4 gap-2">
             <div>
-              <span className="text-[9px] font-mono font-black uppercase text-indigo-400 tracking-widest bg-indigo-500/10 px-2.5 py-0.5 rounded-full border border-indigo-500/20">Phase 2</span>
+              <span className="text-[9px] font-mono font-black uppercase text-indigo-400 tracking-widest bg-indigo-500/10 px-2.5 py-0.5 rounded-full border border-indigo-500/20">MSC Cruise Segment</span>
               <h4 className="text-base font-black text-white mt-2">MSC Splendida Cruise Segment</h4>
             </div>
             <span className="text-[11px] font-bold text-slate-500 font-mono tracking-wider">June 23 – June 30 • 8 Days</span>

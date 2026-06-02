@@ -52,7 +52,7 @@ export function TripCountdown({ badgeStyle = false }: TripCountdownProps) {
   if (badgeStyle) {
     if (timeLeft.isTripStarted) {
       return (
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2 border border-emerald-500/20 shadow-sm whitespace-nowrap">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider border border-emerald-500/20 shadow-sm whitespace-nowrap">
           <Clock className="w-3 h-3 text-emerald-400" />
           Day {timeLeft.currentTripDay}
         </span>
@@ -70,7 +70,7 @@ export function TripCountdown({ badgeStyle = false }: TripCountdownProps) {
     }
 
     return (
-      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2 border border-indigo-500/20 shadow-sm whitespace-nowrap">
+      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider border border-indigo-500/20 shadow-sm whitespace-nowrap">
         <Clock className="w-3 h-3 text-indigo-455" />
         {countdownText} left
       </span>

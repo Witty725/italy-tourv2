@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Compass, Ship, MapPin, Anchor, ArrowRight, X } from 'lucide-react';
+import { Compass, Ship, MapPin, Anchor, ArrowRight, X, Search } from 'lucide-react';
 import { itinerary, ItineraryDay } from '../data';
 
 interface InteractiveMapProps {
@@ -11,24 +11,19 @@ interface InteractiveMapProps {
 
 // Coordinate configurations on a 1000 x 600 map coordinate system
 const MAP_STOPS = [
-  { id: 'pontremoli', date: 'June 18, 2026', title: 'Pontremoli', label: 'Tuscany Base', x: 670, y: 110, dates: 'Jun 18-22' },
-  { id: 'livorno', date: 'June 23, 2026', title: 'Livorno Port', label: 'MSC Cruise Boarding', x: 680, y: 195, dates: 'Jun 23' },
-  { id: 'cagliari', date: 'June 24, 2026', title: 'Cagliari', label: 'Sardinia Port stop', x: 580, y: 440, dates: 'Jun 24' },
-  { id: 'palermo', date: 'June 25, 2026', title: 'Palermo', label: 'Sicily Port stop', x: 790, y: 495, dates: 'Jun 25' },
-  { id: 'valletta', date: 'June 26, 2026', title: 'Valletta', label: 'Malta Port stop', x: 830, y: 575, dates: 'Jun 26' },
-  { id: 'atsea', date: 'June 27, 2026', title: 'At Sea', label: 'MSC Splendida Cruising', x: 480, y: 450, dates: 'Jun 27' },
-  { id: 'barcelona', date: 'June 28, 2026', title: 'Barcelona', label: 'Catalonia Port stop', x: 170, y: 295, dates: 'Jun 28' },
-  { id: 'marseille', date: 'June 29, 2026', title: 'Marseille', label: 'French Riviera stop', x: 390, y: 155, dates: 'Jun 29' },
-  { id: 'departure', date: 'June 30, 2026', title: 'Livorno Port', label: 'Disembark & Flight', x: 680, y: 195, dates: 'Jun 30' },
+  { id: 'livorno', date: 'June 23, 2026', title: 'Livorno Port', label: 'MSC Cruise Boarding', x: 672, y: 92, dates: 'Jun 23' },
+  { id: 'cagliari', date: 'June 24, 2026', title: 'Cagliari', label: 'Sardinia Port stop', x: 539, y: 331, dates: 'Jun 24' },
+  { id: 'palermo', date: 'June 25, 2026', title: 'Palermo', label: 'Sicily Port stop', x: 855, y: 418, dates: 'Jun 25' },
+  { id: 'valletta', date: 'June 26, 2026', title: 'Valletta', label: 'Malta Port stop', x: 914, y: 577, dates: 'Jun 26' },
+  { id: 'atsea', date: 'June 27, 2026', title: 'At Sea', label: 'MSC Splendida Cruising', x: 440, y: 380, dates: 'Jun 27' },
+  { id: 'barcelona', date: 'June 28, 2026', title: 'Barcelona', label: 'Catalonia Port stop', x: 22, y: 156, dates: 'Jun 28' },
+  { id: 'marseille', date: 'June 29, 2026', title: 'Marseille', label: 'French Riviera stop', x: 261, y: -4, dates: 'Jun 29' },
+  { id: 'departure', date: 'June 30, 2026', title: 'Livorno Port', label: 'Disembark & Flight', x: 672, y: 92, dates: 'Jun 30' },
 ];
 
 export function InteractiveMap({ selectedDate, onSelectDate, onClose }: InteractiveMapProps) {
   // Map day number directly to the corresponding stop coordinates
   const getCoordinatesForDate = (dateStr: string) => {
-    // If it's Pontremoli days
-    if (dateStr.includes('June 18') || dateStr.includes('June 19') || dateStr.includes('June 20') || dateStr.includes('June 21') || dateStr.includes('June 22')) {
-      return MAP_STOPS[0]; // Pontremoli stop
-    }
     const matched = MAP_STOPS.find(stop => stop.date === dateStr);
     return matched || MAP_STOPS[0];
   };
@@ -37,14 +32,13 @@ export function InteractiveMap({ selectedDate, onSelectDate, onClose }: Interact
 
   // Trace sequential legs for path rendering
   const voyageLegs = [
-    { from: MAP_STOPS[0], to: MAP_STOPS[1], isSail: false, desc: 'Scenic train transit down to Tuscany shores' },
-    { from: MAP_STOPS[1], to: MAP_STOPS[2], isSail: true, desc: 'MSC Splendida sailing overnight to Sardinia' },
-    { from: MAP_STOPS[2], to: MAP_STOPS[3], isSail: true, desc: 'Sailing overnight across Tyrrhenian Sea to Sicily' },
-    { from: MAP_STOPS[3], to: MAP_STOPS[4], isSail: true, desc: 'Voyaging south towards historical Valletta' },
-    { from: MAP_STOPS[4], to: MAP_STOPS[5], isSail: true, desc: 'Cruising Open Balearic Sea towards Spain' },
-    { from: MAP_STOPS[5], to: MAP_STOPS[6], isSail: true, desc: 'Approaching spectacular Barcelona Port' },
-    { from: MAP_STOPS[6], to: MAP_STOPS[7], isSail: true, desc: 'Sailing north along picturesque Costa Brava to Marseille' },
-    { from: MAP_STOPS[7], to: MAP_STOPS[8], isSail: true, desc: 'Final segment crossing Ligurian Sea back to Livorno' },
+    { from: MAP_STOPS[0], to: MAP_STOPS[1], isSail: true, desc: 'MSC Splendida sailing overnight to Sardinia' },
+    { from: MAP_STOPS[1], to: MAP_STOPS[2], isSail: true, desc: 'Sailing overnight across Tyrrhenian Sea to Sicily' },
+    { from: MAP_STOPS[2], to: MAP_STOPS[3], isSail: true, desc: 'Voyaging south towards historical Valletta' },
+    { from: MAP_STOPS[3], to: MAP_STOPS[4], isSail: true, desc: 'Cruising Open Balearic Sea towards Spain' },
+    { from: MAP_STOPS[4], to: MAP_STOPS[5], isSail: true, desc: 'Approaching spectacular Barcelona Port' },
+    { from: MAP_STOPS[5], to: MAP_STOPS[6], isSail: true, desc: 'Sailing north along picturesque Costa Brava to Marseille' },
+    { from: MAP_STOPS[6], to: MAP_STOPS[7], isSail: true, desc: 'Final segment crossing Ligurian Sea back to Livorno' },
   ];
 
   return (
@@ -68,7 +62,7 @@ export function InteractiveMap({ selectedDate, onSelectDate, onClose }: Interact
                 MEDITERRANEAN TRANSIT GRAPH (MSC SPLENDIDA VOYAGE)
               </h3>
               <p className="text-[10px] sm:text-xs text-slate-400 font-mono">
-                Interactive cruise track trace mapping of your 13-day itinerary
+                Interactive cruise track trace mapping of your 8-day itinerary
               </p>
             </div>
           </div>
@@ -118,9 +112,7 @@ export function InteractiveMap({ selectedDate, onSelectDate, onClose }: Interact
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        {stop.id === 'pontremoli' ? (
-                          <MapPin className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-slate-500'}`} />
-                        ) : stop.title.includes('Port') ? (
+                        {stop.title.includes('Port') ? (
                           <Anchor className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-slate-500'}`} />
                         ) : (
                           <Ship className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-slate-505'}`} />
@@ -136,149 +128,47 @@ export function InteractiveMap({ selectedDate, onSelectDate, onClose }: Interact
           </div>
 
           {/* Right panel: Live Scalable Interactive SVG Map */}
-          <div className="lg:col-span-8 p-3 sm:p-5 flex flex-col justify-center items-center bg-slate-950/25 relative min-h-[300px] sm:min-h-[400px] order-1 lg:order-2">
+          <div className="lg:col-span-8 p-3 sm:p-5 flex flex-col justify-center items-center bg-slate-950/25 relative min-h-[350px] sm:min-h-[420px] order-1 lg:order-2">
             
             {/* Ambient Title Layer */}
-            <div className="absolute top-3 left-4 text-left pointer-events-none select-none">
-              <span className="text-[9.5px] font-mono tracking-widest text-[#34d399] font-black block">WEST MEDITERRANEAN OCEAN REGION</span>
-              <span className="text-[8.5px] font-mono text-slate-500 tracking-wider block">Scale relative: Spain • France • Italy • Sardinia • Sicily • Malta</span>
-            </div>
 
             {/* Outer high-end SVG canvas map workspace */}
-            <div className="w-full h-full max-w-[850px] aspect-[850/500] relative bg-slate-950/60 rounded-xl border border-slate-800 p-1 font-sans">
+            <div className="w-full h-full max-w-[850px] aspect-[850/500] relative bg-[#aad3df] rounded-xl border border-slate-350 p-0 overflow-hidden shadow-inner">
               <svg 
-                viewBox="0 0 1000 620" 
+                viewBox="-40 -20 1080 670" 
                 className="w-full h-full select-none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                {/* Stylized Ocean/Water grid backdrop nodes */}
                 <defs>
-                  {/* Beautiful ocean gradient reflecting marine depths */}
-                  <linearGradient id="oceanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#081423" />
-                    <stop offset="45%" stopColor="#0b2440" />
-                    <stop offset="85%" stopColor="#0e3156" />
-                    <stop offset="100%" stopColor="#143c66" />
+                  {/* Google Maps Ocean Blue Color Fill */}
+                  <linearGradient id="googleOcean" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#aad3df" />
+                    <stop offset="100%" stopColor="#9ecbd8" />
                   </linearGradient>
 
-                  {/* Vibrant landmass gradients */}
-                  <linearGradient id="spainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#1e3427" />
-                    <stop offset="50%" stopColor="#254631" />
-                    <stop offset="100%" stopColor="#172b20" />
+                  {/* Google Maps Landmass Color Fill */}
+                  <linearGradient id="googleLand" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#dbf0e5" />
+                    <stop offset="100%" stopColor="#c5edd2" />
                   </linearGradient>
 
-                  <linearGradient id="franceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#1d2d38" />
-                    <stop offset="100%" stopColor="#121b22" />
-                  </linearGradient>
-
-                  <linearGradient id="italyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3d371d" />
-                    <stop offset="60%" stopColor="#524824" />
-                    <stop offset="100%" stopColor="#302b17" />
-                  </linearGradient>
-
-                  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(56, 189, 248, 0.05)" strokeWidth="0.8" />
-                  </pattern>
-                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="5" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  <filter id="shadow-filter" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="0" dy="1.5" stdDeviation="2.5" floodOpacity="0.25" />
                   </filter>
                 </defs>
                 
                 {/* Apply deep ocean color fill */}
-                <rect width="1000" height="620" fill="url(#oceanGrad)" rx="10" />
-                <rect width="1000" height="620" fill="url(#grid)" rx="10" />
+                <rect x="-100" y="-100" width="1200" height="900" fill="url(#googleOcean)" />
 
-                {/* Stylized Landmass Silhouette Curves - Representing the Mediterranean Coast */}
-                {/* Spain (Barcelona area coastline outline) */}
-                <path 
-                  d="M 0,250 C 70,250 120,320 180,330 C 230,340 230,360 210,400 C 190,440 220,490 200,550 L 0,600 Z" 
-                  fill="url(#spainGrad)" 
-                  stroke="#10b981" 
-                  strokeWidth="2" 
+                {/* Embed Google Map Image as a background layer */}
+                <image 
+                  href="/med-map.png" 
+                  x="-40" 
+                  y="-20" 
+                  width="1080" 
+                  height="670" 
+                  preserveAspectRatio="none"
                 />
-                
-                {/* France (Marseille area coastline) */}
-                <path 
-                  d="M 180,180 C 240,160 300,160 370,170 C 420,180 470,140 490,140 C 510,140 540,105 570,80 L 1000,50 L 1000,0 L 0,0 Z" 
-                  fill="url(#franceGrad)" 
-                  stroke="#38bdf8" 
-                  strokeWidth="2" 
-                />
-
-                {/* Italy Mainland Coast Boot Outline */}
-                <path 
-                  d="M 640,-10 C 640,30 630,90 650,110 C 670,130 690,170 710,210 C 730,250 780,270 790,290 C 800,310 820,340 850,380 C 870,410 930,460 1000,430 L 1000,-10 Z" 
-                  fill="url(#italyGrad)" 
-                  stroke="#f59e0b" 
-                  strokeWidth="2" 
-                />
-
-                {/* Major Islands (Sardinia, Sicily, Malta, Corsica, Balearic) */}
-                {/* Balearic Islands (Spain) */}
-                <ellipse cx="230" cy="370" rx="30" ry="14" fill="url(#spainGrad)" stroke="#10b981" strokeWidth="1" />
-                <text x="230" y="373" textAnchor="middle" fill="rgba(209, 250, 229, 0.45)" fontSize="8.5" fontWeight="black" className="font-sans">BALEARIC ISL.</text>
-
-                {/* Corsica (North Island above Sardinia) */}
-                <ellipse cx="585" cy="300" rx="20" ry="32" transform="rotate(-10 585 300)" fill="url(#franceGrad)" stroke="#38bdf8" strokeWidth="1" />
-                <text x="585" y="303" textAnchor="middle" fill="rgba(186, 230, 253, 0.4)" fontSize="8.5" fontWeight="black" className="font-sans">CORSICA</text>
-
-                {/* Sardinia Island */}
-                <ellipse cx="580" cy="440" rx="26" ry="48" fill="url(#spainGrad)" stroke="#10b981" strokeWidth="1.5" />
-                <text x="580" y="443" textAnchor="middle" fill="rgba(209, 250, 229, 0.55)" fontSize="9.5" fontWeight="black" className="font-sans">SARDINIA</text>
-
-                {/* Sicily Island */}
-                <polygon points="730,480 830,490 800,540" fill="url(#italyGrad)" stroke="#f59e0b" strokeWidth="1.5" />
-                <text x="775" y="510" textAnchor="middle" fill="rgba(254, 243, 199, 0.55)" fontSize="9.5" fontWeight="black" className="font-sans">SICILY</text>
-
-                {/* Malta Island */}
-                <circle cx="830" cy="575" r="9" fill="#1e293b" stroke="#f59e0b" strokeWidth="1.2" />
-                <text x="830" y="578" textAnchor="middle" fill="#f59e0b" fontSize="7.5" fontWeight="black" className="font-mono">MLT</text>
-
-                {/* Landmass Labels */}
-                <text x="80" y="560" fill="rgba(16, 185, 129, 0.15)" fontSize="20" fontWeight="950" fontStyle="italic" className="tracking-widest">SPAIN</text>
-                <text x="360" y="60" fill="rgba(56, 189, 248, 0.15)" fontSize="20" fontWeight="950" fontStyle="italic" className="tracking-widest">FRANCE</text>
-                <text x="880" y="160" fill="rgba(245, 158, 11, 0.15)" fontSize="20" fontWeight="950" fontStyle="italic" className="tracking-widest">ITALY</text>
-
-                {/* Major Reference Cities on Map */}
-                {[
-                  { x: 745, y: 250, name: 'Rome 🇮🇹' },
-                  { x: 705, y: 135, name: 'Florence 🇮🇹' },
-                  { x: 615, y: 92, name: 'Genoa 🇮🇹' },
-                  { x: 512, y: 115, name: 'Nice 🇫🇷' },
-                  { x: 235, y: 372, name: 'Palma 🇪🇸' },
-                  { x: 75, y: 440, name: 'Valencia 🇪🇸' },
-                ].map((city, idx) => (
-                  <g key={`city-${idx}`} className="opacity-60 pointer-events-none">
-                    <circle cx={city.x} cy={city.y} r="2.5" fill="#e2e8f0" />
-                    <text x={city.x + 5} y={city.y + 3} textAnchor="start" fill="#94a3b8" fontSize="8" fontWeight="bold" className="font-mono tracking-wide">{city.name}</text>
-                  </g>
-                ))}
-
-                {/* Decorative Seas Labels */}
-                <text x="310" y="380" fill="rgba(56, 189, 248, 0.20)" fontSize="9" fontWeight="900" letterSpacing="0.25em" fontStyle="italic" className="pointer-events-none select-none font-mono">BALEARIC SEA (MAR BALEAR)</text>
-                <text x="635" y="340" fill="rgba(56, 189, 248, 0.20)" fontSize="9" fontWeight="900" letterSpacing="0.25em" fontStyle="italic" className="pointer-events-none select-none font-mono">TYRRHENIAN SEA (MAR TIRRENO)</text>
-                <text x="475" y="210" fill="rgba(56, 189, 248, 0.20)" fontSize="9" fontWeight="900" letterSpacing="0.25em" fontStyle="italic" className="pointer-events-none select-none font-mono">LIGURIAN SEA</text>
-                <text x="320" y="230" fill="rgba(56, 189, 248, 0.15)" fontSize="9" fontWeight="900" letterSpacing="0.25em" fontStyle="italic" className="pointer-events-none select-none font-mono">GULF OF LION</text>
-
-                {/* Compass Rose Decoration */}
-                <g transform="translate(90, 130)" className="opacity-50 pointer-events-none">
-                  <circle cx="0" cy="0" r="26" fill="none" stroke="rgba(148, 163, 184, 0.25)" strokeWidth="1" strokeDasharray="3,3" />
-                  <line x1="0" y1="-32" x2="0" y2="32" stroke="rgba(148, 163, 184, 0.3)" strokeWidth="1" />
-                  <line x1="-32" y1="0" x2="32" y2="0" stroke="rgba(148, 163, 184, 0.3)" strokeWidth="1" />
-                  <polygon points="0,-34 4,-4 0,0" fill="#f59e0b" />
-                  <polygon points="0,-34 -4,-4 0,0" fill="#d97706" />
-                  <polygon points="0,34 4,4 0,0" fill="#94a3b8" />
-                  <polygon points="0,34 -4,4 0,0" fill="#64748b" />
-                  <polygon points="34,0 4,4 0,0" fill="#94a3b8" />
-                  <polygon points="34,0 4,-4 0,0" fill="#64748b" />
-                  <polygon points="-34,0 -4,4 0,0" fill="#94a3b8" />
-                  <polygon points="-34,0 -4,-4 0,0" fill="#64748b" />
-                  <text x="0" y="-38" textAnchor="middle" fill="#f59e0b" fontSize="9" fontWeight="black" className="font-mono">N</text>
-                </g>
 
                 {/* Trace sea paths: connect sequential stops onto map cords */}
                 {voyageLegs.map((leg, idx) => {
@@ -286,15 +176,24 @@ export function InteractiveMap({ selectedDate, onSelectDate, onClose }: Interact
                   
                   return (
                     <g key={`leg-${idx}`}>
+                      {/* White border masking path for high-contrast outline effect */}
+                      <path 
+                        d={`M ${leg.from.x},${leg.from.y} Q ${(leg.from.x + leg.to.x)/2 + (leg.isSail ? -35 : 0)},${(leg.from.y + leg.to.y)/2 + (leg.isSail ? -25 : 0)} ${leg.to.x},${leg.to.y}`}
+                        fill="none"
+                        stroke="#ffffff"
+                        strokeWidth={isActiveLeg ? 5.5 : 3}
+                        className="transition-all duration-500 opacity-90"
+                      />
+                      {/* Active foreground trace path */}
                       <path 
                         d={`M ${leg.from.x},${leg.from.y} Q ${(leg.from.x + leg.to.x)/2 + (leg.isSail ? -35 : 0)},${(leg.from.y + leg.to.y)/2 + (leg.isSail ? -25 : 0)} ${leg.to.x},${leg.to.y}`}
                         fill="none"
                         stroke={isActiveLeg 
-                          ? leg.isSail ? '#10b981' : '#38bdf8' 
-                          : 'rgba(148, 163, 184, 0.25)'
+                          ? '#1a73e8' 
+                          : 'rgba(26, 115, 232, 0.45)'
                         }
-                        strokeWidth={isActiveLeg ? 4 : 2}
-                        strokeDasharray={leg.isSail ? "6,6" : "2,4"}
+                        strokeWidth={isActiveLeg ? 3.2 : 1.5}
+                        strokeDasharray={leg.isSail ? "6,5" : "2,3"}
                         className="transition-all duration-500"
                       />
                     </g>
@@ -310,40 +209,56 @@ export function InteractiveMap({ selectedDate, onSelectDate, onClose }: Interact
                       className="cursor-pointer group"
                       onClick={() => onSelectDate(stop.date)}
                     >
-                      {/* Active locator radar effect with Framer Motion to prevent flying away */}
+                      {/* Active locator radar ripple effect */}
                       {isNodeActive && (
                         <motion.circle 
                           cx={stop.x} 
                           cy={stop.y} 
-                          initial={{ r: 6, opacity: 0.9 }}
-                          animate={{ r: 22, opacity: 0 }}
+                          initial={{ r: 6, opacity: 0.95 }}
+                          animate={{ r: 24, opacity: 0 }}
                           transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
                           fill="none" 
-                          stroke="#10b981" 
-                          strokeWidth="1.8"
+                          stroke="#ea4335" 
+                          strokeWidth="2.2"
                         />
                       )}
                       
-                      {/* Node core circle anchor */}
-                      <circle 
-                        cx={stop.x} 
-                        cy={stop.y} 
-                        r={isNodeActive ? 8 : 5.5}
-                        fill={isNodeActive ? "#10b981" : "#1e293b"}
-                        stroke={isNodeActive ? "#ffffff" : "rgba(148, 163, 184, 0.9)"}
-                        strokeWidth={isNodeActive ? 2.5 : 1.5}
-                        className="transition-all duration-300 group-hover:fill-emerald-500 group-hover:scale-125"
-                      />
+                      {/* Google Maps Teardrop Marker Pin or Blue Target Round Dot */}
+                      {isNodeActive ? (
+                        <g transform={`translate(${stop.x}, ${stop.y})`} filter="url(#shadow-filter)">
+                          <path 
+                            d="M 0,0 C -5,-5 -10,-10 -10,-17 C -10,-24 -5.5,-28 0,-28 C 5.5,-28 10,-24 10,-17 C 10,-10 5,-5 0,0 Z" 
+                            fill="#ea4335" 
+                            stroke="#ffffff"
+                            strokeWidth="1.8"
+                          />
+                          <circle cx="0" cy="-17" r="4" fill="#ffffff" />
+                        </g>
+                      ) : (
+                        <circle 
+                          cx={stop.x} 
+                          cy={stop.y} 
+                          r={5.5}
+                          fill="#ffffff"
+                          stroke="#1a73e8"
+                          strokeWidth="2.8"
+                          className="transition-all duration-300 group-hover:fill-blue-500 group-hover:scale-125"
+                        />
+                      )}
 
-                      {/* Tooltip text labels display near nodes dynamically */}
+                      {/* Tooltip text labels displaying near nodes with white outline halos */}
                       <text 
                         x={stop.x} 
-                        y={stop.y - (isNodeActive ? 14 : 10)} 
+                        y={stop.y - (isNodeActive ? 31 : 12)} 
                         textAnchor="middle" 
-                        fill={isNodeActive ? "#34d399" : "#f1f5f9"} 
-                        fontSize={isNodeActive ? 11 : 9.5} 
-                        fontWeight={isNodeActive ? "900" : "600"}
-                        className="font-sans transition-all duration-300 pointer-events-none drop-shadow-[0_2.5px_4px_rgba(0,0,0,0.95)]"
+                        fill={isNodeActive ? "#ea4335" : "#1a73e8"} 
+                        fontSize={isNodeActive ? 11 : 10} 
+                        fontWeight={isNodeActive ? "900" : "750"}
+                        paintOrder="stroke"
+                        stroke="#ffffff"
+                        strokeWidth="3.2"
+                        strokeLinejoin="round"
+                        className="font-sans transition-all duration-300 pointer-events-none"
                       >
                         {stop.title}
                       </text>
@@ -362,27 +277,37 @@ export function InteractiveMap({ selectedDate, onSelectDate, onClose }: Interact
                   style={{ originX: 0, originY: 0 }}
                 >
                   {/* Floating vessel wrapper */}
-                  <g transform="translate(-16, -16)">
-                    <circle cx="16" cy="16" r="14" fill="#020617" stroke="#10b981" strokeWidth="2.5" className="shadow-lg" />
+                  <g transform="translate(-16, -16)" className="drop-shadow-md">
+                    <circle cx="16" cy="16" r="13" fill="#1a73e8" stroke="#ffffff" strokeWidth="2.2" />
                     <g transform="translate(7, 7)">
-                      <Ship className="text-emerald-400" size={18} />
+                      <Ship className="text-white" size={18} />
                     </g>
                   </g>
                 </motion.g>
               </svg>
 
-              {/* Ship Sailing Mini Info overlay at bottom right of viewport */}
-              <div className="absolute bottom-3 left-3 right-3 bg-slate-900/90 border border-slate-800 p-2.5 rounded-lg flex items-center justify-between gap-4 text-xs font-mono shadow-md">
+              {/* Simulated Google Maps Vignette / Info Overlay floating at bottom left now */}
+              <div 
+                className="absolute bottom-3 left-3 bg-white/95 border border-slate-200/90 p-3 rounded-xl shadow-xl flex flex-col gap-1.5 font-sans backdrop-blur-sm z-10 max-w-[260px] sm:max-w-[290px] text-left transition-all" 
+                id="vessel-vignette-bubble"
+              >
                 <div className="flex items-center gap-2">
-                  <Ship className="w-4 h-4 text-emerald-400 shrink-0 select-none animate-bounce" />
-                  <span className="text-slate-100 font-extrabold max-w-[140px] sm:max-w-none truncate text-[11px] sm:text-xs">
-                    Current vessel point: <span className="text-emerald-400">{currentStop.title}</span>
-                  </span>
+                  <div className="p-1 px-1.5 bg-blue-50 border border-blue-100 text-[#1a73e8] font-mono text-[9px] uppercase tracking-wider font-extrabold rounded-md leading-none">
+                    Current Vessel Point
+                  </div>
+                  <span className="font-mono text-[10px] text-slate-500 font-extrabold ml-auto">{currentStop.dates}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-slate-400 text-[10.5px]">
-                  <span>Focus:</span>
-                  <span className="text-indigo-400 font-bold">{currentStop.dates}</span>
+                
+                <div className="flex items-center gap-2 mt-0.5">
+                  <Ship className="w-4 h-4 text-[#1a73e8] shrink-0 animate-bounce" />
+                  <p className="text-slate-800 text-xs font-extrabold leading-tight">
+                    Active Station: <span className="text-[#1a73e8] font-black">{currentStop.title}</span>
+                  </p>
                 </div>
+                
+                <p className="text-[10px] text-slate-500 font-semibold leading-relaxed">
+                  {currentStop.label}. Tap other milestones on the list to map live tracks.
+                </p>
               </div>
             </div>
           </div>

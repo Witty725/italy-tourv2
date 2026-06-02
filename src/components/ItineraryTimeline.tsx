@@ -124,7 +124,7 @@ export function InteractiveText({ text, disableLinks = false }: { text: string; 
               target="_blank"
               rel="noopener noreferrer"
               referrerPolicy="no-referrer"
-              className="inline-flex items-center gap-0.5 text-orange-400 hover:text-orange-300 underline font-bold transition-all decoration-dotted whitespace-nowrap bg-orange-500/10 hover:bg-orange-500/20 px-1.5 py-0.5 rounded text-[11px] sm:text-xs mx-0.5"
+              className="inline-flex items-center gap-0.5 text-orange-400 hover:text-orange-300 underline font-bold transition-all decoration-dotted whitespace-nowrap bg-orange-500/10 hover:bg-orange-500/20 px-1.5 py-0.5 rounded text-[11px] sm:text-xs mx-0.5 pointer-events-auto cursor-pointer"
               title={`View photos of ${seg}`}
               id={`link-location-${loc.name.replace(/\s+/g, '-').toLowerCase()}`}
             >
@@ -892,7 +892,7 @@ export function ItineraryTimeline() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 referrerPolicy="no-referrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-orange-500/20 hover:border-orange-500/30 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 transition-all cursor-pointer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-orange-500/20 hover:border-orange-500/30 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 transition-all cursor-pointer font-bold"
                                 id={`planned-img-search-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                               >
                                 <Camera className="w-3.5 h-3.5" />
@@ -1049,7 +1049,7 @@ export function ItineraryTimeline() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     referrerPolicy="no-referrer"
-                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-orange-500/20 hover:border-orange-500/30 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 transition-all cursor-pointer"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-lg border border-orange-500/20 hover:border-orange-500/30 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 transition-all cursor-pointer font-bold"
                                     id={`img-search-${index}-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                                   >
                                     <Camera className="w-3.5 h-3.5" />
@@ -1119,6 +1119,7 @@ export function ItineraryTimeline() {
           />
         )}
       </AnimatePresence>
+
     </div>
   );
 }
