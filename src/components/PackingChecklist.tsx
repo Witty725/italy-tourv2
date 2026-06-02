@@ -274,19 +274,32 @@ export function PackingChecklist() {
       </div>
 
       {/* Progress Panel */}
-      <div className="glass-panel p-4 flex flex-col justify-between">
-        <div className="flex justify-between items-end">
-          <h3 className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Packing Progress</h3>
-          <span className="text-emerald-400 text-lg font-black leading-none">{progress.percentage}%</span>
+      <div className="glass-panel p-4 flex flex-col gap-3">
+        <div className="flex flex-col">
+          <div className="flex justify-between items-end">
+            <h3 className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Packing Progress</h3>
+            <span className="text-emerald-400 text-lg font-black leading-none">{progress.percentage}%</span>
+          </div>
+          <div className="w-full bg-slate-800 h-2 rounded-full mt-2 overflow-hidden">
+            <motion.div 
+              className="bg-emerald-500 h-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress.percentage}%` }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            />
+          </div>
         </div>
-        <div className="w-full bg-slate-800 h-2 rounded-full mt-2 overflow-hidden">
-          <motion.div 
-            className="bg-emerald-500 h-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress.percentage}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          />
-        </div>
+
+        {/* Export Printable PDF Button */}
+        <button
+          onClick={handlePrintPDF}
+          className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-black text-xs uppercase tracking-wider rounded-xl border border-emerald-500/20 hover:border-emerald-500/40 transition-all cursor-pointer shadow-md"
+          id="btn-print-packing-list"
+          title="Export Packing List to PDF"
+        >
+          <Printer className="w-4 h-4 text-emerald-400" />
+          <span>Export Printable PDF</span>
+        </button>
       </div>
 
       {/* Main Checklist Panel */}
@@ -407,22 +420,13 @@ export function PackingChecklist() {
         </div>
 
         {/* Print / Export PDF Action Row */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/30 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div className="p-4 border-t border-slate-800 bg-slate-950/30 flex items-center justify-center">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
             <span className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
               Status: {progress.completed} of {progress.total} Packed ({progress.percentage}%)
             </span>
           </div>
-          <button
-            onClick={handlePrintPDF}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-black text-xs uppercase tracking-wider rounded-xl border border-emerald-500/20 hover:border-emerald-500/40 transition-all cursor-pointer shadow-md"
-            id="btn-print-packing-list"
-            title="Export Packing List to PDF"
-          >
-            <Printer className="w-4 h-4 text-emerald-400" />
-            <span>Export Printable PDF</span>
-          </button>
         </div>
       </div>
 
