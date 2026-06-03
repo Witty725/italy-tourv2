@@ -655,7 +655,7 @@ export function HomeTab({ onNavigate }: HomeTabProps) {
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed font-sans text-justify">
-                "Much love and special thanks to Teresa, Rita, Alan, Nancy, and everyone else who selflessly took so much of their personal time, effort, and resources to make this trip happen. Thank you, each and every one of you."
+                "Much love and special thanks to Teresa, GP, Rita, Alan, Nancy, and everyone else who selflessly took so much of their personal time, effort, and resources to make this trip happen. Thank you, each and every one of you."
               </p>
 
               <button
