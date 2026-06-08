@@ -103,10 +103,18 @@ export const itinerary: ItineraryDay[] = [
     },
     activities: [
       {
+        title: 'Arrival & Welcome (First 2 Vans)',
+        description: 'The first 2 vans arrive in Pontremoli. Teresa will be at the hotel to help everyone with check-in, initial town orientation, and welcoming meals.',
+        transport: 'Maxi Van transport arriving in Pontremoli',
+        isFamilyEvent: true,
+        icon: 'transfer'
+      },
+      {
         title: 'Walk the historic Chiosi Bridge',
         description: 'Take a picturesque stroll over the 14th-century Chiosi Bridge (Ponte Chiosi) crossing the Verde river. The riverbed stones and historical arches make it a fantastic photo spot.',
         location: 'Ponte Chiosi, Pontremoli',
         coordinates: '44.3804,9.8821',
+        isFamilyEvent: false,
         icon: 'explore'
       },
       {
@@ -114,6 +122,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Visit the historic Caffè Svizzer, open in Piazza della Repubblica since 1842. It has gorgeous wooden interiors. Pair your morning espresso with Pontremoli\'s signature Amor cream cake.',
         location: 'Piazza della Repubblica, Pontremoli',
         coordinates: '44.3778,9.8814',
+        isFamilyEvent: false,
         icon: 'food'
       },
       {
@@ -121,6 +130,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Stand under the grand 14th-century defensive bell tower (Cacciaguerra) that separates the old Guelph and Ghibelline quarters. It has stood since 1322 as the iconic heart of the town.',
         location: 'Piazza del Duomo, Pontremoli',
         coordinates: '44.3789,9.8804',
+        isFamilyEvent: false,
         icon: 'explore'
       },
       {
@@ -128,6 +138,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Step inside the light-filled Baroque interior of the Cathedral of Santa Maria Assunta. It features a giant, masterfully painted cupola, detailed gold stuccos, and spectacular marble altars.',
         location: 'Cattedrale di Santa Maria Assunta, Pontremoli',
         coordinates: '44.3787,9.8805',
+        isFamilyEvent: false,
         icon: 'tour'
       },
       {
@@ -135,6 +146,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Try their other super famous regional cookies, the chocolate and hazelnut Baci di Pontremoli (kisses), beautifully prepared at Pasticceria Della Cresa right near the river.',
         location: 'Pasticceria Della Cresa, Pontremoli',
         coordinates: '44.3791,9.8789',
+        isFamilyEvent: false,
         icon: 'food'
       },
       {
@@ -142,6 +154,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Indulge in authentic Testaroli pasta—traditional dough baked in red-hot cast-iron testi pans and dressed in fresh basil pesto. Pair it with local Lunigiana white wine.',
         location: 'Osteria della Sanacore, Pontremoli',
         coordinates: '44.3785,9.8816',
+        isFamilyEvent: false,
         icon: 'food'
       }
     ]
@@ -164,10 +177,64 @@ export const itinerary: ItineraryDay[] = [
     },
     activities: [
       {
+        time: '07:00 - 10:00',
+        title: 'Breakfast at Hotel Napoleon',
+        description: 'Enjoy a beautiful continental breakfast at the hotel to energize for the exciting visits and explorations.',
+        isFamilyEvent: true,
+        icon: 'food'
+      },
+      {
+        time: '11:00 - 12:00',
+        title: 'Visit Anna Caffoni in her Nursing Home',
+        description: 'A dedicated timeframe for those who wish to visit Anna Caffoni in her nursing home 3 blocks away. Each visit will be limited to less than 10 minutes. Please let Teresa know if you are interested. We can also deliver letters/cards to Anna on your behalf.',
+        location: 'Presidio Ospedaliero / Nursing home, Pontremoli',
+        isFamilyEvent: true,
+        icon: 'tour'
+      },
+      {
+        time: '12:00',
+        title: 'Group Lunch at Ristorante Menhir',
+        description: 'Tables and space are reserved for a delicious group lunch at Ristorante Menhir, owned by the Musetti family. Simply tell the hostess you are with the "Pedretti Forcina" group—the bill is fully prepaid/handled as a group! (If you wish to explore alternative restaurants or pubs, you are free to do so on your own expense).',
+        location: 'Ristorante Menhir, Via IV Novembre, 31, Pontremoli',
+        coordinates: '44.3732,9.8801',
+        isFamilyEvent: true,
+        icon: 'food'
+      },
+      {
+        time: '19:00',
+        title: 'Group Dinner at Ristorante Menhir',
+        description: 'Gather back with the family for our main group dinner at Ristorante Menhir (Group Paid of course!). Mention our Pedretti Forcina alignment to the host.',
+        location: 'Ristorante Menhir, Via IV Novembre, 31, Pontremoli',
+        coordinates: '44.3732,9.8801',
+        isFamilyEvent: true,
+        icon: 'food'
+      },
+      {
+        title: 'Carmine (Dedicated Driver) Available',
+        description: 'Our dedicated driver Carmine is now fully available to transport and assist family members throughout our stay in Pontremoli.',
+        isFamilyEvent: true,
+        icon: 'transfer'
+      },
+      {
+        title: 'Old Movies & Photos in Hotel Lounge',
+        description: 'The cozy lounge spaces and conference rooms in Hotel Napoleon are available if we want to show old family movies and share historic photos amongst ourselves.',
+        location: 'Hotel Napoleon Lounge',
+        isFamilyEvent: true,
+        icon: 'explore'
+      },
+      {
+        title: 'Camaiore Concert Delegation',
+        description: 'A group of family members will attend the beautiful coastal music concert in Camaiore tonight.',
+        location: 'Camaiore',
+        isFamilyEvent: true,
+        icon: 'concert'
+      },
+      {
         title: 'Walk the historic Chiosi Bridge',
         description: 'Take a picturesque stroll over the 14th-century Chiosi Bridge (Ponte Chiosi) crossing the Verde river. The riverbed stones and historical arches make it a fantastic photo spot.',
         location: 'Ponte Chiosi, Pontremoli',
         coordinates: '44.3804,9.8821',
+        isFamilyEvent: false,
         icon: 'explore'
       },
       {
@@ -175,6 +242,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Visit the historic Caffè Svizzer, open in Piazza della Repubblica since 1842. It has gorgeous wooden interiors. Pair your morning espresso with Pontremoli\'s signature Amor cream cake.',
         location: 'Piazza della Repubblica, Pontremoli',
         coordinates: '44.3778,9.8814',
+        isFamilyEvent: false,
         icon: 'food'
       },
       {
@@ -182,6 +250,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Stand under the grand 14th-century defensive bell tower (Cacciaguerra) that separates the old Guelph and Ghibelline quarters. It has stood since 1322 as the iconic heart of the town.',
         location: 'Piazza del Duomo, Pontremoli',
         coordinates: '44.3789,9.8804',
+        isFamilyEvent: false,
         icon: 'explore'
       },
       {
@@ -189,6 +258,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Step inside the light-filled Baroque interior of the Cathedral of Santa Maria Assunta. It features a giant, masterfully painted cupola, detailed gold stuccos, and spectacular marble altars.',
         location: 'Cattedrale di Santa Maria Assunta, Pontremoli',
         coordinates: '44.3787,9.8805',
+        isFamilyEvent: false,
         icon: 'tour'
       },
       {
@@ -196,13 +266,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Try their other super famous regional cookies, the chocolate and hazelnut Baci di Pontremoli (kisses), beautifully prepared at Pasticceria Della Cresa right near the river.',
         location: 'Pasticceria Della Cresa, Pontremoli',
         coordinates: '44.3791,9.8789',
-        icon: 'food'
-      },
-      {
-        title: 'Dinner at Osteria della Sanacore',
-        description: 'Indulge in authentic Testaroli pasta—traditional dough baked in red-hot cast-iron testi pans and dressed in fresh basil pesto. Pair it with local Lunigiana white wine.',
-        location: 'Osteria della Sanacore, Pontremoli',
-        coordinates: '44.3785,9.8816',
+        isFamilyEvent: false,
         icon: 'food'
       }
     ]
@@ -225,21 +289,60 @@ export const itinerary: ItineraryDay[] = [
     },
     activities: [
       {
+        time: '07:00 - 10:00',
+        title: 'Breakfast at Hotel Napoleon',
+        description: 'Fuel up with breakfast in the hotel dining area.',
+        isFamilyEvent: true,
+        icon: 'food'
+      },
+      {
+        time: 'Morning',
+        title: 'Two Big Local Markets in Full Swing',
+        description: 'Spend your morning browsing Pontremoli\'s double markets! One covers the adjacent square (Piazza Italia area) and another spans the historic medieval center. Incredible local organic vendors, featuring celebrated "Slow Food Italia" items, of which Lunigiana is a proud historic member.',
+        location: 'Piazza della Repubblica & Piazza del Duomo, Pontremoli',
+        isFamilyEvent: true,
+        icon: 'explore'
+      },
+      {
+        time: 'Morning',
+        title: 'Anna Caffoni Nursing Home - Alternate Visit Slot',
+        description: 'Another opportunity to visit Anna Caffoni in the nursing home. Please reserve/coordinate with Teresa.',
+        location: 'Nursing Home, Pontremoli',
+        isFamilyEvent: true,
+        icon: 'tour'
+      },
+      {
+        time: 'Morning',
+        title: 'Toplecca Mountain Monument Excursion Info Session',
+        description: 'Special Briefing: Paolo Bissoli will be at the hotel Napoleon to explain the route to the tragic Mountain explosion Monument (where our cousins tragically lost their lives). Note: It requires driving on rough unpaved roads for the last 2km and hiking upright up the mountain. We are coordinating if Carmine can drive us or if local rugged taxis are needed. If you would like to join, let Teresa know. Note: Homes of our ancestors in Toplecca, Molinello, and Cargalla can only be viewed from the outside (including Cargalla Church). Toplecca Cemetery is on the way to lower Toplecca, where we pay respects to Nello Caffoni among others. Must be back by 2:00 PM!',
+        guidedBy: 'Paolo Bissoli',
+        isFamilyEvent: true,
+        icon: 'explore'
+      },
+      {
+        time: '12:00',
+        title: 'Lunch on your own',
+        description: 'Enjoy a quiet lunch on your own around Pontremoli center. Please secure some bottled water and be absolutely ready at the hotel lobby in advance of the 14:00 tour!',
+        isFamilyEvent: true,
+        icon: 'food'
+      },
+      {
         time: '14:00',
-        title: 'Walking Tour of Piagnaro Castle and Museum of Lunigiana Stele Statues',
-        description: 'A spectacular tour exploring the robust fortress of Piagnaro Castle and the mysterious ancient Stele Statues, fascinating prehistoric stone monuments.',
-        guidedBy: 'Laura Consonni (Local Expert)',
-        transport: 'Private Van Service provided',
+        title: 'Historic Pontremoli Sigeric Guided Tour',
+        description: 'Assemble at the hotel lobby to meet our Sigeric guides! This custom tour covers the historic center, Piagnaro Castle, and the fascinating prehistoric Statue-Stele Museum inside the castle. We will divide into 3 units, including a custom kids\' tour for high children engagement. Carmine will directly drive those who cannot walk up the incline. Returns to hotel in late afternoon.',
+        guidedBy: 'Sigeric Guides & Carmine',
+        location: 'Piagnaro Castle & Statue-Stele Museum',
         coordinates: '44.3809,9.8803',
+        isFamilyEvent: true,
         icon: 'tour'
       },
       {
         time: '18:00',
-        title: 'Light Dinner Buffet & Historical Presentation',
-        description: 'An exclusive history session and social gathering hosted by local scholar Paolo. Please note this is a standing-room event with only a few small tables and chairs for comfort.',
-        guidedBy: 'Paolo (Historian & Presenter)',
-        menu: 'Savory pies (Torta d’Erbi), authentic focaccia with cured meats and local cheeses, spritz cocktail, sparkling prosecco, soft drinks, and mineral water.',
-        coordinates: '44.3787,9.8805',
+        title: 'Hotel Napoleon Welcome Presentation & Buffet Dinner',
+        description: 'A lovely welcome dinner buffet (offering Torta d’Erbi savory pies, authentic local focaccia with cured meats, cheeses, prosecco, and spritz) followed by a historical welcome presentation hosted by Caterina Ripetti and Paolo Bissoli inside the hotel Napoleon\'s conference room.',
+        guidedBy: 'Paolo Bissoli & Caterina Ripetti',
+        location: 'Hotel Napoleon Conference Room',
+        isFamilyEvent: true,
         icon: 'food'
       }
     ]
@@ -262,35 +365,62 @@ export const itinerary: ItineraryDay[] = [
     },
     activities: [
       {
-        time: '08:15',
-        title: 'Guided Village Touring',
-        description: 'Set off early to visit and tour the lovely surrounding hill villages of Cargalla, Molinello, and Toplecca.',
-        transport: 'Two comfortable Maxi Vans provided',
-        coordinates: '44.4022,9.8978',
+        time: '08:00 - 10:00',
+        title: 'Countryside Exploration Vans (Molinello, Cargalla, & Toplecca)',
+        description: 'Vans will be circulating to transport all who wish to tour/visit Molinello, Cargalla, and Toplecca homes and areas. Sign up with Carmine at the hotel Napoleon front desk. RESTROOM WARNING: There are strictly no restrooms at Annunziata Church, so please return to the hotel Napoleon for a bathroom block before catching the shuttle to the church at 11:00!',
+        transport: 'Comfortable Maxi Vans (Sign up with Carmine)',
+        isFamilyEvent: true,
+        icon: 'transfer'
+      },
+      {
+        time: 'Morning',
+        title: 'Antique Market & Slow Food Displays near Duomo',
+        description: 'Browse the fabulous Sunday Antique Market near the Duomo. It gives an elegant perspective on how valuable indeed our antique Pedretti Farm barn belongings are! You can also witness standard "Slow Food Italia" cooking tradition promotions displayed across the market.',
+        location: 'Piazza del Duomo, Pontremoli',
+        isFamilyEvent: true,
         icon: 'explore'
       },
       {
-        time: '10:45',
-        title: 'Holy Mass at Santissima Annunziata Church',
-        description: 'Observe or participate in a Traditional holy Catholic liturgy in the stunning Baroque interior of the Santissima Annunziata Church.',
-        transport: 'Shuttle service from Hotel Napoleon to the church',
-        coordinates: '44.3712,9.8828',
+        time: '11:00',
+        title: 'Gather & Greet with Relatives inside the Church',
+        description: 'Meet inside the church to mingle and visit with Don Lorenzo and over 50 of our Pontremoli relatives and local parishioners. Grab a slot, take individual photos, and settle in.',
+        location: 'Church of the Annunziata',
+        isFamilyEvent: true,
         icon: 'church'
       },
       {
-        time: '13:00',
-        title: 'Lunch at Ristorante Abramo',
-        description: 'Enjoy a rich traditional Lunigiana feast at the highly-rated local hostelry Ristorante Abramo.',
-        transport: 'Shuttle service provided after Mass directly from the church',
-        coordinates: '44.3790,9.8804',
+        time: '11:30',
+        title: 'Reunion Holy Mass & Giant Family Photo',
+        description: 'Holy mass begins, celebrated by Don Lorenzo at the gorgeous Church of the Annunziata. Giuliana Arditi has kindly volunteered to live-translate Don Lorenzo\'s sermon for our English speakers. Directly following the Mass, we will gather on the grand interior stairs of the sanctuary for a giant, historic group family photo of both Italian and American branches!',
+        guidedBy: 'Don Lorenzo & Giuliana Arditi (Translator)',
+        location: 'Church of the Annunziata',
+        coordinates: '44.3712,9.8828',
+        isFamilyEvent: true,
+        icon: 'church'
+      },
+      {
+        time: '13:00 - 17:00',
+        title: 'Grand Reunion Luncheon at Ristorante da Abramo',
+        description: 'Our primary celebratory reunion meal with over 50 Italian relatives and Don Lorenzo! Indulge in a luxurious, traditional Lunigiana banquet. Shared vans will transport everyone to the restaurant. Optional: You can request the vans to take a small loop up the hill for a breath-taking view of storied Mulazzo! If you want to address the group with a speech, you are highly welcome. Custom printed menu-attendee programs, bomboniere party favors, special local desserts, espresso, and wines are fully handled.',
+        location: 'Ristorante da Abramo, Via Provinciale, 23, Mulazzo',
+        coordinates: '44.3168,9.8931',
+        isFamilyEvent: true,
+        icon: 'food'
+      },
+      {
+        time: '18:00',
+        title: 'Sunday Dinner on your own',
+        description: 'After a wonderful and incredibly heavy group lunch, Sunday dinner is on your own if needed. Sleep and relax!',
+        isFamilyEvent: true,
         icon: 'food'
       },
       {
         time: '16:30',
         title: 'Jack White Concert Transfer',
-        description: 'Ready for action! Private transfer to the coastal concert venue in Lido di Camaiore.',
+        description: 'Private transfer to the coastal concert venue in Lido di Camaiore.',
         transport: 'Transfer provided for up to six (6) passengers',
         coordinates: '43.9105,10.2229',
+        isFamilyEvent: false,
         icon: 'concert'
       }
     ]
@@ -314,28 +444,47 @@ export const itinerary: ItineraryDay[] = [
     },
     activities: [
       {
-        time: '09:00',
-        title: 'Guided Village Touring',
-        description: 'Second round of exploration into Pontremoli\'s rich hills, specifically visiting countryside clusters of Cargalla, Molinello, and Toplecca.',
-        transport: 'Two Maxi Vans provided for comfortable transit',
-        coordinates: '44.4022,9.8978',
-        icon: 'explore'
+        time: '08:00 - 10:00',
+        title: 'Second Round Countryside Visits (Molinello, Cargalla, & Toplecca)',
+        description: 'Vans are mobilized again to support any final visits to Toplecca, Molinello, and Cargalla properties. Please sign up with Carmine at the front desk.',
+        transport: 'Maxi Vans (Sign up with Carmine)',
+        isFamilyEvent: true,
+        icon: 'transfer'
+      },
+      {
+        time: '11:00',
+        title: 'Villa Dosi Delfini - Travel Coordinated Walk or Ride',
+        description: 'Meet at the hotel reception to take organized van shuttle or enjoy a scenic, calm walking route up to the historical Villa.',
+        transport: 'Carmine vans or walk',
+        isFamilyEvent: true,
+        icon: 'transfer'
       },
       {
         time: '11:30',
-        title: 'Guided Visit to Villa Dosi Delfini',
-        description: 'A magical guided tour of the breath-taking Villa Dosi Delfini, a masterpiece of Baroque architecture and theatrical fresco painting in Pontremoli. Run from 11:30 to 13:00.',
-        guidedBy: 'Villa Tour Coordinator',
+        title: 'Sigeric Guided Visit of Villa Dosi Delfini',
+        description: 'A spectacular guided exploration of the exquisite Baroque masterpiece Villa Dosi Delfini, showcasing theatrical frescoed halls, gardens, and rich architecture. Led by Sigeric guides.',
+        guidedBy: 'Sigeric Guides',
+        location: 'Villa Dosi Delfini, Pontremoli',
         coordinates: '44.3813,9.8755',
+        isFamilyEvent: true,
         icon: 'tour'
       },
       {
         time: '13:00',
-        title: 'Farewell Luncheon at Ristorante Locanda Ca\' del Moro',
-        description: 'Celebrate our stay in Pontremoli with a luxury farewell lunch at the pristine Locanda Ca\' del Moro restaurant.',
-        transport: 'Shuttle transport provided back to Hotel Napoleon after lunch',
+        title: 'Farewell Luncheon & Testaroli Demo at Ca\' del Moro',
+        description: 'A beautiful farewell lunch at the newly renovated Ristorante Ca\' del Moro. Watch an exclusive live culinary demonstration on how traditional Testaroli pasta is cooked from dough in the scorching-hot cast-iron "testa" pans! A small number of Italian relatives will join us. Transportation is provided back to Napoleon hotel.',
+        transport: 'Shuttle transport provided for lunch',
+        location: 'Ristorante Ca\' del Moro, Via G. Bellotti, 2, Pontremoli',
         coordinates: '44.3644,9.8885',
+        isFamilyEvent: true,
         icon: 'food'
+      },
+      {
+        time: 'Evening',
+        title: 'Dinner on your own & Checkout Packing',
+        description: 'Evening dinner is on your own. Please pack your bags and check out instructions for tomorrow morning.',
+        isFamilyEvent: true,
+        icon: 'explore'
       }
     ]
   },
@@ -350,10 +499,18 @@ export const itinerary: ItineraryDay[] = [
     weatherDetails: 'High: 82°F, Low: 65°F. Sunny and warm port conditions with an refreshing coastal breeze. Ideal cruise start!',
     activities: [
       {
+        time: 'By 11:00',
+        title: 'Hotel Napoleon Check-out & Departure',
+        description: 'Complete hotel checkout by 11:00 AM. Most family members head to Livorno Port for our upcoming cruise embarkation, while others set off to their custom destinations. Bon Voyage!',
+        isFamilyEvent: true,
+        icon: 'transfer'
+      },
+      {
         title: 'Fortezza Vecchia (Old Fortress)',
         description: 'Explore the majestic 16th-century red-brick citadel guarding the port entrance. Walk along its high brick parapets for stunning, panoramic views of the cruise ships. Located literally steps from the cruise terminal gates.',
         location: 'Piazza del Pamiglione',
         coordinates: '43.5524,10.3039',
+        isFamilyEvent: false,
         icon: 'explore'
       },
       {
@@ -361,6 +518,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Explore the historic, picturesque 17th-century district built on water canals; walk over peaceful stone bridges and explore local shops. Highly walkable if you are in Livorno early or taking a short taxi.',
         location: 'Livorno Venezia Nuova quarter',
         coordinates: '43.5539,10.3079',
+        isFamilyEvent: false,
         icon: 'explore'
       },
       {
@@ -368,6 +526,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Grab a fresh, hot slice of crispy schiacciata (Tuscan olive oil flatbread) stuffed with fresh pecorino and local salumi. A beloved neighborhood bakery very close to the port gates.',
         location: 'Via San Giovanni 42',
         coordinates: '43.5532,10.3059',
+        isFamilyEvent: false,
         icon: 'food'
       },
       {
@@ -375,6 +534,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Stop by this legendary spot near the Central Market to taste Ponce Livornese, the signature hot, sweet, punchy coffee concoction made of dark rum, cognac, sugar, and lemon zest. Loved by old sailors. Easily walkable from the public transit drop-off or center.',
         location: 'Mercato delle Vettovaglie area',
         coordinates: '43.5516,10.3129',
+        isFamilyEvent: false,
         icon: 'food'
       },
       {
@@ -382,6 +542,7 @@ export const itinerary: ItineraryDay[] = [
         description: 'Marvel at this spectacular, massive waterfront promenade lined by 34,000 black-and-white checkered checkerboard floor tiles. Need a brief taxi or local Bus Route 1 from harbor gates.',
         location: 'Terrazza Mascagni coastal walkway',
         coordinates: '43.5358,10.3014',
+        isFamilyEvent: false,
         icon: 'explore'
       },
       {
@@ -389,6 +550,7 @@ export const itinerary: ItineraryDay[] = [
         title: 'MSC Splendida Cruise Departure',
         description: 'Ship cast-off is scheduled. Watch the sail-away from the balcony or high deck!',
         coordinates: '43.5518,10.2987',
+        isFamilyEvent: false,
         icon: 'ship'
       }
     ]
