@@ -9,7 +9,9 @@ import {
   Sparkles, 
   Bookmark,
   Compass,
-  ArrowRight
+  ArrowRight,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { triggerHaptic } from '../utils/haptics';
 
@@ -132,6 +134,18 @@ interface FamilyRosterModalProps {
 export function FamilyRosterModal({ onClose }: FamilyRosterModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRegion, setSelectedRegion] = useState<'All' | 'Italy' | 'Brazil' | 'USA'>('All');
+  const [expandedRegions, setExpandedRegions] = useState<Record<'Italy' | 'Brazil' | 'USA', boolean>>({
+    Italy: false,
+    Brazil: false,
+    USA: false,
+  });
+
+  // Track if user manually toggled. If not and they are searching, we auto-expand
+  const [hasManuallyToggled, setHasManuallyToggled] = useState<Record<'Italy' | 'Brazil' | 'USA', boolean>>({
+    Italy: false,
+    Brazil: false,
+    USA: false,
+  });
 
   const filteredParticipants = PARTICIPANTS_DATA.filter(p => {
     const matchesRegion = selectedRegion === 'All' || p.region === selectedRegion;
@@ -145,6 +159,22 @@ export function FamilyRosterModal({ onClose }: FamilyRosterModalProps) {
     triggerHaptic('light');
     setSelectedRegion(region);
   };
+
+  const toggleRegionExpanded = (region: 'Italy' | 'Brazil' | 'USA') => {
+    triggerHaptic('light');
+    setExpandedRegions(prev => ({ ...prev, [region]: !prev[region] }));
+    setHasManuallyToggled(prev => ({ ...prev, [region]: true }));
+  };
+
+  const isRegionExpanded = (region: 'Italy' | 'Brazil' | 'USA') => {
+    if (searchQuery.trim() !== '' && !hasManuallyToggled[region]) {
+      return true; // Auto expand when searching
+    }
+    return expandedRegions[region];
+  };
+
+  const regionKeys: ('Italy' | 'Brazil' | 'USA')[] = 
+    selectedRegion === 'All' ? ['Italy', 'Brazil', 'USA'] : [selectedRegion];
 
   const getRegionFlag = (region: 'Italy' | 'Brazil' | 'USA') => {
     switch (region) {
@@ -298,47 +328,85 @@ export function FamilyRosterModal({ onClose }: FamilyRosterModalProps) {
           </div>
 
           {/* Members list view */}
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between text-[10px] sm:text-xs font-black tracking-widest text-slate-500 uppercase font-mono pb-2.5 border-b border-slate-800/65">
-              <span>LISTING FAMILY MEMBERS ({filteredParticipants.length})</span>
-              <span>REGION</span>
-            </div>
-
+          <div className="flex flex-col gap-3.5">
             {filteredParticipants.length > 0 ? (
-              <div className="grid grid-cols-1 gap-2.5">
-                {filteredParticipants.map((member, idx) => (
-                  <motion.div
-                    key={`${member.name}-${idx}`}
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: Math.min(idx * 0.015, 0.25) }}
-                    className="p-3 sm:p-3.5 rounded-xl bg-slate-950/60 border border-slate-850 hover:border-slate-750 transition-all flex items-start justify-between gap-3 relative group"
-                  >
-                    <div className="flex flex-col gap-1 pr-6">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-extrabold text-sm text-white group-hover:text-indigo-300 transition-colors">
-                          {member.name}
-                        </span>
-                        
-                        {member.relationshipBadge && (
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-550/10 px-2 py-0.5 rounded-md border border-indigo-500/15 font-mono">
-                            {member.relationshipBadge}
+              regionKeys.map((region) => {
+                const regionMembers = filteredParticipants.filter(p => p.region === region);
+                if (regionMembers.length === 0) return null;
+
+                const expanded = isRegionExpanded(region);
+                const regionTitle = region === 'Italy' ? 'From Italy' : region === 'Brazil' ? 'From Brazil' : 'From the USA';
+                const flag = getRegionFlag(region);
+
+                return (
+                  <div key={region} className="border border-slate-800/80 rounded-2xl overflow-hidden bg-slate-950/20">
+                    {/* Collapsible Header Accordion Bar */}
+                    <button
+                      onClick={() => toggleRegionExpanded(region)}
+                      className="w-full flex items-center justify-between p-3.5 sm:p-4 bg-slate-900/60 hover:bg-slate-900/90 transition-all text-left cursor-pointer border-b border-slate-800/65"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-xl sm:text-2xl leading-none select-none">{flag}</span>
+                        <div>
+                          <span className="font-bold text-[13px] sm:text-sm text-slate-100 uppercase tracking-wide">
+                            {regionTitle}
                           </span>
+                          <span className="ml-2 text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded-md border border-indigo-500/15">
+                            {regionMembers.length} {regionMembers.length === 1 ? 'member' : 'members'}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-slate-400 hover:text-slate-200 transition-colors p-1 rounded-lg bg-slate-950/40 border border-slate-800/50">
+                        {expanded ? (
+                          <ChevronUp className="w-4 h-4 shrink-0" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 shrink-0" />
                         )}
                       </div>
-                      
-                      <p className="text-xs text-slate-400 leading-relaxed max-w-full font-medium">
-                        {member.notes}
-                      </p>
-                    </div>
+                    </button>
 
-                    <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[10px] font-black tracking-wider uppercase font-mono shrink-0 select-none align-middle ${getRegionColor(member.region)}`}>
-                      <span>{getRegionFlag(member.region)}</span>
-                      <span className="hidden sm:inline">{member.region}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                    {/* Accordion Content Panel */}
+                    {expanded && (
+                      <div className="p-3 sm:p-4 bg-slate-950/30 flex flex-col gap-2.5">
+                        <div className="grid grid-cols-1 gap-2.5">
+                          {regionMembers.map((member, idx) => (
+                            <motion.div
+                              key={`${member.name}-${idx}`}
+                              initial={{ opacity: 0, y: 5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: Math.min(idx * 0.015, 0.2) }}
+                              className="p-3 sm:p-3.5 rounded-xl bg-slate-950/60 border border-slate-850 hover:border-slate-750 transition-all flex items-start justify-between gap-3 relative group text-left"
+                            >
+                              <div className="flex flex-col gap-1 pr-6 text-left">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <span className="font-extrabold text-xs sm:text-sm text-white group-hover:text-indigo-300 transition-colors leading-tight">
+                                    {member.name}
+                                  </span>
+                                  
+                                  {member.relationshipBadge && (
+                                    <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-550/10 px-2 py-0.5 rounded-md border border-indigo-500/15 font-mono">
+                                      {member.relationshipBadge}
+                                    </span>
+                                  )}
+                                </div>
+                                
+                                <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed max-w-full font-medium">
+                                  {member.notes}
+                                </p>
+                              </div>
+
+                              <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[9px] sm:text-[10px] font-black tracking-wider uppercase font-mono shrink-0 select-none align-middle ${getRegionColor(member.region)}`}>
+                                <span>{getRegionFlag(member.region)}</span>
+                                <span className="hidden sm:inline">{member.region}</span>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             ) : (
               <div className="text-center py-10 px-4 bg-slate-950/35 border border-slate-900 rounded-2xl flex flex-col items-center justify-center gap-2.5 text-slate-500">
                 <Users className="w-8 h-8 text-slate-600 shrink-0" />
