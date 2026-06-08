@@ -589,9 +589,11 @@ export function ItineraryTimeline() {
         </div>
         
         {/* Footnote about historical temperatures */}
-        <p className="text-[10px] sm:text-xs text-amber-400 italic text-center font-semibold mt-2.5">
-          Tap any date above for schedules, information, maps, and images. Displayed temperature is historical data. Press button in top left of app for real-time weather.
-        </p>
+        <div className="mt-4.5 px-4 py-3 rounded-2xl bg-amber-500/5 border border-amber-500/15 max-w-2xl mx-auto flex items-center justify-center">
+          <p className="text-[10.5px] sm:text-xs text-amber-400 italic text-center font-semibold leading-relaxed">
+            Tap any date above for schedules, information, maps, and images. Displayed temperature is historical data. Press button in top left of app for real-time weather.
+          </p>
+        </div>
       </div>
 
       {/* Selected Day Details Panel */}

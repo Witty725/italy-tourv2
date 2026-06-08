@@ -375,9 +375,9 @@ export function FamilyRosterModal({ onClose }: FamilyRosterModalProps) {
                               initial={{ opacity: 0, y: 5 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: Math.min(idx * 0.015, 0.2) }}
-                              className="p-3 sm:p-3.5 rounded-xl bg-slate-950/60 border border-slate-850 hover:border-slate-750 transition-all flex items-start justify-between gap-3 relative group text-left"
+                              className="p-3 sm:p-3.5 rounded-xl bg-slate-950/60 border border-slate-850 hover:border-slate-750 transition-all flex flex-col min-[450px]:flex-row items-start min-[450px]:justify-between gap-3 relative group text-left"
                             >
-                              <div className="flex flex-col gap-1 pr-6 text-left">
+                              <div className="flex flex-col gap-1 min-[450px]:pr-6 text-left w-full">
                                 <div className="flex flex-wrap items-center gap-2">
                                   <span className="font-extrabold text-xs sm:text-sm text-white group-hover:text-indigo-300 transition-colors leading-tight">
                                     {member.name}
@@ -395,7 +395,7 @@ export function FamilyRosterModal({ onClose }: FamilyRosterModalProps) {
                                 </p>
                               </div>
 
-                              <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[9px] sm:text-[10px] font-black tracking-wider uppercase font-mono shrink-0 select-none align-middle ${getRegionColor(member.region)}`}>
+                              <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[9px] sm:text-[10px] font-black tracking-wider uppercase font-mono shrink-0 select-none align-middle self-start min-[450px]:self-auto ${getRegionColor(member.region)}`}>
                                 <span>{getRegionFlag(member.region)}</span>
                                 <span className="hidden sm:inline">{member.region}</span>
                               </div>
