@@ -22,10 +22,12 @@ import {
   ChevronRight,
   ChevronDown,
   Info,
-  ArrowUp
+  ArrowUp,
+  Users
 } from 'lucide-react';
 import { itinerary, ItineraryDay, ItineraryActivity } from '../data';
 import { InteractiveMap } from './InteractiveMap';
+import { FamilyRosterModal } from './FamilyRosterModal';
 import { triggerHaptic } from '../utils/haptics';
 
 // Locations to turn into Google Images links
@@ -292,7 +294,12 @@ function isChurchActivity(title: string, desc?: string, loc?: string, date?: str
   if (titleLower.includes("local market") || 
       titleLower.includes("mountain monument") || 
       titleLower.includes("countryside exploration") || 
-      titleLower.includes("antique market")) {
+      titleLower.includes("antique market") ||
+      titleLower.includes("mascagni") ||
+      titleLower.includes("orto botanico") ||
+      titleLower.includes("capuchin catacomb") ||
+      titleLower.includes("temple of augustus") ||
+      titleLower.includes("roman temple")) {
     return false;
   }
 
@@ -429,13 +436,14 @@ export function ItineraryTimeline() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeCategory, setActiveCategory] = useState<'All' | 'Sights' | 'Food' | 'Transit'>('All');
   const [showTransitMap, setShowTransitMap] = useState(false);
-  const [familyPlansOpen, setFamilyPlansOpen] = useState(true);
-  const [otherPlansOpen, setOtherPlansOpen] = useState(true);
+  const [showFamilyRoster, setShowFamilyRoster] = useState(false);
+  const [familyPlansOpen, setFamilyPlansOpen] = useState(false);
+  const [otherPlansOpen, setOtherPlansOpen] = useState(false);
 
   useEffect(() => {
     setActiveCategory('All');
-    setFamilyPlansOpen(true);
-    setOtherPlansOpen(true);
+    setFamilyPlansOpen(false);
+    setOtherPlansOpen(false);
   }, [selectedDate]);
 
   useEffect(() => {
@@ -486,10 +494,35 @@ export function ItineraryTimeline() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Calendar Header/Help Banner */}
-      <div className="glass-panel p-3.5 flex items-center gap-2.5 bg-indigo-950/20 border-indigo-505/20 text-xs text-indigo-300 leading-relaxed">
-        <Info className="w-4 h-4 shrink-0 text-indigo-400" />
-        <span>Tap any date below to inspect detailed schedules, lodging details, and live image highlights.</span>
+
+      {/* Family Directory Quick Access Bar */}
+      <div className="glass-panel p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-indigo-950/40 via-slate-900/60 to-slate-900/45 border-indigo-500/25 shadow-lg relative overflow-hidden group">
+        {/* Subtle background flow decor */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/10 transition-all duration-500 pointer-events-none" />
+        
+        <div className="flex items-center gap-3.5 relative z-10 text-left">
+          <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-extrabold shadow-[0_0_15px_rgba(99,102,241,0.15)] shrink-0">
+            <Users className="w-5.5 h-5.5 text-indigo-300 group-hover:scale-110 transition-all duration-300" />
+          </div>
+          <div>
+            <h3 className="font-extrabold text-[14px] sm:text-[14.5px] text-indigo-200 tracking-tight leading-snug flex flex-wrap items-center gap-1.5">
+              <span>Family Tree and Roster</span>
+              <span className="inline-flex py-0.5 px-1.5 rounded-full text-[9px] font-black uppercase text-indigo-400 bg-indigo-500/10 tracking-widest font-mono border border-indigo-500/20">97 Members</span>
+            </h3>
+            <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5 font-medium leading-relaxed">
+              Browse names, notes, and lineage connections of relatives from Italy, Brazil, and the USA.
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => {
+            triggerHaptic('medium');
+            setShowFamilyRoster(true);
+          }}
+          className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:scale-97 text-white rounded-xl text-xs font-black shadow-lg shadow-indigo-950/40 transition-all w-full sm:w-auto text-center border border-indigo-500/25 cursor-pointer uppercase tracking-wider font-sans shrink-0 hover:shadow-indigo-500/20"
+        >
+          Open Roster 👥
+        </button>
       </div>
 
 
@@ -557,7 +590,7 @@ export function ItineraryTimeline() {
         
         {/* Footnote about historical temperatures */}
         <p className="text-[10px] sm:text-xs text-amber-400 italic text-center font-semibold mt-2.5">
-          * Displayed temperatures reflect historical weather data. See button in top left of screen for real-time weather data.*
+          Tap any date above for schedules, information, maps, and images. Displayed temperature is historical data. Press button in top left of app for real-time weather.
         </p>
       </div>
 
@@ -1227,6 +1260,14 @@ export function ItineraryTimeline() {
               setSelectedDate(date);
             }}
             onClose={() => setShowTransitMap(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showFamilyRoster && (
+          <FamilyRosterModal 
+            onClose={() => setShowFamilyRoster(false)}
           />
         )}
       </AnimatePresence>
